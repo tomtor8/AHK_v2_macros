@@ -44,8 +44,23 @@ PlaG.Show()
 Placenta(*)
 {
   Saved := PlaG.Submit()
+  report := Format("Placenta primeraného tvaru, veľkosti {1} cm, hmotnosti {2} g. Pupočník inzeruje {3}, dĺžky {4} cm, hrúbky {5} mm, primerane špiralizovaný, bez pravých uzlov. Plodové obaly svetlohnedasté, polotransparentné, odstupujú od okraja placenty. Choriová platnička fialovohnedastej farby, bez ložiskových zmien. Bazálna platnička nenarušená, bez impresií. Tkanivo placenty na reznej ploche bordovej farby,",
+    Saved.SizPla, Saved.WeiPla, Saved.InsUmb, Saved.LenUmb, Saved.ThiUmb)
+  ; ternary operator ... adding to report
+  report .= (Saved.FocPla = 1)
+    ? Format(" s viacerými sivobelavými ložiskami tuhšej konzistencie, lokalizovanými {1}, zaberajúcimi cca {2}% objemu placenty.", Saved.LocPla, Saved.FocPer)
+    : " bez ložiskových zmien."
 
-  PlaG.Destroy()
+  A_Clipboard := report
+  If !ClipWait(5)
+  {
+    MsgBox("Adding to clipboard failed!")
+    Return
+  }
+  Send "^v"
+  Sleep 500
+  A_Clipboard := ""
+  ExitApp
 }
 ; return 1 prevents the app from closing
 Placenta_Close(*)
