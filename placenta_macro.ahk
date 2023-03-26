@@ -1,49 +1,117 @@
 ﻿#SingleInstance Force
+#NoTrayIcon
 SetWorkingDir A_ScriptDir
+
+; tasks: if umbilical cord length is zero, disable thickness and recompose the sentence with the umbilical cord
+
 
 PlaG := Gui("+Resize", "Placenta Makro",)
 PlaG.SetFont("s13")
 ; size
 PlaG.Add("Text", , "Rozmery placenty")
-PlaG.Add("Edit", "vSizPla Section", "16x15x3")
+Size := PlaG.Add("Edit", "vSizPla Section", "16x15x3")
 PlaG.Add("Text", "ys", "cm")
 ; weight
 PlaG.Add("Text", "xs", "Hmotnosť")
-PlaG.Add("Edit", "vWeiPla Section", "450")
+Weight := PlaG.Add("Edit", "vWeiPla Section Number", "450")
 PlaG.Add("Text", "ys", "g")
 ; umbilical cord length
 PlaG.Add("Text", "xs", "Dĺžka pupočníka")
-PlaG.Add("Edit", "vLenUmb Section", "20")
+Length := PlaG.Add("Edit", "vLenUmb Section Number", "20")
 PlaG.Add("Text", "ys", "cm")
 ; umbilical cord thickness
 PlaG.Add("Text", "xs", "Hrúbka pupočníka")
-PlaG.Add("Edit", "vThiUmb Section", "10")
+Thickness := PlaG.Add("Edit", "vThiUmb Section Number", "10")
 PlaG.Add("Text", "ys", "mm")
 ; umbilical cord insertion, DDL is dropdown list
 PlaG.Add("Text", "xs", "Inzercia pupočníka")
 PlaG.Add("DDL", "vInsUmb Choose2 w150", ["centrálne", "excentricky", "marginálne", "velamentózne"])
 ; pathological changes
 PlaG.Add("Text", "ym", "Ložiskové zmeny")
-PlaG.Add("Radio", "vFocPla", "áno")
-PlaG.Add("Radio", "Checked", "nie")
+FocalYes := PlaG.Add("Radio", "vFocPla", "áno")
+FocalYes.OnEvent("Click", Extent_Toggler)
+FocalNo := PlaG.Add("Radio", "Checked", "nie")
+FocalNo.OnEvent("Click", Extent_Toggler)
 ; extent of pathological changes
-Plag.Add("Text", "", "Rozsah zmien")
-PlaG.Add("Edit", "vFocPer Section", "10")
+Plag.Add("Text", , "Rozsah zmien")
+Extent := PlaG.Add("Edit", "vFocPer Section Number Disabled w30", "0")
 Plag.Add("Text", "ys", "%")
 ; location of pathological changes
 PlaG.Add("Text", "xs", "Lokalita zmien")
 PlaG.Add("DDL", "vLocPla Choose2 w180", ["centrálne", "marginálne", "marginálne i centrálne"])
-
+; OK button
 OkButton := PlaG.Add("Button", "Default w150 h50 xs+15 y+40", "OK")
 OkButton.OnEvent("Click", Placenta)
 PlaG.OnEvent("Close", Placenta_Close)
 PlaG.OnEvent("Escape", Placenta_Close)
-
+; show window
 PlaG.Show()
 
+; check if the entered number is valid, if not set red background
+; Num_Checker(Ctrl)
+; {
+;   Saved := PlaG.Submit("NoHide")
+
+;   if RegExMatch(RetrievedVal, "^\d{0,2}(\b,\b)?\d$") = 0
+;   {
+;     Weight.Opt("Backgroundred")
+;   } else ; restore original background
+;   {
+;     Weight.Opt("-Background")
+;   }
+; }
+
+; FocalYes.Value = 1 means Checked, 0 is Unchecked
+Extent_Toggler(*)
+{
+  if (Extent.Enabled = false and FocalYes.Value = 1
+    or Extent.Enabled = true and FocalYes.Value = 1)
+  {
+    Extent.Opt("-Disabled")
+  } else
+  {
+    Extent.Opt("+Disabled")
+    Extent.Value := 0
+  }
+  Return
+}
+
+; main function
 Placenta(*)
 {
-  Saved := PlaG.Submit()
+  Saved := PlaG.Submit(0) ; zero is NOHIDE
+  If RegExMatch(Saved.SizPla, "^\d{1,2}x\d{1,2}x\d{1,2}$") = 0
+  {
+    MsgBox(
+      "
+      (
+      Veľkosť placenty je zadaná v nesprávnom formáte.
+      Správny formát je napr. 15x10x3.
+      )", "Upozornenie", 48
+  )
+    Return
+  }
+
+  counter := 0 ; counts empty values in the Saved object
+  For Name, Val in Saved.OwnProps()
+    if (Val = "")
+    {
+      counter++
+
+    }
+
+  switch counter
+  {
+    case 0:
+      PlaG.Hide()
+    case 1:
+      MsgBox("Chýba jeden parameter!")
+      Return
+    default:
+      MsgBox("Chýba viac parametrov!")
+      Return
+  }
+
   report := Format("Placenta primeraného tvaru, veľkosti {1} cm, hmotnosti {2} g. Pupočník inzeruje {3}, dĺžky {4} cm, hrúbky {5} mm, primerane špiralizovaný, bez pravých uzlov. Plodové obaly svetlohnedasté, polotransparentné, odstupujú od okraja placenty. Choriová platnička fialovohnedastej farby, bez ložiskových zmien. Bazálna platnička nenarušená, bez impresií. Tkanivo placenty na reznej ploche bordovej farby,",
     Saved.SizPla, Saved.WeiPla, Saved.InsUmb, Saved.LenUmb, Saved.ThiUmb)
   ; ternary operator ... adding to report
