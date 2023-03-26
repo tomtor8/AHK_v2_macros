@@ -19,7 +19,7 @@ PlaG.Add("Text", "ys", "cm")
 PlaG.Add("Text", "xs", "Hrúbka pupočníka")
 PlaG.Add("Edit", "vThiUmb Section", "10")
 PlaG.Add("Text", "ys", "mm")
-; umbilical cord insertion
+; umbilical cord insertion, DDL is dropdown list
 PlaG.Add("Text", "xs", "Inzercia pupočníka")
 PlaG.Add("DDL", "vInsUmb Choose2 w150", ["centrálne", "excentricky", "marginálne", "velamentózne"])
 ; pathological changes
@@ -30,15 +30,32 @@ PlaG.Add("Radio", "Checked", "nie")
 Plag.Add("Text", "", "Rozsah zmien")
 PlaG.Add("Edit", "vFocPer Section", "10")
 Plag.Add("Text", "ys", "%")
-;
+; location of pathological changes
+PlaG.Add("Text", "xs", "Lokalita zmien")
+PlaG.Add("DDL", "vLocPla Choose2 w180", ["centrálne", "marginálne", "marginálne i centrálne"])
 
-PlaG.Add("Button", "w150 h50", "OK").OnEvent("Click", MyFun)
-;PlaG.Opt("+AlwaysOnTop")
+OkButton := PlaG.Add("Button", "Default w150 h50 xs+15 y+40", "OK")
+OkButton.OnEvent("Click", Placenta)
+PlaG.OnEvent("Close", Placenta_Close)
+PlaG.OnEvent("Escape", Placenta_Close)
+
 PlaG.Show()
 
-MyFun(*)
+Placenta(*)
 {
   Saved := PlaG.Submit()
-  MsgBox("You entered " . Saved.YourName . " in the box.")
-  ;  PlaG.Destroy()
+
+  PlaG.Destroy()
+}
+; return 1 prevents the app from closing
+Placenta_Close(*)
+{
+  answer := MsgBox("Naozaj si želáte opustiť aplikáciu?", "Pozor!", "y/n 48")
+  If (answer = "Yes")
+  {
+    ExitApp
+  } else
+  {
+    return 1
+  }
 }
