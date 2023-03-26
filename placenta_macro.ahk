@@ -3,7 +3,7 @@
 SetWorkingDir A_ScriptDir
 
 ; tasks: if umbilical cord length is zero, disable thickness and recompose the sentence with the umbilical cord
-
+; if patological changes are checked yes, the extent value cannot be zero
 
 PlaG := Gui("+Resize", "Placenta Makro",)
 PlaG.SetFont("s13")
