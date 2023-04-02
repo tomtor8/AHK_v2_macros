@@ -5,8 +5,10 @@ SetWorkingDir A_ScriptDir
 ; query box
 MyGui := Gui(, "Search")
 MyGui.SetFont("s14")
-MyGui.Add("Text", "vInfo w300", "Hľadaný výraz:")
-MyGui.Add("Edit", "vSearVar w300")
+MyGui.Add("Text", "vInfo", "Hľadaný výraz:")
+MyGUi.SetFont("s18 bold")
+MyGui.Add("Edit", "vSearVar w500")
+MyGui.SetFont("s14 norm")
 MyGui.Add("Button", "w100 h40 Default", "OK").OnEvent("Click", QueryFun)
 MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
@@ -14,17 +16,19 @@ MyGui.Show()
 
 ; list box
 MyList := Gui("+Resize", "Found")
-MyList.SetFont("s13 bold")
+MyList.SetFont("s13")
 InfoText := MyList.Add("Text", ,)
-MyList.SetFont("s14 norm")
+MyList.SetFont("s14 bold")
 LB := MyList.Add("ListBox", "r5 Sort vItems w700 HScroll500",)
 ; insert text on double click or press enter
 LB.OnEvent("DoubleClick", Sender)
+MyList.SetFont("s13 norm")
 FormatDot := MyList.Add("Radio", "vFormatOpt xp Checked", "dot")
 FormatDash := MyList.Add("Radio", "yp", "dash")
-FormatRaw := MyList.Add("Radio", "yp", "raw")
+FormatLow := MyList.Add("Radio", "yp", "low")
+FormatOrig := MyList.Add("Radio", "yp", "orig")
 
-MyList.Add("Button", "Default w100 h40 xp+400", "OK").OnEvent("Click", Sender)
+MyList.Add("Button", "Default w100 h40 xp+350", "OK").OnEvent("Click", Sender)
 MyList.OnEvent("Close", Closing)
 MyList.OnEvent("Escape", Closing)
 
@@ -71,7 +75,8 @@ Sender(*)
   Saved := MyList.Submit()
   OutFormat := Saved.FormatOpt
   Report := Saved.Items
-
+  ; remove trailing spaces
+  Report := RegExReplace(Report, "\s+$", "")
   switch OutFormat {
     ; dot format
     case 1:
@@ -90,7 +95,7 @@ Sender(*)
       LowFirstLetter := StrLower(FirstLetter)
       Report := RegExReplace(Report, "^.", "- " . LowFirstLetter)
       Report := RegExReplace(Report, "\.$", "")
-      ; raw format
+      ; lowercase format without dots or dashes
     case 3:
       Report := StrLower(Report)
       Report := RegExReplace(Report, "\.$", "")
