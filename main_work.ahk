@@ -4,7 +4,7 @@ SetWorkingDir A_ScriptDir
 
 ^+!u:: {
   try {
-    Run("General\string_manip.exe")
+    Run("General\string_manip.ahk")
   } catch as Err {
     MsgBox("The script for string manipulation was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
@@ -21,7 +21,7 @@ SetWorkingDir A_ScriptDir
 ; find phrase
 :O:phr:: {
   try {
-    Run("General\find_phrase.exe")
+    Run("General\find_phrase.ahk")
   } catch as Err {
     MsgBox("The script for string manipulation was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)

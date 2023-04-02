@@ -85,6 +85,8 @@ MainFun(*)
           . "`n" . Type(Err) . ": " . Err.Message)
         ExitApp
       }
+      ; remove spaces around the phrase
+      output := RegExReplace(output, "^\s*(\S[\w\s]*\S)\s*$", "$1")
       output .= "`r`n"
       FileObj.Write(output)
       FileObj.Close()

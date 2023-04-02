@@ -75,8 +75,8 @@ Sender(*)
   Saved := MyList.Submit()
   OutFormat := Saved.FormatOpt
   Report := Saved.Items
-  ; remove trailing spaces
-  Report := RegExReplace(Report, "\s+$", "")
+  ; remove spaces around the phrase
+  Report := RegExReplace(Report, "^\s*(\S[\w\s]*\S)\s*$", "$1")
   switch OutFormat {
     ; dot format
     case 1:
