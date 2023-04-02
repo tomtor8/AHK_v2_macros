@@ -1,7 +1,17 @@
 ﻿#SingleInstance Force
-#NoTrayIcon
+; #NoTrayIcon
 SetWorkingDir A_ScriptDir
 
+A_Clipboard := ""
+Sleep 200
+Send("^c")
+If !ClipWait(5)
+{
+  MsgBox("Adding to clipboard failed!")
+  ExitApp
+}
+
+; ******************************** GUI building **************************
 MyGui := Gui("+Resize", "Text Manipulations",)
 MyGui.SetFont("s13")
 ; lower or uppercase group
@@ -28,12 +38,7 @@ MyGui.SetFont("norm")
 AppNone := MyGui.Add("Radio", "vAppend Checked xp+20 yp+25", "no")
 AppYes := MyGui.Add("Radio", , "yes")
 
-; MyGui.Add("Text", "ym", "Ložiskové zmeny")
-; FocalYes := MyGui.Add("Radio", "vFocPla", "áno")
-; FocalYes.OnEvent("Click", Extent_Toggler)
-; FocalNo := MyGui.Add("Radio", "Checked", "nie")
-; FocalNo.OnEvent("Click", Extent_Toggler)
-; OK button
+; OK Button
 OkButton := MyGui.Add("Button", "Default w100 h40 xp+100 yp+50", "OK")
 OkButton.OnEvent("Click", MainFun)
 MyGui.OnEvent("Close", Closing)
@@ -41,28 +46,69 @@ MyGui.OnEvent("Escape", Closing)
 ; show window
 MyGui.Show()
 
-
-; FocalYes.Value = 1 means Checked, 0 is Unchecked
-; Extent_Toggler(*)
-; {
-;   if (Extent.Enabled = false and FocalYes.Value = 1
-;     or Extent.Enabled = true and FocalYes.Value = 1)
-;   {
-;     Extent.Opt("-Disabled")
-;   } else
-;   {
-;     Extent.Opt("+Disabled")
-;     Extent.Value := 0
-;   }
-;   Return
-; }
-
-; main function
+; ******************************* main function ************************
 MainFun(*)
 {
+  FileName := "my_phrases.txt"
+  output := A_Clipboard
   Saved := MyGui.Submit() ; zero is NOHIDE
+  CaseSel := Saved.Case
+  TagSel := Saved.Tags
+  AppendSel := Saved.Append
 
+  switch CaseSel {
+    case 2:
+      output := StrUpper(output)
+    case 3:
+      output := StrLower(output)
+  }
+
+  switch TagSel {
+    case 2:
+      output := RegExReplace(output, "(.+)", "[B]$1[/B]")
+    case 3:
+      output := RegExReplace(output, "(.+)", "[I]$1[/I]")
+    case 4:
+      output := RegExReplace(output, "(.+)", "[U]$1[/U]")
+  }
+  ; append text to file using File object
+  switch AppendSel {
+    case 1:
+      Sender(output)
+    case 2:
+      try
+      {
+        FileObj := FileOpen(FileName, "a")
+      } catch as Err
+      {
+        MsgBox("Cannot open " . FileName . " for appending."
+          . "`n" . Type(Err) . ": " . Err.Message)
+        ExitApp
+      }
+      output .= "`r`n"
+      FileObj.Write(output)
+      FileObj.Close()
+      MsgBox("Phrase written to " . FileName)
+      ExitApp
+  }
 }
+; ****************** send output ***********************
+Sender(output)
+{
+  Sleep 300
+  A_Clipboard := output
+  If !ClipWait(5)
+  {
+    MsgBox("Adding to clipboard failed!")
+    Return
+  }
+  Send("^v")
+  Sleep 500
+  A_Clipboard := ""
+  ExitApp
+}
+
+; ******************************* closing ***************************
 ; return 1 prevents the app from closing
 Closing(*)
 {
