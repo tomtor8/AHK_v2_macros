@@ -2,20 +2,9 @@
 #Hotstring EndChars `t
 SetWorkingDir A_ScriptDir
 
-^+!u:: {
-  try {
-    Run("General\string_manip.ahk")
-  } catch as Err {
-    MsgBox("The script for string manipulation was not found!"
-      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
-  }
-  Return
-}
-
 ; toggle always on top active window
 ^+!t:: {
   WinSetAlwaysOnTop(-1, "A")
-  Return
 }
 
 ; find phrase
@@ -26,7 +15,6 @@ SetWorkingDir A_ScriptDir
     MsgBox("The script for string manipulation was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
   }
-  Return
 }
 
 ; text shortcuts
@@ -38,3 +26,24 @@ SetWorkingDir A_ScriptDir
 :*c:Bez1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
 :*c:bez2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
 :*c:Bez2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+
+; LAUNCHED BY FASTKEYS
+; Uppercase, lowercase, and tags manipulation
+; ^+!u:: {
+;   try {
+;     Run("General\change_case_tags.ahk")
+;   } catch as Err {
+;     MsgBox("The script for string manipulation was not found!"
+;       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+;   }
+; }
+
+; Martin DISH HER2
+; :O:disher:: {
+;   try {
+;     Run("General\dish_martin_her2.ahk")
+;   } catch as Err {
+;     MsgBox("The script for DISH HER2 was not found!"
+;       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+;   }
+; }
