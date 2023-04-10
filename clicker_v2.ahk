@@ -7,14 +7,11 @@ ClickConfFile := "click_config.txt"
 ; array of coordinate names
 CoorArr := Array()
 ; read the config coordinates to array CoorArr
+; use positive lookahead, enables spaces
 loop read ClickConfFile
 {
-  if RegExMatch(A_LoopReadLine, "^(\w+):")
-  {
-    ItemToPush := RegExReplace(A_LoopReadLine, "^(\w+):\s*\d+\s*", "$1")
-    ; extract the first characters up to colon
-    CoorArr.Push(ItemToPush)
-  }
+  if RegExMatch(A_LoopReadLine, "^\s*(\w+)\s*(?=:)", &ItemToPush)
+    CoorArr.Push(ItemToPush[1])
 }
 
 ; number of click repeats
