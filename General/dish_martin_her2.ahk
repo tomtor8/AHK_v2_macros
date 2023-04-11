@@ -2,15 +2,6 @@
 #NoTrayIcon
 SetWorkingDir A_ScriptDir
 
-A_Clipboard := ""
-Sleep 200
-Send("^c")
-If !ClipWait(5)
-{
-  MsgBox("Adding to clipboard failed!")
-  ExitApp
-}
-
 ; ******************************** GUI building **************************
 MyGui := Gui("+Resize", "DISH HER2",)
 MyGui.SetFont("s13")
