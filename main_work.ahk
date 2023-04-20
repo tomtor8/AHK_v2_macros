@@ -8,14 +8,14 @@ SetWorkingDir A_ScriptDir
 }
 
 ; find phrase
-:O:phr:: {
-  try {
-    Run("General\find_phrase.ahk")
-  } catch as Err {
-    MsgBox("The script for string manipulation was not found!"
-      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
-  }
-}
+; :O:phr:: {
+;   try {
+;     Run("General\find_phrase.ahk")
+;   } catch as Err {
+;     MsgBox("The script for string manipulation was not found!"
+;       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+;   }
+; }
 
 ; text shortcuts
 :*?:ooo::ó
@@ -30,9 +30,45 @@ SetWorkingDir A_ScriptDir
 ; Uppercase, lowercase, and tags manipulation
 ^+!u:: {
   try {
-    Run("General\change_case_tags.ahk")
+    Run("General\change_case_tags.exe")
   } catch as Err {
     MsgBox("The script for string manipulation was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
   }
+}
+
+; accented characters picker
+^+!z:: {
+  try {
+    Run("General\Spec_Chars.exe")
+  } catch as Err {
+    MsgBox("The script for special characters was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+; tags picker
+^+!b:: {
+  try {
+    Run("General\Tags.exe")
+  } catch as Err {
+    MsgBox("The script for tag picker was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+; expand tags
+:O:bb:: {
+  Send("{Raw}[B][/B]")
+  Send("{Left 4}")
+}
+
+:O:ii:: {
+  Send("{Raw}[I][/I]")
+  Send("{Left 4}")
+}
+
+:O:uu:: {
+  Send("{Raw}[U][/U]")
+  Send("{Left 4}")
 }
