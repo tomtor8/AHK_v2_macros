@@ -22,10 +22,10 @@ SetWorkingDir A_ScriptDir
 
 :*?:ddd::ď
 
-:*c:bez1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
-:*c:Bez1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
-:*c:bez2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
-:*c:Bez2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+; :*c:bez1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
+; :*c:Bez1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
+; :*c:bez2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+; :*c:Bez2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
 
 ; Uppercase, lowercase, and tags manipulation
 ^+!u:: {
