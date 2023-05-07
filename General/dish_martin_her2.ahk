@@ -62,17 +62,17 @@ MainFun(*)
     "
     (
       Nález z Martinského bioptického centra s.r.o.:
-
+      {8}
       DISH analýza amplifikácie génu HER2 (použitá sonda Ventana, parafínový rez):
       - priemerný počet signálov HER2 v bunke: {1}
       - priemerný počet signálov CEN-17 v bunke: {2}
       - pomer HER2/CEN17: {3} = {4} HER2 génu.
-      
+      {8}
       [B]Záver: {5} stav HER2.[/B]
-      
+      {8}
       Vyšetrili: {6}, {7}
     )",
-  HerSignals, CenSignals, RatioComma, Amp.Text, Stat.Text, Exam1.Text, Exam2.Text
+  HerSignals, CenSignals, RatioComma, Amp.Text, Stat.Text, Exam1.Text, Exam2.Text, " "
   )
 
   Sleep 300
