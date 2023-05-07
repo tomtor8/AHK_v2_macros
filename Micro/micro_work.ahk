@@ -20,20 +20,26 @@ SetWorkingDir A_ScriptDir
   AddToClipboard(Report)
 }
 
+:O:ps::Pravý lalok štítnej žľazy:{Enter}-{Space}
+:O:ls::Ľavý lalok štítnej žľazy:{Enter}-{Space}
 
-:O:td::Pravý lalok štítnej žľazy
-:O:ts::Ľavý lalok štítnej žľazy
-
+; OTHER
 :O:h2:: {
   Report := "Materiál zasielame na ďalšie vyšetrenie metódou in situ hybridizácie do Martinského bioptického centra, s.r.o. Nález Vám obratom zašleme v dodatku.`n "
   AddToClipboard(Report)
 }
 
+:c:b1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
+:c:B1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
+:c:b2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+:c:B2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
 
-:*c:b1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
-:*c:B1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
-:*c:b2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
-:*c:B2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+
+; SKIN
+:O:fp:: {
+  Report := "[B]FIBROEPITELOVÝ POLYP[/B]`nKompletná extirpácia lézie.`n "
+  AddToClipboard(Report)
+}
 
 :O:ak:: {
   Report := "[B]AKTINICKÁ KERATÓZA[/B]`nKompletná extirpácia lézie.`n "
@@ -69,6 +75,8 @@ SetWorkingDir A_ScriptDir
   Report := "Nekompletná extirpácia lézie, ktorej štruktúry sa nachádzajú v oblasti periférneho resekčného okraja materiálu.`n "
   AddToClipboard(Report)
 }
+
+; GIT
 
 :O:dn:: {
   Report := "Sliznica duodena v limitoch histologickej normy.`nBez atrofie klkov a bez zvýšeného zastúpenia intraepitelových lymfocytov.`n "
@@ -109,7 +117,9 @@ SetWorkingDir A_ScriptDir
 :Oc:aT::TUBULÁRNY ADENÓM s high-grade dyspláziou{Enter}{Space}
 :Oc:aV::TUBULOVILLÓZNY ADENÓM s high-grade dyspláziou{Enter}{Space}
 
-; gynda
+:O:hp::HYPERPLASTICKÝ POLYP{Enter}{Space}
+
+; GYN
 :O:ep:: {
   Report := "Endometrium proliferačného charakteru, bez atypií, bez hyperplázie.`n"
   AddToClipboard(Report)
@@ -141,6 +151,34 @@ SetWorkingDir A_ScriptDir
 }
 
 :O:ec::Endocervikálna sliznica bez atypií.{Enter}
+
+:Oc:kn:: {
+  Report := "Konizát vyšetrený kompletne:`n- cervikálny viacvrstvový dlaždicový epitel fokálne s prejavmi`n[B]high-grade skvamóznej intraepitelovej lézie (HSIL/CIN3)[/B]"
+  Report .= "`n- imunohistochemicky 16 s pozitívnou expresiou, zvýšená proliferačná aktivita Ki-67 v teréne HSIL`n- resekčné okraje ektocervikálne i endocervikálne bez evidentnej dysplázie`n- bez invazívnych nádorových zmien.`n "
+  AddToClipboard(Report)
+}
+
+:Oc:kN:: {
+  Report := "Konizát vyšetrený kompletne:`n- epidermizované ektrópium cervikálnej sliznice`n- chronické nešpecifické zápalové zmeny`n- fokálne reaktívne zmeny epitelu"
+  Report .= "`n- imunohistochemicky p16 negat., proliferačná aktivita Ki-67 nezvýšená`n- [B]bez dysplázie a bez nádorových zmien.[/B]`n "
+  AddToClipboard(Report)
+}
+
+:O:pa:: {
+  Report := "[I]Pravé adnexá:[/I]`nOvárium`n- bez nádorových a iných podstatnejších zmien.`nTuba`n- bez nádorových a iných podstatnejších histologických zmien.`n "
+  AddToClipboard(Report)
+}
+
+:O:la:: {
+  Report := "[I]Ľavé adnexá:[/I]`nOvárium`n- bez nádorových a iných podstatnejších zmien.`nTuba`n- bez nádorových a iných podstatnejších histologických zmien.`n "
+  AddToClipboard(Report)
+}
+
+:O:rg:: {
+  Report := "[B]RESIDUA POST GRAVIDITATEM INTRAUTERINAM[/B]`n- prítomné tiež súčasti placentárneho implantačného miesta`n- bez atypickej proliferácie trofoblastu.`n "
+  AddToClipboard(Report)
+}
+
 
 AddToClipboard(MyText)
 {
