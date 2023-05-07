@@ -90,12 +90,19 @@ Sender(*)
   if RegExMatch(Line, "<(\w+)>", &Shortcut)
   {
     ShortCutToSend := Shortcut[1]
-    Sleep 500
-    Send(ShortCutToSend)
-    Sleep 200
-    Send("{Tab}")
+    loop parse ShortCutToSend
+    {
+      Send(A_LoopField)
+      Sleep 500
+      Counter := A_Index ; remember number of characters
+    }
   }
-  Sleep 500
+  Sleep 1000
+  loop Counter
+  {
+    Send("{Backspace}")
+    Sleep 500
+  }
 }
 
 Closing(*)
