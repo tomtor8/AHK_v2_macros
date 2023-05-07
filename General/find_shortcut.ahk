@@ -47,21 +47,34 @@ MyList.OnEvent("Escape", Closing)
 QueryFun(*)
 {
   ArrayOfLines := Array()
+  ArrayOfWords := Array()
   Saved := MyGui.Submit()
-  MyWord := Saved.SearVar
+  MyPhrase := Saved.SearVar
   HorizBar := false
+  OuterCounter := 1
 
-  loop WholeLineArr.Length
+  loop parse MyPhrase, A_Space
   {
-    if InStr(WholeLineArr[A_Index], MyWord)
+    ArrayOfWords.Push(A_LoopField)
+  }
+
+  loop ArrayOfWords.Length
+  {
+    InnerCounter := 1
+    loop WholeLineArr.Length
     {
-      ArrayOfLines.Push(WholeLineArr[A_Index])
-      ; if line is longer than 50 chars, apply horizontal bar
-      if (StrLen(A_LoopReadLine) > 79)
+      if InStr(WholeLineArr[InnerCounter], ArrayOfWords[OuterCounter])
       {
-        HorizBar := true
+        ArrayOfLines.Push(WholeLineArr[InnerCounter])
+        ; if line is longer than 50 chars, apply horizontal bar
+        if (StrLen(A_LoopReadLine) > 79)
+        {
+          HorizBar := true
+        }
       }
+      InnerCounter++
     }
+    OuterCounter++
   }
 
   if (ArrayOfLines.Length = 0)
