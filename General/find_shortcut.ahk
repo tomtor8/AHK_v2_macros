@@ -21,7 +21,7 @@ loop read ConfigFile
 }
 
 ; query box
-MyGui := Gui(, "Search")
+MyGui := Gui(, "Search Shortcuts")
 MyGui.SetFont("s14")
 MyGui.Add("Text", "vInfo w300", "Hľadaný výraz:")
 MyGui.Add("Edit", "vSearVar w300")
@@ -31,7 +31,7 @@ MyGui.OnEvent("Escape", Closing)
 MyGui.Show()
 
 ; list box
-MyList := Gui("+Resize", "Found")
+MyList := Gui("+Resize", "Found Shortcuts")
 MyList.SetFont("s13 bold")
 InfoText := MyList.Add("Text", ,)
 MyList.SetFont("s14 norm")
@@ -65,7 +65,7 @@ QueryFun(*)
     {
       if InStr(WholeLineArr[InnerCounter], ArrayOfWords[OuterCounter])
       {
-        ArrayOfLines.Push(WholeLineArr[InnerCounter])
+        CheckIfInArrayOfLines(WholeLineArr[InnerCounter])
         ; if line is longer than 50 chars, apply horizontal bar
         if (StrLen(A_LoopReadLine) > 79)
         {
@@ -76,6 +76,17 @@ QueryFun(*)
     }
     OuterCounter++
   }
+
+  CheckIfInArrayOfLines(item)
+  {
+    loop ArrayOfLines.Length
+    {
+      if item = ArrayOfLines[A_Index]
+        return
+    }
+    ArrayOfLines.Push(item)
+  }
+
 
   if (ArrayOfLines.Length = 0)
   {
@@ -100,6 +111,11 @@ Sender(*)
 {
   Saved := MyList.Submit()
   Line := Saved.Items
+  if Line = ""
+  {
+    MsgBox("Thank You!`nExiting app!", "GoodBye", "T2 64")
+    ExitApp
+  }
   if RegExMatch(Line, "<(\w+)>", &Shortcut)
   {
     ShortCutToSend := Shortcut[1]
