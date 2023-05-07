@@ -57,6 +57,16 @@ SetWorkingDir A_ScriptDir
   }
 }
 
+; find shortcut
+:O:fs:: {
+  try {
+    Run("General\find_shortcut.exe")
+  } catch as Err {
+    MsgBox("The script for finding shortcuts was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 ; expand tags
 :O:bb:: {
   Send("{Raw}[B][/B]")
