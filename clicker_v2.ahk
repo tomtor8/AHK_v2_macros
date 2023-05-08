@@ -68,7 +68,7 @@ for coordin, params in Coord.OwnProps()
 }
 
 ; click
-^+!j:: {
+^+!g:: {
   index1 := 1
   loop ClickRepeats
   {
