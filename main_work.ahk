@@ -7,25 +7,50 @@ SetWorkingDir A_ScriptDir
   WinSetAlwaysOnTop(-1, "A")
 }
 
-; find phrase
-; :O:phr:: {
-;   try {
-;     Run("General\find_phrase.ahk")
-;   } catch as Err {
-;     MsgBox("The script for string manipulation was not found!"
-;       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
-;   }
-; }
-
 ; text shortcuts
 :*?:ooo::ó
 
 :*?:ddd::ď
 
-; :*c:bez1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
-; :*c:Bez1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
-; :*c:bez2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
-; :*c:Bez2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+:*?:(::(){Left}
+
+; move line down
+^+!j:: {
+  Send("{Home}")
+  Sleep 500
+  Send("+{End}")
+  Sleep 500
+  Send("^x")
+  Sleep 500
+  Send("{Del}")
+  Sleep 500
+  Send("{Down}")
+  Sleep 500
+  Send("{Enter}")
+  Sleep 500
+  Send("{Up}")
+  Sleep 500
+  Send("^v")
+}
+
+; move line up
+^+!k:: {
+  Send("{Home}")
+  Sleep 500
+  Send("+{End}")
+  Sleep 500
+  Send("^x")
+  Sleep 500
+  Send("{Del}")
+  Sleep 500
+  Send("{Up}")
+  Sleep 500
+  Send("{Enter}")
+  Sleep 500
+  Send("{Up}")
+  Sleep 500
+  Send("^v")
+}
 
 ; Uppercase, lowercase, and tags manipulation
 ^+!u:: {
