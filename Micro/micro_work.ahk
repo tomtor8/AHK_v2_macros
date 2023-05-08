@@ -23,19 +23,35 @@ SetWorkingDir A_ScriptDir
 :O:ps::Pravý lalok štítnej žľazy:{Enter}-{Space}
 :O:ls::Ľavý lalok štítnej žľazy:{Enter}-{Space}
 
+:O:sn:: {
+  Report := "Edematózne presiaknutá respiračná sliznica s miernymi nešpecifickými chronickými zápalovými zmenami.`n"
+  Report .= "V zápalovom infiltráte prítomná hojná prímes eozinofilných leukocytov.`nBez dysplázie a bez nádorových zmien.`n "
+  AddToClipboard(Report)
+}
+
 ; OTHER
+
+:Oc:bk::bakterioskopicky
+:Oc:Bk::Bakterioskopicky
+
 :O:h2:: {
   Report := "Materiál zasielame na ďalšie vyšetrenie metódou in situ hybridizácie do Martinského bioptického centra, s.r.o. Nález Vám obratom zašleme v dodatku.`n "
   AddToClipboard(Report)
 }
 
-:c:b1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
-:c:B1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
-:c:b2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
-:c:B2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+:Oc:b1::- bez iného podstatnejšieho nálezu.{Enter}{Space}
+:Oc:B1::Bez iného podstatnejšieho nálezu.{Enter}{Space}
+:Oc:b2::- bez nádorových a iných podstatnejších zmien.{Enter}{Space}
+:Oc:B2::Bez nádorových a iných podstatnejších zmien.{Enter}{Space}
 
+:O:km::Kompletná extirpácia lézie.{Enter}{Space}
 
 ; SKIN
+
+:O:ce::EPIDERMOVÁ CYSTA
+:O:ct::TRICHILÉMOVÁ CYSTA
+
+
 :O:fp:: {
   Report := "[B]FIBROEPITELOVÝ POLYP[/B]`nKompletná extirpácia lézie.`n "
   AddToClipboard(Report)
@@ -98,9 +114,50 @@ SetWorkingDir A_ScriptDir
   AddToClipboard(Report)
 }
 
-:O:gd:: {
+:O:pg:: {
   Report := "Sliznica pažeráka krytá čiastočne viacvrstvovým dlaždicovým epitelom, fokálne s prejavmi cylindrickej metaplázie (s gastrickým / kardiálnym fenotypom).`nStredne výrazné chronické neaktívne zápalové zmeny.`nV danom materiáli bez intestinálnej metaplázie."
   Report .= "`nNález sa môže vyskytovať v rámci diagnózy gastroezofageálnej refluxovej choroby.`nV danom materiáli bez histologických známok Barrettovho pažeráka.`nBez dysplázie.`n "
+  AddToClipboard(Report)
+}
+
+:O:pb:: {
+  Report := "Sliznica krytá viacvrstvovým dlaždicovým a cylindrickým epitelom s foveolárnym / gastrickým a tiež intestinálnym fenotypom.`nStredne výrazné chronické neaktívne zápalové zmeny.`nHistologický obraz je konzistentný s diagnózou [B]Barrettovho pažeráka bez dysplázie[/B].`n "
+  AddToClipboard(Report)
+}
+
+:O:h-:: {
+  Report := "Imunohistochemicky nedokazujeme prítomnosť Helicobacter pylori."
+  AddToClipboard(Report)
+}
+
+:O:h+:: {
+  Report := "Imunohistochemicky dokazujeme prítomnosť Helicobacter pylori v malom množstve (+)."
+  AddToClipboard(Report)
+}
+:O:h++:: {
+  Report := "Imunohistochemicky dokazujeme prítomnosť Helicobacter pylori v stredne veľkom množstve (++)."
+  AddToClipboard(Report)
+}
+:O:h+++:: {
+  Report := "Imunohistochemicky dokazujeme prítomnosť Helicobacter pylori vo veľkom množstve (+++)."
+  AddToClipboard(Report)
+}
+
+:O:hl:: {
+  Report := "Prítomnosť H. pylori je potrebné potvrdiť / vylúčiť ďalšími laboratórnymi vyšetreniami."
+  AddToClipboard(Report)
+}
+
+:O:zp:: {
+  Report := "Prítomné niektoré cytologické a architektonické zmeny žliazok, ktoré sa môžu vyskytovať v rámci efektu PPI."
+  AddToClipboard(Report)
+}
+
+:O:za:: {
+  Report := "Sliznica tela žalúdka so stredne výraznou chronickou gastritídou.`nBez aktivity zápalového procesu."
+  Report .= "`nPrítomná rozsiahla intestinálna a pseudopylorická metaplázia a atrofia.`nBez dysplázie."
+  Report .= "`nImunohistochemicky (chromogranin A) dokazujeme prítomnosť lineárnej ECL cell hyperplázie a absenciu G buniek (imunohistochemické farbenie na gastrin).`nImunohistochemicky nedokazujeme prítomnosť H. pylori."
+  Report .= "`n `nChronická gastritída predominantne tela žalúdka, H.pylori negatívna, s ECL cell hyperpláziou, s rozsiahlou intestinálnou / pseudopylorickou metapláziou a atrofiou. Nález je sugestívny pre diagnózu autoimúnneho typu gastritídy."
   AddToClipboard(Report)
 }
 
@@ -119,7 +176,17 @@ SetWorkingDir A_ScriptDir
 
 :O:hp::HYPERPLASTICKÝ POLYP{Enter}{Space}
 
+:O:mt:: {
+  Report := "Sliznica hrubého čreva bez dysplázie a bez nádorových a iných podstatnejších zmien.`nNález môže byť v klinickej korelácii (v prípade drobnej polypoidnej lézie) konzistentný s diagnózou tzv. mucosal tag (polypoidná elevácia normálnej sliznice hrubého čreva).`nV prípade väčšej lézie (pri podozrení na nereprezentatívny odber) odporúčame zvážiť opakované bioptické vyšetrenie.`n "
+  AddToClipboard(Report)
+}
+
+
 ; GYN
+
+:Oc:pe::ENDOCERVIKÁLNY POLYP bez atypií
+:Oc:pE::ENDOMETRIÁLNY POLYP bez atypií
+
 :O:ep:: {
   Report := "Endometrium proliferačného charakteru, bez atypií, bez hyperplázie.`n"
   AddToClipboard(Report)
@@ -150,15 +217,25 @@ SetWorkingDir A_ScriptDir
   AddToClipboard(Report)
 }
 
+:Oc:eh:: {
+  Report := "Endometrium s obrazom SIMPLEXNEJ HYPERPLÁZIE BEZ ATYPIÍ.`n"
+  AddToClipboard(Report)
+}
+
+:Oc:eH:: {
+  Report := "Endometrium s obrazom ATYPICKEJ HYPERPLÁZIE (komplexná atypická hyperplázia endometria).`n"
+  AddToClipboard(Report)
+}
+
 :O:ec::Endocervikálna sliznica bez atypií.{Enter}
 
-:Oc:kn:: {
+:Oc:kN:: {
   Report := "Konizát vyšetrený kompletne:`n- cervikálny viacvrstvový dlaždicový epitel fokálne s prejavmi`n[B]high-grade skvamóznej intraepitelovej lézie (HSIL/CIN3)[/B]"
   Report .= "`n- imunohistochemicky 16 s pozitívnou expresiou, zvýšená proliferačná aktivita Ki-67 v teréne HSIL`n- resekčné okraje ektocervikálne i endocervikálne bez evidentnej dysplázie`n- bez invazívnych nádorových zmien.`n "
   AddToClipboard(Report)
 }
 
-:Oc:kN:: {
+:Oc:kn:: {
   Report := "Konizát vyšetrený kompletne:`n- epidermizované ektrópium cervikálnej sliznice`n- chronické nešpecifické zápalové zmeny`n- fokálne reaktívne zmeny epitelu"
   Report .= "`n- imunohistochemicky p16 negat., proliferačná aktivita Ki-67 nezvýšená`n- [B]bez dysplázie a bez nádorových zmien.[/B]`n "
   AddToClipboard(Report)
