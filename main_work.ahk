@@ -2,6 +2,11 @@
 #Hotstring EndChars `t
 SetWorkingDir A_ScriptDir
 
+; remap shift capclock to capslock
++CapsLock::Capslock
+; remap capslock to tab
+CapsLock::Tab
+
 ; toggle always on top active window
 ^+!t:: {
   WinSetAlwaysOnTop(-1, "A")
@@ -55,7 +60,7 @@ SetWorkingDir A_ScriptDir
 ; Uppercase, lowercase, and tags manipulation
 ^+!u:: {
   try {
-    Run("General\change_case_tags.exe")
+    Run("General\change_case_tags.ahk")
   } catch as Err {
     MsgBox("The script for string manipulation was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
@@ -85,7 +90,7 @@ SetWorkingDir A_ScriptDir
 ; find shortcut
 :O:fs:: {
   try {
-    Run("General\find_shortcut.exe")
+    Run("General\find_shortcut.ahk")
   } catch as Err {
     MsgBox("The script for finding shortcuts was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
