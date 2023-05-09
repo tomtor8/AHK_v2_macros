@@ -57,6 +57,17 @@ CapsLock::Tab
   Send("^v")
 }
 
+; close and save windows in excidovna
+^+q:: {
+  Sleep 500
+  Send("{Tab}")
+  Sleep 500
+  Send("{Enter}")
+  Sleep 500
+  Send("^s")
+  Sleep 500
+}
+
 ; Uppercase, lowercase, and tags manipulation
 ^+!u:: {
   try {
