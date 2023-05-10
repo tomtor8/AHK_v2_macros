@@ -4,8 +4,8 @@ SetWorkingDir A_ScriptDir
 
 ; remap shift capclock to capslock
 +CapsLock::Capslock
-; remap capslock to tab
-CapsLock::Tab
+; remap capslock to End
+CapsLock::End
 
 ; toggle always on top active window
 ^+!t:: {
