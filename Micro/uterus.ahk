@@ -29,7 +29,7 @@ Ute.Add("Radio", "Checked", "nie")
 Ute.SetFont("bold")
 Ute.Add("Text", , "Endometrium")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vEndom Choose1", ["proliferačné", "sekrečné", "atrofické", "dysfunkčné proliferačné", "dysfunkčné sekrečné", "simplexná hyperplázia", "komplexná hyperplázia"])
+Ute.Add("DDL", "vEndom Choose1 AltSubmit", ["proliferačné", "sekrečné", "atrofické", "dysfunkčné proliferačné", "dysfunkčné sekrečné", "simplexná hyperplázia", "komplexná hyperplázia"])
 ; endometriálny polyp
 Ute.SetFont("bold")
 Ute.Add("Text", "ys", "Endometriálny polyp")
@@ -57,80 +57,87 @@ OkButton := Ute.Add("Button", "Default w150 h50 xm+100", "OK")
 OkButton.OnEvent("Click", UterusFun)
 Ute.OnEvent("Close", Closing)
 Ute.OnEvent("Escape", Closing)
-; show window
-Ute.Show()
-
-; check if the entered number is valid, if not set red background
-; Num_Checker(Ctrl)
-; {
-;   Saved := Ute.Submit("NoHide")
-
-;   if RegExMatch(RetrievedVal, "^\d{0,2}(\b,\b)?\d$") = 0
-;   {
-;     Weight.Opt("Backgroundred")
-;   } else ; restore original background
-;   {
-;     Weight.Opt("-Background")
-;   }
-; }
-
-; FocalYes.Value = 1 means Checked, 0 is Unchecked
-; Extent_Toggler(*)
-; {
-;   if (Extent.Enabled = false and FocalYes.Value = 1
-;     or Extent.Enabled = true and FocalYes.Value = 1)
-;   {
-;     Extent.Opt("-Disabled")
-;   } else
-;   {
-;     Extent.Opt("+Disabled")
-;     Extent.Value := 0
-;   }
-;   Return
-; }
+Ute.Show() ; show window
 
 ; main function
 UterusFun(*)
 {
-  Saved := Ute.Submit(0) ; zero is NOHIDE
-  If RegExMatch(Saved.SizPla, "^\d{1,2}x\d{1,2}x\d{1,2}$") = 0
-  {
-    MsgBox(
-      "
-      (
-      Veľkosť placenty je zadaná v nesprávnom formáte.
-      Správny formát je napr. 15x10x3.
-      )", "Upozornenie", 48
-  )
-    Return
-  }
+  Saved := Ute.Submit() ; zero is NOHIDE
 
-  counter := 0 ; counts empty values in the Saved object
-  For Name, Val in Saved.OwnProps()
-    if (Val = "")
-    {
-      counter++
+  report := "[I]Uterus:[/I]`nPortio vyšetrené cirkumferentne v 4 kvadrantoch`n"
 
-    }
+  report .= (Saved.CerZap = 1)
+    ? "- epidermizované ektrópium cervikálnej sliznice s chronickými nešpecifickými zápalovými zmenami`n"
+    : "- epidermizované ektrópium cervikálnej sliznice`n"
 
-  switch counter
-  {
-    case 0:
-      Ute.Hide()
+  report .= (Saved.CerHsil = 1)
+    ? "- cervikálny skvamózny epitel fokálne s prejavmi HIGH-GRADE SKVAMÓZNEJ INTRAEPITELOVEJ LÉZIE (HSIL)`n- vaginálny resekčný okraj bez dysplázie`n- bez invazívnych nádorových zmien.`n"
+    : "- bez dysplázie.`n"
+
+  report .= "Endocervikálny kanál`n"
+
+  report .= (Saved.CerPol = 1)
+    ? "- ENDOCERVIKÁLNY POLYP bez atypií`n- bez iných podstatnejších zmien.`n"
+    : "- bez podstatnejších histologických zmien.`n"
+
+  report .= "Isthmus`n- bez podstatnejších histologických zmien.`nCorpus et fundus`n"
+
+  switch Saved.EndomPol {
     case 1:
-      MsgBox("Chýba jeden parameter!")
-      Return
-    default:
-      MsgBox("Chýba viac parametrov!")
-      Return
+      report .= "- ENDOMETRIÁLNY POLYP bez atypií`n"
+    case 2:
+      report .= "- ENDOMETRIÁLNE POLYPY bez atypií`n"
   }
 
-  report := Format("Placenta primeraného tvaru, veľkosti {1} cm, hmotnosti {2} g. Pupočník inzeruje {3}, dĺžky {4} cm, hrúbky {5} mm, primerane špiralizovaný, bez pravých uzlov. Plodové obaly svetlohnedasté, polotransparentné, odstupujú od okraja placenty. Choriová platnička fialovohnedastej farby, bez ložiskových zmien. Bazálna platnička nenarušená, bez impresií. Tkanivo placenty na reznej ploche bordovej farby,",
-    Saved.SizPla, Saved.WeiPla, Saved.InsUmb, Saved.LenUmb, Saved.ThiUmb)
-  ; ternary operator ... adding to report
-  report .= (Saved.FocPla = 1)
-    ? Format(" s viacerými sivobelavými ložiskami tuhšej konzistencie, lokalizovanými {1}, zaberajúcimi cca {2}% objemu placenty.", Saved.LocPla, Saved.FocPer)
-    : " bez ložiskových zmien."
+  if (Saved.Endom = 6)
+  {
+    report .= "- endometrium s obrazom SIMPLEXNEJ HYPERPLÁZIE bez atypií`n- bez malígnych nádorových zmien`n"
+  }
+  else if (Saved.Endom = 7)
+  {
+    report .= "- endometrium fokálne s obrazom ATYPICKEJ HYPERPLÁZIE (komplexnej atypickej hyperplázie)`n- bez malígnych nádorových zmien`n"
+  }
+  else
+  {
+    switch Saved.Endom {
+      case 1:
+        phase := "proliferačného"
+      case 2:
+        phase := "sekrečného"
+      case 3:
+        phase := "atrofického"
+      case 4:
+        phase := "dysfunkčného proliferačného"
+      case 5:
+        phase := "dysfunkčného sekrečného"
+    }
+    report .= "- endometrium " . phase . " charakteru`n- bez atypií, bez hyperplázie`n"
+  }
+
+  if (Saved.Myom = 3 and Saved.Adenom = 2)
+  {
+    report .= "- myometrium bez podstatnejších histologických zmien."
+  }
+
+  if (Saved.Myom = 3 and Saved.Adenom = 1)
+  {
+    report .= "- v myometriu prítomné známky ADENOMYÓZY, bez iných podstatnejších zmien."
+  }
+
+  switch Saved.Myom {
+    case 1:
+      if (Saved.Adenom = 1)
+        report .= "- v myometriu prítomný LEIOMYÓM a ADENOMYÓZA."
+      else
+        report .= "- v myometriu prítomný LEIOMYÓM."
+    case 2:
+      if (Saved.Adenom = 1)
+        report .= "- v myometriu prítomné LEIOMYÓMY a ADENOMYÓZA."
+      else
+        report .= "- v myometriu prítomné LEIOMYÓMY."
+    default:
+
+  }
 
   A_Clipboard := report
   If !ClipWait(5)
@@ -140,7 +147,7 @@ UterusFun(*)
   }
   Send "^v"
   Sleep 500
-  A_Clipboard := ""
+  ; A_Clipboard := ""
   ExitApp
 }
 ; return 1 prevents the app from closing
