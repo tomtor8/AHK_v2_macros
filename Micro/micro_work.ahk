@@ -256,6 +256,14 @@ SetWorkingDir A_ScriptDir
   AddToClipboard(Report)
 }
 
+:Oc:ut:: {
+  try {
+    Run("uterus.ahk")
+  } catch as Err {
+    MsgBox("The script for uterus micro report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
 
 AddToClipboard(MyText)
 {

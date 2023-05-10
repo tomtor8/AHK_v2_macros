@@ -123,6 +123,9 @@ SetWorkingDir A_ScriptDir
 :cO:vc::veľkosti cca  mm{Left 3}
 :cO:vC::veľkosti cca  mm.{Left 4}
 
+:cO:pb::Belavý polypoidný útvar priemeru cca  mm.{Left 4}
+:cO:ph::Hnedastý polypoidný útvar priemeru cca  mm.{Left 4}
+
 AddToClipboard(MyText)
 {
   A_Clipboard := MyText
