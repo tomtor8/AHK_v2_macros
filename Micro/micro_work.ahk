@@ -48,6 +48,15 @@ SetWorkingDir A_ScriptDir
 
 ; SKIN
 
+:Oc:nv:: {
+  try {
+    Run("nevus.ahk")
+  } catch as Err {
+    MsgBox("The script for nevus micro report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :O:ce::EPIDERMOVÁ CYSTA
 :O:ct::TRICHILÉMOVÁ CYSTA
 
