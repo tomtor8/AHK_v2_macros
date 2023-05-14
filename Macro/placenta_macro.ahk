@@ -47,20 +47,6 @@ PlaG.OnEvent("Escape", Placenta_Close)
 ; show window
 PlaG.Show()
 
-; check if the entered number is valid, if not set red background
-; Num_Checker(Ctrl)
-; {
-;   Saved := PlaG.Submit("NoHide")
-
-;   if RegExMatch(RetrievedVal, "^\d{0,2}(\b,\b)?\d$") = 0
-;   {
-;     Weight.Opt("Backgroundred")
-;   } else ; restore original background
-;   {
-;     Weight.Opt("-Background")
-;   }
-; }
-
 ; FocalYes.Value = 1 means Checked, 0 is Unchecked
 Extent_Toggler(*)
 {
