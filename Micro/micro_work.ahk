@@ -57,6 +57,15 @@ SetWorkingDir A_ScriptDir
   }
 }
 
+:Oc:sc:: {
+  try {
+    Run("scc.ahk")
+  } catch as Err {
+    MsgBox("The script for SCC micro report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :O:ce::EPIDERMOVÁ CYSTA
 :O:ct::TRICHILÉMOVÁ CYSTA
 

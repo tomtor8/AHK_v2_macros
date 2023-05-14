@@ -25,26 +25,26 @@ MyGui.Add("Text", "yp", "mm")
 MyGui.SetFont("bold")
 MyGui.Add("Text", "xs", "Hĺbka invázie")
 MyGui.SetFont("norm")
-MyGui.Add("Radio", "vDepth Checked", "papilárne kórium")
-MyGui.Add("Radio", , "retikulárne kórium")
+MyGui.Add("Radio", "vDepth", "papilárne kórium")
+MyGui.Add("Radio", "Checked", "retikulárne kórium")
 MyGui.Add("Radio", , "subcutis")
 ; angioinvázia
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Angioinvázia")
 MyGui.SetFont("norm")
-MyGui.Add("DDL", "vAngio Choose1", ["neprítomná", "prítomná"])
+MyGui.Add("DDL", "vAngio Choose1 AltSubmit", ["neprítomná", "prítomná"])
 ; perineurálna invázia
 MyGui.SetFont("bold")
 MyGui.Add("Text", "ys Section", "Perineurálna invázia")
 MyGui.SetFont("norm")
-MyGui.Add("DDL", "vPerineur Choose1", ["neprítomná", "prítomná"])
+MyGui.Add("DDL", "vPerineur Choose1 AltSubmit", ["neprítomná", "prítomná"])
 ; extirpácia
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Extirpácia")
 MyGui.SetFont("norm")
-MyGui.Add("Radio", "vExtirp Checked", "kompletná")
-MyGui.Add("Radio", , "prítomný na periférii")
-MyGui.Add("Radio", , "prítomný na spodine")
+CompCheck := MyGui.Add("Checkbox", "vComplete Checked", "kompletná")
+PeriphCheck := MyGui.Add("Checkbox", "vPeriphery", "prítomný na periférii")
+DeepCheck := MyGui.Add("Checkbox", "vDeepMargin", "prítomný na spodine")
 ; vzdialenosť od okrajov
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Vzdialenosť od okrajov")
@@ -67,43 +67,51 @@ MyGui.Show() ; show window
 SccFun(*)
 {
   Saved := MyGui.Submit() ; zero is NOHIDE
+  NegatPeriph := "Periférne okraje`n- bez nádorových zmien, najbližší okraj je vzdialený " . Saved.Perif . " mm.`n"
+  NegatDeep := "Spodina`n- bez nádorových zmien, najbližší okraj je vzdialený " . Saved.Deep . " mm.`n "
 
-  report := "[B]"
+  report := "[B]SKVAMOCELULÁRNY KARCINÓM[/B]`nGrade " . Saved.Grade . ".`n"
+  report .= "Maximálny horizontálny rozmer novotvaru " . Saved.Horizont . " mm.`n"
+  report .= "Maximálna hrúbka novotvaru " . Saved.Thickness . " mm.`n"
+  report .= "Novotvar infiltruje do "
 
-  if (Saved.Nevus = 7)
-  {
-    report .= "LENTIGO SIMPLEX"
-  }
-  else
-  {
-    switch Saved.Nevus {
-      case 1:
-        report .= "INTRADERMÁLNY"
-      case 2:
-        report .= "ZMIEŠANÝ"
-      case 3:
-        report .= "JUNKČNÝ"
-      case 4:
-        report .= "LENTIGINÓZNE JUNKČNÝ"
-      case 5:
-        report .= "LENTIGINÓZNE ZMIEŠANÝ"
-      case 6:
-        report .= "DYSPLASTICKÝ"
-      case 8:
-        report .= "MODRÝ"
-    }
-    report .= " MELANOCYTOVÝ NÉVUS"
-  }
-
-  report .= "[/B]`n"
-
-  switch Saved.Extirp {
+  switch Saved.Depth {
     case 1:
-      report .= "Kompletná extirpácia lézie.`n "
+      report .= "papilárneho kória"
     case 2:
-      report .= "Nekompletná extirpácia lézie, ktorej štruktúry sú prítomné aj v oblasti periférneho okraja materiálu.`n "
+      report .= "retikulárneho kória"
     case 3:
-      report .= "Nekompletná extirpácia lézie, ktorej štruktúry sú prítomné aj v oblasti spodiny materiálu.`n "
+      report .= "subcutis"
+
+  }
+  report .= ".`n"
+
+  report .= (Saved.Angio = 1) ? "Bez zachytenej angioinvázie.`n" : "Fokálne prítomná angioinvázia.`n"
+  report .= (Saved.Perineur = 1) ? "Bez zachytenej perineurálnej invázie.`n" : "Fokálne prítomná perineurálna invázia.`n"
+
+  report .= "[I]Resekčné okraje:[/I]`n"
+  ; complete excision
+  if (CompCheck.Value = 1 and PeriphCheck.Value = 0 and DeepCheck.Value = 0)
+  {
+    report .= NegatPeriph
+    report .= NegatDeep
+  }
+  ; positive periphery
+  if (CompCheck.Value = 0 and PeriphCheck.Value = 1 and DeepCheck.Value = 0)
+  {
+    report .= "- štruktúry novotvaru sú fokálne prítomné v oblasti periférneho resekčného okraja.`n"
+    report .= NegatDeep
+  }
+  ; positive deep margin
+  if (CompCheck.Value = 0 and PeriphCheck.Value = 0 and DeepCheck.Value = 1)
+  {
+    report .= NegatPeriph
+    report .= "Spodina`n- bez nádorových zmien, najbližší okraj je vzdialený" . Saved.Deep . " mm.`n "
+  }
+  ; positive both periphery and deep margin
+  if (CompCheck.Value = 0 and PeriphCheck.Value = 1 and DeepCheck.Value = 1)
+  {
+    report .= "- štruktúry novotvaru sú fokálne prítomné v oblasti periférneho resekčného okraja aj spodiny materiálu.`n "
   }
 
   PrintReport(report)
