@@ -3,7 +3,7 @@
 SetWorkingDir A_ScriptDir
 
 ; create arrays of phrases and their respective shortcuts
-ConfigFile := ".\list_of_shortcuts.txt"
+ConfigFile := "..\Other\list_of_shortcuts.txt"
 ; PhrasesArr := Array()
 ; ShortcutsArr := Array()
 WholeLineArr := Array()

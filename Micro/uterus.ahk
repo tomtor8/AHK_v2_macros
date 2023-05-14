@@ -147,7 +147,7 @@ UterusFun(*)
   }
   Send "^v"
   Sleep 500
-  ; A_Clipboard := ""
+  A_Clipboard := ""
   ExitApp
 }
 ; return 1 prevents the app from closing
