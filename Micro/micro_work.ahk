@@ -57,6 +57,15 @@ SetWorkingDir A_ScriptDir
   }
 }
 
+:Oc:bc:: {
+  try {
+    Run("bcc.ahk")
+  } catch as Err {
+    MsgBox("The script for BCC micro report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :Oc:sc:: {
   try {
     Run("scc.ahk")
@@ -111,6 +120,15 @@ SetWorkingDir A_ScriptDir
 }
 
 ; GIT
+
+:Oc:zz:: {
+  try {
+    Run("Gastritis.exe")
+  } catch as Err {
+    MsgBox("The script for gastritis micro report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
 
 :O:dn:: {
   Report := "Sliznica duodena v limitoch histologickej normy.`nBez atrofie klkov a bez zvýšeného zastúpenia intraepitelových lymfocytov.`n "
