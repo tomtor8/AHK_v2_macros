@@ -13,13 +13,13 @@ MyGui.Add("DDL", "vGrade Choose1 ys w40", ["1", "2", "3"])
 MyGui.SetFont("bold")
 MyGui.Add("Text", "xs", "Horizont. rozmer")
 MyGui.SetFont("norm")
-HorizCtrl := MyGui.Add("Edit", "vHorizontalRozmer yp w40", "10")
+MyGui.Add("Edit", "vHorizontalRozmer yp w40", "10")
 MyGui.Add("Text", "yp", "mm")
 ; thickness
 MyGui.SetFont("bold")
 MyGui.Add("Text", "xs", "Hrúbka")
 MyGui.SetFont("norm")
-ThickCtrl := MyGui.Add("Edit", "vHrubka yp w40", "4")
+MyGui.Add("Edit", "vHrubka yp w40", "4")
 MyGui.Add("Text", "yp", "mm")
 ; hĺbka invázie
 MyGui.SetFont("bold")
@@ -53,14 +53,14 @@ MyGui.SetFont("bold")
 MyGui.Add("Text", , "Vzdialenosť od okrajov")
 MyGui.SetFont("norm")
 MyGui.Add("Text", , "Periférny okraj:")
-PeriphCtrl := MyGui.Add("Edit", "vPerifernyOkraj yp w40", "5")
+MyGui.Add("Edit", "vPerifernyOkraj yp w40", "5")
 MyGui.Add("Text", "yp", "mm")
 MyGui.Add("Text", "xs", "Spodina:")
-DeepCtrl := MyGui.Add("Edit", "vHlbokyOkraj yp w40", "5")
+MyGui.Add("Edit", "vHlbokyOkraj yp w40", "5")
 MyGui.Add("Text", "yp", "mm")
 ; OK button
 MyGui.Add("Text", , "")
-OkButton := MyGui.Add("Button", "Default w150 h50 xm+120", "OK")
+OkButton := MyGui.Add("Button", "Default w150 h50 xm+140", "OK")
 OkButton.OnEvent("Click", SccFun)
 MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
@@ -80,9 +80,8 @@ Toggler(*)
 SccFun(*)
 {
   Saved := MyGui.Submit(0) ; zero is NOHIDE
-  ArrOfNames := ["Horizontálny rozmer", "Hrúbka", "Periférny okraj", "Spodina"]
-  ArrOfValues := [HorizCtrl.Value, ThickCtrl.Value, PeriphCtrl.Value, DeepCtrl.Value]
-
+  CheckedValueNames := ["Horizontálny rozmer", "Hrúbka", "Periférny okraj", "Spodina"]
+  ValuesToCheck := [Saved.HorizontalRozmer, Saved.Hrubka, Saved.PerifernyOkraj, Saved.HlbokyOkraj]
 
   if (PeriphCheck.Value = 0 and DeepCheck.Value = 0 and CompCheck.Value = 0)
   {
@@ -91,41 +90,27 @@ SccFun(*)
   }
 
   ; validation of fields, field with zero and invalid characters are not allowed
-  ZeroCounter := 0
   RegexCounter := 0
-  ZeroNames := ""
   RegexNames := ""
 
-  loop ArrOfValues.Length
+  ; regex catches integers from 1-99 and decimals from 0,1 to 99,9 except digit,0
+  loop ValuesToCheck.Length
   {
-    if (ArrOfValues[A_Index] = 0)
-    {
-      ZeroCounter++
-      ZeroNames .= ArrOfNames[A_Index] . "`n"
-    }
-    If RegExMatch(ArrOfValues[A_Index], "^\d{1,2}(,\d)?$") = 0
+    If RegExMatch(ValuesToCheck[A_Index], "^([1-9][0-9]?|[1-9]?[0-9],[1-9])$") = 0
     {
       RegexCounter++
-      RegexNames .= ArrOfNames[A_Index] . "`n"
+      RegexNames .= CheckedValueNames[A_Index] . "`n"
     }
   }
 
-  if (ZeroCounter = 0 and RegexCounter = 0)
+  if (RegexCounter > 0)
   {
-    MyGui.Hide()
+    MsgBox("Počet parametrov s nesprávnou hodnotou: " . RegexCounter . "`n" . RegexNames, "Upozornenie", 48)
+    Return
   }
   else
   {
-    if (ZeroCounter > 0)
-    {
-      MsgBox("Počet parametrov s nulovou hodnotou: " . ZeroCounter . "`n" . ZeroNames, "Upozornenie", 48)
-      Sleep 500
-    }
-    if (RegexCounter > 0)
-    {
-      MsgBox("Počet parametrov s nesprávnou hodnotou: " . RegexCounter . "`n" . RegexNames, "Upozornenie", 48)
-    }
-    Return
+    MyGui.Hide()
   }
 
   NegatPeriph := "Periférne okraje`n- bez nádorových zmien, najbližší okraj je vzdialený " . Saved.PerifernyOkraj . " mm.`n"
