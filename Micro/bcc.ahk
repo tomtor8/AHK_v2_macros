@@ -95,6 +95,7 @@ BccFun(*)
   NegatDeep := "Spodina`n- bez nádorových zmien, najbližší okraj je vzdialený " . Saved.HlbokyOkraj . " mm.`n "
 
   report := "[B]BAZOCELULÁRNY KARCINÓM[/B]`n"
+  report .= "- " . Saved.Subtyp . " subtyp`n"
   report .= "- infiltruje do "
 
   switch Saved.Depth {
