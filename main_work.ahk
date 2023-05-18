@@ -8,7 +8,7 @@ SetWorkingDir A_ScriptDir
 CapsLock::End
 
 ; toggle always on top active window
-^+!t:: {
+^+t:: {
   WinSetAlwaysOnTop(-1, "A")
 }
 
@@ -18,44 +18,6 @@ CapsLock::End
 :*?:ddd::ď
 
 :*?:(::(){Left}
-
-; move line down
-^+!j:: {
-  Send("{Home}")
-  Sleep 500
-  Send("+{End}")
-  Sleep 500
-  Send("^x")
-  Sleep 500
-  Send("{Del}")
-  Sleep 500
-  Send("{Down}")
-  Sleep 500
-  Send("{Enter}")
-  Sleep 500
-  Send("{Up}")
-  Sleep 500
-  Send("^v")
-}
-
-; move line up
-^+!k:: {
-  Send("{Home}")
-  Sleep 500
-  Send("+{End}")
-  Sleep 500
-  Send("^x")
-  Sleep 500
-  Send("{Del}")
-  Sleep 500
-  Send("{Up}")
-  Sleep 500
-  Send("{Enter}")
-  Sleep 500
-  Send("{Up}")
-  Sleep 500
-  Send("^v")
-}
 
 ; close and save windows in excidovna
 ^+q:: {
@@ -69,7 +31,7 @@ CapsLock::End
 }
 
 ; Uppercase, lowercase, and tags manipulation
-^+!u:: {
+^+u:: {
   try {
     Run("General\change_case_tags.ahk")
   } catch as Err {
@@ -79,7 +41,7 @@ CapsLock::End
 }
 
 ; accented characters picker
-^+!z:: {
+^+z:: {
   try {
     Run("General\Spec_Chars.exe")
   } catch as Err {
@@ -89,7 +51,7 @@ CapsLock::End
 }
 
 ; tags picker
-^+!b:: {
+^+b:: {
   try {
     Run("General\Tags.exe")
   } catch as Err {
