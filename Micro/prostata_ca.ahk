@@ -91,7 +91,6 @@ Toggler(*)
   Return
 }
 
-
 ProstateFun(*)
 {
   Saved := MyGui.Submit(0)
@@ -115,7 +114,31 @@ ProstateFun(*)
     Return
   }
 
+  MyGui.Hide()
+
+  ; variables
+  strana := (Saved.Lateral = "Pravý lalok") ? "pravej" : "ľavej"
+  valceky := (Saved.NumCores = 1) ? "valčeku" : "valčekoch"
+  GleasScore := Saved.PrimPat + Saved.SecPat
+
+  switch GleasScore {
+    case 6:
+      GradeGroup := "1"
+    case 7:
+      if (Saved.PrimPat = 3)
+        GradeGroup := "2"
+      if (Saved.PrimPat = 4)
+        GradeGroup := "3"
+    case 8:
+      GradeGroup := "4"
+    default:
+      GradeGroup := "5"
+  }
+
+  PercentCa := Round((ReportTotLenCa / ReportTotLen) * 100)
+  ; LET'S GO
   report := ""
+
   report .= "Celková dĺžka valčekov je " . ReportTotLen
   report .= "`nCelková dĺžka karcinómu je " . ReportTotLenCa
 
