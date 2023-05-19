@@ -22,14 +22,16 @@ MyGui.SetFont("bold")
 MyGui.Add("Text", , "Primary pattern")
 MyGui.SetFont("norm")
 MyGui.Add("Edit")
-MyGui.Add("UpDown", "vPrimPat Range3-5", 3)
+MyPrimPat := MyGui.Add("UpDown", "vPrimPat Range3-5", 3)
+MyPrimPat.OnEvent("change", Toggler)
 ; secondary pattern
 MyGui.SetFont("s13")
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Secondary pattern")
 MyGui.SetFont("norm")
 MyGui.Add("Edit")
-MyGui.Add("UpDown", "vSecPat Range3-5", 3)
+MySecPat := MyGui.Add("UpDown", "vSecPat Range3-5", 3)
+MySecPat.OnEvent("change", Toggler)
 ; perineural invasion
 MyGui.SetFont("s13")
 MyGui.SetFont("bold")
@@ -50,13 +52,13 @@ MyGui.Add("Edit", "vLengthCa",)
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Percento pattern 4")
 MyGui.SetFont("norm")
-MyGui.Add("Edit", "vPatFour",)
+MyPatFour := MyGui.Add("Edit", "vPatFour Number Disabled",)
 ; kribriform
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Kribriformná architektonika")
 MyGui.SetFont("norm")
-MyGui.Add("Radio", "vKribri Checked", "neprítomná")
-MyGui.Add("Radio", "", "prítomná")
+MyKribri1 := MyGui.Add("Radio", "vKribri Checked Disabled", "neprítomná")
+MyKribri2 := MyGui.Add("Radio", "Disabled", "prítomná")
 ; EPE
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Extraprostatická extenzia")
@@ -71,13 +73,51 @@ MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
 MyGui.Show()
 
+
+Toggler(*)
+{
+  if (MyPrimPat.Value = 4 or MySecPat.Value = 4)
+  {
+    MyPatFour.Opt("-Disabled")
+    MyKribri1.Opt("-Disabled")
+    MyKribri2.Opt("-Disabled")
+  }
+  else
+  {
+    MyPatFour.Opt("+Disabled")
+    MyKribri1.Opt("+Disabled")
+    MyKribri2.Opt("+Disabled")
+  }
+  Return
+}
+
+
 ProstateFun(*)
 {
   Saved := MyGui.Submit(0)
-  report := ""
+  ; CheckedValueNames := ["Dĺžka valčekov", "Dĺžka karcinómu"]
+  ; ValuesToCheck := [Saved.LengthAll, Saved.LengthCa]
+  ; RegexCheckFields(CheckedValueNames, ValuesToCheck)
 
-  report .= "Celková dĺžka valčekov je " . GetTotalLength(Saved.LengthAll)
-  report .= "`nCelková dĺžka karcinómu je " . GetTotalLength(Saved.LengthCa)
+  if (Saved.PatFour > 100)
+  {
+    MsgBox("Percento pattern 4 nemôže byť viac ako 100")
+    MyPatFour.Value := 0
+    Return
+  }
+
+  ReportTotLen := GetTotalLength(Saved.LengthAll)
+  ReportTotLenCa := GetTotalLength(Saved.LengthCa)
+
+  if (ReportTotLen < ReportTotLenCa)
+  {
+    MsgBox("Dĺžka karcinómu nemôže byť väčšia ako dĺžka valčekov!")
+    Return
+  }
+
+  report := ""
+  report .= "Celková dĺžka valčekov je " . ReportTotLen
+  report .= "`nCelková dĺžka karcinómu je " . ReportTotLenCa
 
   PrintReport(report)
 
@@ -105,5 +145,6 @@ GetTotalLength(lengths)
   }
 }
 
+; #Include "..\Other\regex_fields.ahk"
 #Include "..\Other\print_report.ahk"
 #Include "..\Other\closing.ahk"
