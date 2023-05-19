@@ -6,7 +6,7 @@ MyGui := Gui(, "Prostate Carcinoma",)
 ; lateralita
 MyGui.SetFont("s13")
 MyGui.SetFont("bold")
-MyGui.Add("Text", , "Lateralita")
+MyGui.Add("Text", "Section", "Lateralita")
 MyGui.SetFont("norm")
 MyGui.Add("DDL", "vLateral Choose1", ["Pravý lalok", "Ľavý lalok"])
 ; number of cylinders with ca
@@ -21,13 +21,15 @@ MyGui.SetFont("s13")
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Primary pattern")
 MyGui.SetFont("norm")
-MyGui.Add("DDL", "vPrimPat Choose1", ["3", "4", "5"])
+MyGui.Add("Edit")
+MyGui.Add("UpDown", "vPrimPat Range3-5", 3)
 ; secondary pattern
 MyGui.SetFont("s13")
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Secondary pattern")
 MyGui.SetFont("norm")
-MyGui.Add("DDL", "vSecPat Choose1", ["3", "4", "5"])
+MyGui.Add("Edit")
+MyGui.Add("UpDown", "vSecPat Range3-5", 3)
 ; perineural invasion
 MyGui.SetFont("s13")
 MyGui.SetFont("bold")
@@ -36,7 +38,7 @@ MyGui.SetFont("norm")
 MyGui.Add("DDL", "vPerineur Choose1", ["nezachytená", "prítomná"])
 ; length of cylinders
 MyGui.SetFont("bold")
-MyGui.Add("Text", , "Dĺžka valčekov")
+MyGui.Add("Text", "ys Section", "Dĺžka valčekov")
 MyGui.SetFont("norm")
 MyGui.Add("Edit", "vLengthAll",)
 ; length of carcinoma
@@ -44,22 +46,35 @@ MyGui.SetFont("bold")
 MyGui.Add("Text", , "Dĺžka karcinómu")
 MyGui.SetFont("norm")
 MyGui.Add("Edit", "vLengthCa",)
-
-
+; percent pattern 4
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Percento pattern 4")
+MyGui.SetFont("norm")
+MyGui.Add("Edit", "vPatFour",)
+; kribriform
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Kribriformná architektonika")
+MyGui.SetFont("norm")
+MyGui.Add("Radio", "vKribri Checked", "neprítomná")
+MyGui.Add("Radio", "", "prítomná")
+; EPE
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Extraprostatická extenzia")
+MyGui.SetFont("norm")
+MyGui.Add("Radio", "vEpe Checked", "neprítomná")
+MyGui.Add("Radio", "", "prítomná")
 ; OK button
 MyGui.Add("Text", , "")
 OkButton := MyGui.Add("Button", "Default w150 h50 xm+20", "OK")
-OkButton.OnEvent("Click", BccFun)
+OkButton.OnEvent("Click", ProstateFun)
 MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
 MyGui.Show()
 
-BccFun(*)
+ProstateFun(*)
 {
-  Saved := MyGui.Submit()
-
+  Saved := MyGui.Submit(0)
   report := ""
-  ; check length values
 
   report .= "Celková dĺžka valčekov je " . GetTotalLength(Saved.LengthAll)
   report .= "`nCelková dĺžka karcinómu je " . GetTotalLength(Saved.LengthCa)
