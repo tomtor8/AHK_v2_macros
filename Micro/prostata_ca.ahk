@@ -2,13 +2,50 @@
 #NoTrayIcon
 SetWorkingDir A_ScriptDir
 
-MyGui := Gui(, "BCC mikro",)
+MyGui := Gui(, "Prostate Carcinoma",)
+; lateralita
 MyGui.SetFont("s13")
-; grade
 MyGui.SetFont("bold")
-MyGui.Add("Text", "Section", "Dlzka valcekov")
+MyGui.Add("Text", , "Lateralita")
 MyGui.SetFont("norm")
-MyGui.Add("Edit", "vLengths ys w130",)
+MyGui.Add("DDL", "vLateral Choose1", ["Pravý lalok", "Ľavý lalok"])
+; number of cylinders with ca
+MyGui.SetFont("s13")
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Počet valčekov s Ca")
+MyGui.SetFont("norm")
+MyGui.Add("Edit")
+MyGui.Add("UpDown", "vNumCores Range1-10", 1)
+; primary pattern
+MyGui.SetFont("s13")
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Primary pattern")
+MyGui.SetFont("norm")
+MyGui.Add("DDL", "vPrimPat Choose1", ["3", "4", "5"])
+; secondary pattern
+MyGui.SetFont("s13")
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Secondary pattern")
+MyGui.SetFont("norm")
+MyGui.Add("DDL", "vSecPat Choose1", ["3", "4", "5"])
+; perineural invasion
+MyGui.SetFont("s13")
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Perineurálna invázia")
+MyGui.SetFont("norm")
+MyGui.Add("DDL", "vPerineur Choose1", ["nezachytená", "prítomná"])
+; length of cylinders
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Dĺžka valčekov")
+MyGui.SetFont("norm")
+MyGui.Add("Edit", "vLengthAll",)
+; length of carcinoma
+MyGui.SetFont("bold")
+MyGui.Add("Text", , "Dĺžka karcinómu")
+MyGui.SetFont("norm")
+MyGui.Add("Edit", "vLengthCa",)
+
+
 ; OK button
 MyGui.Add("Text", , "")
 OkButton := MyGui.Add("Button", "Default w150 h50 xm+20", "OK")
@@ -19,30 +56,39 @@ MyGui.Show()
 
 BccFun(*)
 {
-  Saved := MyGui.Submit(0)
-  TotalLength := 0
+  Saved := MyGui.Submit()
+
+  report := ""
   ; check length values
-  try {
-    loop parse Saved.Lengths, ","
-    {
-      if (RegExMatch(A_LoopField, "^\d{1,2}$"))
-        TotalLength := TotalLength + A_LoopField
-      else
-      {
-        MsgBox("Incorrect value or delimiter")
-        return
-      }
-    }
-    MsgBox("The total length is " . TotalLength . " mm.")
-  } catch Error as e {
-    MsgBox("Error in the prostate length field`n" . e.message)
-    Return
-  }
+
+  report .= "Celková dĺžka valčekov je " . GetTotalLength(Saved.LengthAll)
+  report .= "`nCelková dĺžka karcinómu je " . GetTotalLength(Saved.LengthCa)
 
   PrintReport(report)
 
 }
 
+
+GetTotalLength(lengths)
+{
+  TotalLength := 0
+  try {
+    loop parse lengths, ","
+    {
+      if (RegExMatch(A_LoopField, "^\d{1,2}$"))
+        TotalLength := TotalLength + A_LoopField
+      else
+      {
+        MsgBox("Incorrect length value or delimiter")
+        return
+      }
+    }
+    Return TotalLength
+  } catch Error as e {
+    MsgBox("Error in the prostate length field`n" . e.message)
+    Return
+  }
+}
 
 #Include "..\Other\print_report.ahk"
 #Include "..\Other\closing.ahk"
