@@ -301,6 +301,15 @@ SetWorkingDir A_ScriptDir
   }
 }
 
+:O:pc:: {
+  try {
+    Run("prostata_ca.ahk")
+  } catch as Err {
+    MsgBox("The script for prostate_ca micro report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 AddToClipboard(MyText)
 {
   A_Clipboard := MyText

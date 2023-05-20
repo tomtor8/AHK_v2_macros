@@ -52,7 +52,7 @@ MyGui.Add("Edit", "vLengthCa",)
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Percento pattern 4")
 MyGui.SetFont("norm")
-MyPatFour := MyGui.Add("Edit", "vPatFour Number Disabled",)
+MyPatFour := MyGui.Add("Edit", "vPatFour Number Disabled w40", 0)
 ; kribriform
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Kribriformná architektonika")
@@ -73,7 +73,7 @@ MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
 MyGui.Show()
 
-
+; toggle controls
 Toggler(*)
 {
   if (MyPrimPat.Value = 4 or MySecPat.Value = 4)
@@ -87,34 +87,58 @@ Toggler(*)
     MyPatFour.Opt("+Disabled")
     MyKribri1.Opt("+Disabled")
     MyKribri2.Opt("+Disabled")
+    MyPatFour.Value := 0
   }
   Return
 }
-
+; main function
 ProstateFun(*)
 {
   Saved := MyGui.Submit(0)
-  ; CheckedValueNames := ["Dĺžka valčekov", "Dĺžka karcinómu"]
-  ; ValuesToCheck := [Saved.LengthAll, Saved.LengthCa]
-  ; RegexCheckFields(CheckedValueNames, ValuesToCheck)
 
-  if (Saved.PatFour > 100)
+  ReportTotLen := GetTotalLength(Saved.LengthAll, "dĺžky valčekov")
+  if (ReportTotLen = 0)
   {
-    MsgBox("Percento pattern 4 nemôže byť viac ako 100")
-    MyPatFour.Value := 0
+    MsgBox("Dĺžka valčekov nemôže byť nula alebo prázdna hodnota!", "Upozornenie", 48)
     Return
   }
 
-  ReportTotLen := GetTotalLength(Saved.LengthAll)
-  ReportTotLenCa := GetTotalLength(Saved.LengthCa)
-
-  if (ReportTotLen < ReportTotLenCa)
+  ReportTotLenCa := GetTotalLength(Saved.LengthCa, "dĺžky karcinómu")
+  if (ReportTotLenCa = 0)
   {
-    MsgBox("Dĺžka karcinómu nemôže byť väčšia ako dĺžka valčekov!")
+    MsgBox("Dĺžka karcinómu nemôže byť nula alebo prázdna hodnota!", "Upozornenie", 48)
     Return
   }
 
-  MyGui.Hide()
+  if (ReportTotLen = "" or ReportTotLenCa = "")
+    Return
+
+  try {
+    if (Saved.PatFour > 100)
+    {
+      MsgBox("Percento pattern 4 nemôže byť viac ako 100", "Upozornenie", 48)
+      MyPatFour.Value := 0
+      Return
+    }
+  } catch Error as e {
+    MsgBox("Missing value in Pattern four percentage!", "Upozornenie", 48)
+    Return
+  }
+
+  try {
+    if (ReportTotLen < ReportTotLenCa)
+    {
+      MsgBox("Dĺžka karcinómu nemôže byť väčšia ako dĺžka valčekov!", "Upozornenie", 48)
+      Return
+    }
+  }
+
+  try {
+    PercentCa := Round((ReportTotLenCa / ReportTotLen) * 100)
+  } catch Error as e {
+    MsgBox("Nie je možné vypočítať percento karcinómu!`nNesprávne alebo chýbajúce hodnoty!", "Upozornenie", 48)
+    Return
+  }
 
   ; variables
   strana := (Saved.Lateral = "Pravý lalok") ? "pravej" : "ľavej"
@@ -135,19 +159,34 @@ ProstateFun(*)
       GradeGroup := "5"
   }
 
-  PercentCa := Round((ReportTotLenCa / ReportTotLen) * 100)
+  MyGui.Hide()
+
   ; LET'S GO
   report := ""
 
-  report .= "Celková dĺžka valčekov je " . ReportTotLen
-  report .= "`nCelková dĺžka karcinómu je " . ReportTotLenCa
+  report := Format(
+    "
+    (
+    [I]{1} prostaty:[/I]
+    - v {2} {3} prítomný [B]ACINÁRNY ADENOKARCINÓM PROSTATY[/B]
+    - Gleason score {4} ({5}+{6}), grade group {7} (WHO)
+    )",
+  Saved.Lateral, Saved.NumCores, valceky, GleasScore, Saved.PrimPat, Saved.SecPat, GradeGroup
+  )
+
+  report .= (Saved.PatFour = 0 or Saved.PatFour = "") ? "" : "`n- Gleason pattern 4 tvorí " . Saved.PatFour . "% objemu karcinómu"
+  report .= (Saved.Kribri = 1) ? "`n- bez prítomnosti kribriformnej architektoniky v invazívnom karcinóme" : "`n- prítomná kribriformná architektonika v teréne invazívneho karcinómu"
+  report .= "`n- perineurálna nádorová invázia " . Saved.Perineur
+  report .= "`n- bez intravaskulárnej nádorovej propagácie"
+  report .= "`n- celková mikroskopická dĺžka valčekov tkaniva prostaty z " . strana . " strany je " . ReportTotLen . " mm"
+  report .= "`n- celková lineárna dĺžka nádorovej infiltrácie je " . ReportTotLenCa . " mm"
+  report .= "`n- malígna nádorová infiltrácia predstavuje " . PercentCa . "% objemu valčekov z " . strana . " strany`n"
+  report .= (Saved.Epe = 1) ? "- bez evidentnej extraprostatickej nádorovej extenzie.`n " : "- ložiskovo prítomná extraprostatická nádorová extenzia.`n "
 
   PrintReport(report)
-
 }
 
-
-GetTotalLength(lengths)
+GetTotalLength(lengths, field)
 {
   TotalLength := 0
   try {
@@ -157,17 +196,16 @@ GetTotalLength(lengths)
         TotalLength := TotalLength + A_LoopField
       else
       {
-        MsgBox("Incorrect length value or delimiter")
+        MsgBox("Nesprávny formát v poli " . field . "!`nHodnoty oddeľujte čiarkou bez medzery.`nPoužívajte iba jednociferné alebo dvojciferné celé čísla.", "Upozornenie", 48)
+        Sleep 500
         return
       }
     }
     Return TotalLength
   } catch Error as e {
-    MsgBox("Error in the prostate length field`n" . e.message)
+    MsgBox("Chyba v poli " . field "!`n" . e.message)
     Return
   }
 }
 
-; #Include "..\Other\regex_fields.ahk"
-#Include "..\Other\print_report.ahk"
-#Include "..\Other\closing.ahk"
+#Include "..\Other\my_funs.ahk"
