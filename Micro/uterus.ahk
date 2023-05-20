@@ -139,26 +139,7 @@ UterusFun(*)
 
   }
 
-  A_Clipboard := report
-  If !ClipWait(5)
-  {
-    MsgBox("Adding to clipboard failed!")
-    Return
-  }
-  Send "^v"
-  Sleep 500
-  A_Clipboard := ""
-  ExitApp
+  PrintReport(report)
 }
-; return 1 prevents the app from closing
-Closing(*)
-{
-  answer := MsgBox("Naozaj si želáte opustiť aplikáciu?", "Pozor!", "y/n 48")
-  If (answer = "Yes")
-  {
-    ExitApp
-  } else
-  {
-    return 1
-  }
-}
+
+#Include "..\Other\my_funs.ahk"

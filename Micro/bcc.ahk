@@ -67,29 +67,12 @@ BccFun(*)
     Return
   }
 
-  ; validation of fields, field with zero and invalid characters are not allowed
-  RegexCounter := 0
-  RegexNames := ""
-
-  ; regex catches integers from 1-99 and decimals from 0,1 to 99,9 except digit,0
-  loop ValuesToCheck.Length
-  {
-    If RegExMatch(ValuesToCheck[A_Index], "^([1-9][0-9]?|[1-9]?[0-9],[1-9])$") = 0
-    {
-      RegexCounter++
-      RegexNames .= CheckedValueNames[A_Index] . "`n"
-    }
-  }
-
-  if (RegexCounter > 0)
-  {
-    MsgBox("Počet parametrov s nesprávnou hodnotou: " . RegexCounter . "`n" . RegexNames, "Upozornenie", 48)
+  ; check fields, if function returns 1, return, else go on
+  CheckPoint := RegexCheckFields(CheckedValueNames, ValuesToCheck)
+  if (CheckPoint = 1)
     Return
-  }
-  else
-  {
-    MyGui.Hide()
-  }
+
+  MyGui.Hide()
 
   NegatPeriph := "Periférne okraje`n- bez nádorových zmien, najbližší okraj je vzdialený " . Saved.PerifernyOkraj . " mm.`n"
   NegatDeep := "Spodina`n- bez nádorových zmien, najbližší okraj je vzdialený " . Saved.HlbokyOkraj . " mm.`n "
@@ -139,5 +122,4 @@ BccFun(*)
 
 }
 
-#Include "..\Other\print_report.ahk"
-#Include "..\Other\closing.ahk"
+#Include "..\Other\my_funs.ahk"

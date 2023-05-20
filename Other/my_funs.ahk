@@ -32,7 +32,7 @@ RegexCheckFields(names, values)
   if (RegexCounter > 0)
   {
     MsgBox("Počet parametrov s nesprávnou hodnotou: " . RegexCounter . "`n" . RegexNames, "Upozornenie", 48)
-    Return
+    Return 1
   }
 }
 
