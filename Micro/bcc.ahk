@@ -24,17 +24,19 @@ CompCheck := MyGui.Add("Checkbox", "vComplete Checked", "kompletná")
 CompCheck.OnEvent("click", Toggler)
 PeriphCheck := MyGui.Add("Checkbox", "vPeriphery", "prítomný na periférii")
 PeriphCheck.OnEvent("click", Toggler)
+PeriphCheck.OnEvent("click", Disabler1)
 DeepCheck := MyGui.Add("Checkbox", "vDeepMargin", "prítomný na spodine")
 DeepCheck.OnEvent("click", Toggler)
+DeepCheck.OnEvent("click", Disabler2)
 ; vzdialenosť od okrajov
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Vzdialenosť od okrajov")
 MyGui.SetFont("norm")
 MyGui.Add("Text", , "Periférny okraj:")
-MyGui.Add("Edit", "vPerifernyOkraj yp w40", "5")
+PeriphMarVal := MyGui.Add("Edit", "vPerifernyOkraj yp w40", "5")
 MyGui.Add("Text", "yp", "mm")
 MyGui.Add("Text", "xs", "Spodina:")
-MyGui.Add("Edit", "vHlbokyOkraj yp w40", "5")
+DeepMarVal := MyGui.Add("Edit", "vHlbokyOkraj yp w40", "5")
 MyGui.Add("Text", "yp", "mm")
 ; OK button
 MyGui.Add("Text", , "")
@@ -50,8 +52,36 @@ Toggler(*)
   ; uncheck complete when positive margins
   if (PeriphCheck.Value = 1 or DeepCheck.Value = 1)
     CompCheck.Value := 0
-
   Return
+}
+
+; disable values in case of positive margins
+Disabler1(*)
+{
+  if (PeriphCheck.Value = 1)
+  {
+    PeriphMarVal.Opt("+Disabled")
+    PeriphMarVal.Value := "X"
+  }
+  else
+  {
+    PeriphMarVal.Opt("-Disabled")
+    PeriphMarVal.Value := ""
+  }
+}
+
+Disabler2(*)
+{
+  if (DeepCheck.Value = 1)
+  {
+    DeepMarVal.Opt("+Disabled")
+    DeepMarVal.Value := "X"
+  }
+  else
+  {
+    DeepMarVal.Opt("-Disabled")
+    DeepMarVal.Value := ""
+  }
 }
 
 ; main function
@@ -103,14 +133,14 @@ BccFun(*)
   ; positive periphery
   if (CompCheck.Value = 0 and PeriphCheck.Value = 1 and DeepCheck.Value = 0)
   {
-    report .= "- štruktúry novotvaru sú fokálne prítomné v oblasti periférneho resekčného okraja.`n"
+    report .= "Periférne okraje`n- štruktúry novotvaru sú fokálne prítomné v oblasti periférneho resekčného okraja.`n"
     report .= NegatDeep
   }
   ; positive deep margin
   if (CompCheck.Value = 0 and PeriphCheck.Value = 0 and DeepCheck.Value = 1)
   {
     report .= NegatPeriph
-    report .= "Spodina`n- bez nádorových zmien, najbližší okraj je vzdialený" . Saved.Deep . " mm.`n "
+    report .= "Spodina`n- štruktúry novotvaru sú fokálne prítomné v oblasti spodiny materiálu.`n"
   }
   ; positive both periphery and deep margin
   if (CompCheck.Value = 0 and PeriphCheck.Value = 1 and DeepCheck.Value = 1)

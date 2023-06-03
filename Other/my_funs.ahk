@@ -13,7 +13,7 @@ PrintReport(report)
   ExitApp
 }
 
-; validation of fields, field with zero and invalid characters are not allowed
+; validation of fields, field with zero and invalid characters are not allowed, X means disabled field
 RegexCheckFields(names, values)
 {
   RegexCounter := 0
@@ -22,7 +22,7 @@ RegexCheckFields(names, values)
   ; regex catches integers from 1-99 and decimals from 0,1 to 99,9 except digit,0
   loop values.Length
   {
-    If RegExMatch(values[A_Index], "^([1-9][0-9]?|[1-9]?[0-9],[1-9])$") = 0
+    If RegExMatch(values[A_Index], "(^([1-9][0-9]?|[1-9]?[0-9],[1-9])$|^X$)") = 0
     {
       RegexCounter++
       RegexNames .= names[A_Index] . "`n"

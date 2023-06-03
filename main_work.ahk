@@ -2,10 +2,32 @@
 #Hotstring EndChars `t
 SetWorkingDir A_ScriptDir
 
-; remap shift capclock to capslock
+; keyremaps
 +CapsLock::Capslock
-; remap capslock to End
-CapsLock::End
+; remap capslock to ctrl
+CapsLock:: {
+  Send("#{Space}")
+}
+; circumflex, carot
+^+6:: {
+  SendText("^")
+}
+
+^+4:: {
+  SendText("$")
+}
+
+^+3:: {
+  SendText("#")
+}
+
+^+/:: {
+  SendText("[")
+}
+
+^+(:: {
+  SendText("]")
+}
 
 ; toggle always on top active window
 ^+t:: {
