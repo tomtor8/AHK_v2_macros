@@ -243,28 +243,29 @@ UterusFun(*)
   report .= "`n- hrúbka myometria je " . Saved.MyomThick . " mm"
   report .= "`n- vzdialenosť novotvaru od serózy je " . Saved.DistSer . " mm"
 
-
-  switch Saved.CaGrade {
-    case :
-    default:
-
+  switch Saved.AngioInv {
+    case 1:
+      report .= "`nlymfovaskulárna invázia nezachytená"
+    case 2:
+      report .= "`nprítomná fokálna lymfovaskulárna invázia (menej ako 3 cievy)"
+    case 3:
+      report .= "`n- prítomná extenzívna lymfovaskulárna invázia (3 a viac ciev)"
   }
-
 
   switch Saved.EndomPol {
     case 1:
-      report .= "- ENDOMETRIÁLNY POLYP bez atypií`n"
+      report .= "`n- taktiež prítomný ENDOMETRIÁLNY POLYP bez atypií`n"
     case 2:
-      report .= "- ENDOMETRIÁLNE POLYPY bez atypií`n"
+      report .= "`n- taktiež prítomné ENDOMETRIÁLNE POLYPY bez atypií`n"
   }
 
   if (Saved.Endom = 6)
   {
-    report .= "- endometrium s obrazom SIMPLEXNEJ HYPERPLÁZIE bez atypií`n- bez malígnych nádorových zmien`n"
+    report .= "- okolité endometrium s obrazom SIMPLEXNEJ HYPERPLÁZIE bez atypií`n"
   }
   else if (Saved.Endom = 7)
   {
-    report .= "- endometrium fokálne s obrazom ATYPICKEJ HYPERPLÁZIE (komplexnej atypickej hyperplázie)`n- bez malígnych nádorových zmien`n"
+    report .= "- okolité endometrium fokálne s obrazom ATYPICKEJ HYPERPLÁZIE (komplexnej atypickej hyperplázie)`n"
   }
   else
   {
@@ -280,32 +281,30 @@ UterusFun(*)
       case 5:
         phase := "dysfunkčného sekrečného"
     }
-    report .= "- endometrium " . phase . " charakteru`n- bez atypií, bez hyperplázie`n"
+    report .= "- okolité endometrium " . phase . " charakteru`n"
   }
 
   if (Saved.Myom = 3 and Saved.Adenom = 2)
   {
-    report .= "- myometrium bez podstatnejších histologických zmien."
+    report .= "`n- myometrium bez podstatnejších histologických zmien."
   }
 
   if (Saved.Myom = 3 and Saved.Adenom = 1)
   {
-    report .= "- v myometriu prítomné známky ADENOMYÓZY, bez iných podstatnejších zmien."
+    report .= "`n- v myometriu prítomné známky ADENOMYÓZY, bez iných podstatnejších zmien."
   }
 
   switch Saved.Myom {
     case 1:
       if (Saved.Adenom = 1)
-        report .= "- v myometriu prítomný LEIOMYÓM a ADENOMYÓZA."
+        report .= "`n- v myometriu prítomný LEIOMYÓM a ADENOMYÓZA."
       else
-        report .= "- v myometriu prítomný LEIOMYÓM."
+        report .= "`n- v myometriu prítomný LEIOMYÓM."
     case 2:
       if (Saved.Adenom = 1)
-        report .= "- v myometriu prítomné LEIOMYÓMY a ADENOMYÓZA."
+        report .= "`n- v myometriu prítomné LEIOMYÓMY a ADENOMYÓZA."
       else
-        report .= "- v myometriu prítomné LEIOMYÓMY."
-    default:
-
+        report .= "`n- v myometriu prítomné LEIOMYÓMY."
   }
 
   PrintReport(report)
