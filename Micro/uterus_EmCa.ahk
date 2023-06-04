@@ -61,7 +61,7 @@ Ute.Add("DDL", "vCaGrade Choose1", ["1", "2", "3", "X"])
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Infiltrácia")
 Ute.SetFont("norm")
-CaInfCheck := Ute.Add("DDL", "vCaInf Choose2", ["endometria", "<1/2 myometria", ">1/2 myometria"])
+CaInfCheck := Ute.Add("DDL", "vCaInf Choose2 AltSubmit", ["endometria", "<1/2 myometria", ">1/2 myometria"])
 CaInfCheck.OnEvent("Change", Disabler2)
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Hĺbka invázie")
@@ -97,7 +97,7 @@ Ute.Add("DDL", "vParamInf Choose1 AltSubmit", ["nezachytená", "vpravo", "vľavo
 Ute.SetFont("bold")
 Ute.Add("Text", , "Okolité endometrium")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vEndom AltSubmit", ["proliferačné", "sekrečné", "atrofické", "dysfunkčné proliferačné", "dysfunkčné sekrečné", "simplexná hyperplázia", "komplexná hyperplázia"])
+Ute.Add("DDL", "vEndom Choose8 AltSubmit", ["proliferačné", "sekrečné", "atrofické", "dysfunkčné proliferačné", "dysfunkčné sekrečné", "simplexná hyperplázia", "komplexná hyperplázia", "nezachytené"])
 ; endometriálny polyp
 Ute.SetFont("bold")
 Ute.Add("Text", , "Endometriálny polyp")
@@ -169,43 +169,43 @@ UterusFun(*)
   Ute.Hide()
 
 
-  report := "[I]Uterus:[/I]`nPortio vyšetrené cirkumferentne v 4 kvadrantoch`n"
+  report := "[I]Uterus:[/I]`nPortio vyšetrené cirkumferentne v 4 kvadrantoch"
 
   report .= (Saved.CerZap = 1)
-    ? "- epidermizované ektrópium cervikálnej sliznice s chronickými nešpecifickými zápalovými zmenami`n"
-    : "- epidermizované ektrópium cervikálnej sliznice`n"
+    ? "`n- epidermizované ektrópium cervikálnej sliznice s chronickými nešpecifickými zápalovými zmenami"
+    : "`n- epidermizované ektrópium cervikálnej sliznice"
 
   report .= (Saved.CerHsil = 1)
-    ? "- cervikálny skvamózny epitel fokálne s prejavmi HIGH-GRADE SKVAMÓZNEJ INTRAEPITELOVEJ LÉZIE (HSIL)`n- vaginálny resekčný okraj bez dysplázie`n- bez invazívnych nádorových zmien.`n"
-    : "- bez dysplázie.`n"
+    ? "`n- cervikálny skvamózny epitel fokálne s prejavmi HIGH-GRADE SKVAMÓZNEJ INTRAEPITELOVEJ LÉZIE (HSIL)`n- vaginálny resekčný okraj bez dysplázie`n- bez invazívnych nádorových zmien."
+    : "`n- bez dysplázie."
 
-  report .= "Endocervikálny kanál`n"
+  report .= "`nEndocervikálny kanál"
 
   report .= (Saved.CerPol = 1)
-    ? "- ENDOCERVIKÁLNY POLYP bez atypií`n" : ""
+    ? "`n- ENDOCERVIKÁLNY POLYP bez atypií" : ""
 
   CerDistReport1 := "`n- vzdialenosť novotvaru od vaginálneho resekčného okraja je " . Saved.DistVagin . " mm"
   CerDistReport2 := "`n- vzdialenosť novotvaru od paracervikálneho resekčného okraja je " . Saved.DistParacer . " mm"
 
   switch Saved.CerInf {
     case 1:
-      report .= "- bez nádorových a iných podstatnejších histologických zmien.`n"
+      report .= "`n- bez nádorových a iných podstatnejších histologických zmien."
     case 2:
-      report .= "- prítomné prejavy povrchovej nádorovej invázie cervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho adenokarcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
+      report .= "`n- prítomné prejavy povrchovej nádorovej invázie cervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho adenokarcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
     case 3:
-      report .= "- prítomné prejavy nádorovej invázie cervikálnej strómy štruktúrami nižšie uvedeného endometriálneho adenokarcinómu" . CerDistReport1 . CerDistReport2 . "."
+      report .= "`n- prítomné prejavy nádorovej invázie cervikálnej strómy štruktúrami nižšie uvedeného endometriálneho adenokarcinómu" . CerDistReport1 . CerDistReport2 . "."
 
   }
 
-  report .= "`nIsthmus`n"
+  report .= "`nIsthmus"
 
   switch Saved.IstInf {
     case 1:
-      report .= "- bez nádorových a iných podstatnejších histologických zmien."
+      report .= "`n- bez nádorových a iných podstatnejších histologických zmien."
     case 2:
-      report .= "- prítomná povrchová nádorová infiltrácia sliznice štruktúrami nižšie uvedeného endometriálneho karcinómu."
+      report .= "`n- prítomná povrchová nádorová infiltrácia sliznice štruktúrami nižšie uvedeného endometriálneho karcinómu."
     case 3:
-      report .= "- prítomná povrchová nádorová infiltrácia sliznice a priľahlého myometria štruktúrami nižšie uvedeného endometriálneho karcinómu."
+      report .= "`n- prítomná povrchová nádorová infiltrácia sliznice a priľahlého myometria štruktúrami nižšie uvedeného endometriálneho karcinómu."
   }
 
   report .= "`nCorpus et fundus`n- [B]"
@@ -234,38 +234,44 @@ UterusFun(*)
     case 1:
       report .= "`n- novotvar je lokalizovaný intramukozálne"
     case 2:
-      report .= "`n- novotvar infiltruje do menej ako 1/2 hrúbky  myometria (do " . InfPercent . "% hrúbky myometria)"
+      report .= "`n- novotvar infiltruje do menej ako 1/2 hrúbky myometria (do " . InfPercent . "% hrúbky myometria)"
     case 3:
-      report .= "`n- novotvar infiltruje do viac ako 1/2 hrúbky  myometria (do " . InfPercent . "% hrúbky myometria)"
+      report .= "`n- novotvar infiltruje do viac ako 1/2 hrúbky myometria (do " . InfPercent . "% hrúbky myometria)"
   }
 
   report .= "`n- hĺbka myometriálnej invázie je " . Saved.MyomDepth . " mm"
   report .= "`n- hrúbka myometria je " . Saved.MyomThick . " mm"
   report .= "`n- vzdialenosť novotvaru od serózy je " . Saved.DistSer . " mm"
 
+  report .= (Saved.SerInf = 2) ? "`n- seróza bez nádorovej infiltrácie" : "`n- fokálne prítomná nádorová infiltrácia serózy"
+
   switch Saved.AngioInv {
     case 1:
-      report .= "`nlymfovaskulárna invázia nezachytená"
+      report .= "`n- lymfovaskulárna invázia nezachytená"
     case 2:
-      report .= "`nprítomná fokálna lymfovaskulárna invázia (menej ako 3 cievy)"
+      report .= "`n- prítomná fokálna lymfovaskulárna invázia (menej ako 3 cievy)"
     case 3:
       report .= "`n- prítomná extenzívna lymfovaskulárna invázia (3 a viac ciev)"
   }
 
   switch Saved.EndomPol {
     case 1:
-      report .= "`n- taktiež prítomný ENDOMETRIÁLNY POLYP bez atypií`n"
+      report .= "`n- taktiež prítomný ENDOMETRIÁLNY POLYP bez atypií"
     case 2:
-      report .= "`n- taktiež prítomné ENDOMETRIÁLNE POLYPY bez atypií`n"
+      report .= "`n- taktiež prítomné ENDOMETRIÁLNE POLYPY bez atypií"
   }
 
   if (Saved.Endom = 6)
   {
-    report .= "- okolité endometrium s obrazom SIMPLEXNEJ HYPERPLÁZIE bez atypií`n"
+    report .= "`n- okolité endometrium s obrazom SIMPLEXNEJ HYPERPLÁZIE bez atypií"
   }
   else if (Saved.Endom = 7)
   {
-    report .= "- okolité endometrium fokálne s obrazom ATYPICKEJ HYPERPLÁZIE (komplexnej atypickej hyperplázie)`n"
+    report .= "`n- okolité endometrium fokálne s obrazom ATYPICKEJ HYPERPLÁZIE (komplexnej atypickej hyperplázie)"
+  }
+  else if (Saved.Endom = 8)
+  {
+    report .= ""
   }
   else
   {
@@ -281,7 +287,7 @@ UterusFun(*)
       case 5:
         phase := "dysfunkčného sekrečného"
     }
-    report .= "- okolité endometrium " . phase . " charakteru`n"
+    report .= "`n- okolité endometrium " . phase . " charakteru"
   }
 
   if (Saved.Myom = 3 and Saved.Adenom = 2)
@@ -306,6 +312,21 @@ UterusFun(*)
       else
         report .= "`n- v myometriu prítomné LEIOMYÓMY."
   }
+
+  ; parametria
+  switch Saved.ParamInf {
+    case 1:
+      report .= "`nParametriá obojstranne bez nádorových zmien."
+    case 2:
+      report .= "`nPrítomná nádorová infiltrácia parametrií vpravo."
+    case 3:
+      report .= "`nPrítomná nádorová infiltrácia parametrií vľavo."
+    case 4:
+      report .= "`nPrítomná obojstranná nádorová infiltrácia parametrií."
+
+  }
+
+  report .= "`n `nStaging hodnotený podľa: Protocol for the Examination of Specimens From Patients With Carcinoma and Carcinosarcoma of the Endometrium, verzia 4.4.0.0, December 2022. (https://www.cap.org/protocols-and-guidelines/cancer-reporting-tools/cancer-protocol-templates)"
 
   PrintReport(report)
 }
