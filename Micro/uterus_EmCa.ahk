@@ -182,10 +182,74 @@ UterusFun(*)
   report .= "Endocervikálny kanál`n"
 
   report .= (Saved.CerPol = 1)
-    ? "- ENDOCERVIKÁLNY POLYP bez atypií`n- bez iných podstatnejších zmien.`n"
-    : "- bez podstatnejších histologických zmien.`n"
+    ? "- ENDOCERVIKÁLNY POLYP bez atypií`n" : ""
 
-  report .= "Isthmus`n- bez podstatnejších histologických zmien.`nCorpus et fundus`n"
+  CerDistReport1 := "`n- vzdialenosť novotvaru od vaginálneho resekčného okraja je " . Saved.DistVagin . " mm"
+  CerDistReport2 := "`n- vzdialenosť novotvaru od paracervikálneho resekčného okraja je " . Saved.DistParacer . " mm"
+
+  switch Saved.CerInf {
+    case 1:
+      report .= "- bez nádorových a iných podstatnejších histologických zmien.`n"
+    case 2:
+      report .= "- prítomné prejavy povrchovej nádorovej invázie cervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho adenokarcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
+    case 3:
+      report .= "- prítomné prejavy nádorovej invázie cervikálnej strómy štruktúrami nižšie uvedeného endometriálneho adenokarcinómu" . CerDistReport1 . CerDistReport2 . "."
+
+  }
+
+  report .= "`nIsthmus`n"
+
+  switch Saved.IstInf {
+    case 1:
+      report .= "- bez nádorových a iných podstatnejších histologických zmien."
+    case 2:
+      report .= "- prítomná povrchová nádorová infiltrácia sliznice štruktúrami nižšie uvedeného endometriálneho karcinómu."
+    case 3:
+      report .= "- prítomná povrchová nádorová infiltrácia sliznice a priľahlého myometria štruktúrami nižšie uvedeného endometriálneho karcinómu."
+  }
+
+  report .= "`nCorpus et fundus`n- [B]"
+
+  switch Saved.CaType {
+    case 1:
+      report .= "ENDOMETRIÁLNY ENDOMETRIOIDNÝ ADENOKARCINÓM"
+    case 2:
+      report .= "ENDOMETRIÁLNY SERÓZNY ADENOKARCINÓM"
+    case 3:
+      report .= "ENDOMETRIÁLNY CLEAR CELL ADENOKARCINÓM"
+    case 4:
+      report .= "KARCINOSARKÓM"
+    case 5:
+      report .= "ENDOMETRIÁLNY NEDIFERENCOVANÝ KARCINÓM"
+  }
+
+  if (Saved.CaGrade = "X")
+    report .= "[/B]`n- grade neaplikovateľný"
+  else
+    report .= "[/B]`n- grade " . Saved.CaGrade
+
+  InfPercent := Round((Saved.MyomDepth / Saved.MyomThick) * 100, 0)
+
+  switch Saved.CaInf {
+    case 1:
+      report .= "`n- novotvar je lokalizovaný intramukozálne"
+    case 2:
+      report .= "`n- novotvar infiltruje do menej ako 1/2 hrúbky  myometria (do " . InfPercent . "% hrúbky myometria)"
+    case 3:
+      report .= "`n- novotvar infiltruje do viac ako 1/2 hrúbky  myometria (do " . InfPercent . "% hrúbky myometria)"
+  }
+
+  report .= "`n- hĺbka myometriálnej invázie je " . Saved.MyomDepth . " mm"
+  report .= "`n- hrúbka myometria je " . Saved.MyomThick . " mm"
+  report .= "`n- vzdialenosť novotvaru od serózy je " . Saved.DistSer . " mm"
+
+
+  switch Saved.CaGrade {
+    case :
+    default:
+
+  }
+
 
   switch Saved.EndomPol {
     case 1:
