@@ -35,12 +35,12 @@ CerInfCheck.OnEvent("Change", Disabler)
 Ute.SetFont("bold")
 Ute.Add("Text", , "Vzd. od paracervik. okraja")
 Ute.SetFont("norm")
-DistParacerCheck := Ute.Add("Edit", "vDistParacer Disabled", "10")
+DistParacerCheck := Ute.Add("Edit", "vDistParacer Hidden", "10")
 Ute.Add("Text", "yp", "mm")
 Ute.SetFont("bold")
 Ute.Add("Text", "xm", "Vzd. od vagin. okraja")
 Ute.SetFont("norm")
-DistVaginCheck := Ute.Add("Edit", "vDistVagin Disabled", "10")
+DistVaginCheck := Ute.Add("Edit", "vDistVagin Hidden", "10")
 Ute.Add("Text", "yp", "mm")
 ; istmus
 Ute.SetFont("bold")
@@ -74,10 +74,10 @@ Ute.Add("Text", "xs", "Hrúbka myometria")
 Ute.SetFont("norm")
 MyomThickCheck := Ute.Add("Edit", "vMyomThick Number", "15")
 Ute.Add("Text", "yp", "mm")
-Ute.Add("Text", "xs", "Vzdialenosť od serózy")
-Ute.SetFont("norm")
-DistSerCheck := Ute.Add("Edit", "vDistSer", "10")
-Ute.Add("Text", "yp", "mm")
+; Ute.Add("Text", "xs", "Vzdialenosť od serózy")
+; Ute.SetFont("norm")
+; DistSerCheck := Ute.Add("Edit", "vDistSer", "10")
+; Ute.Add("Text", "yp", "mm")
 ; seróza
 Ute.SetFont("bold")
 Ute.Add("Text", "xs", "Infiltrácia serózy")
@@ -103,7 +103,7 @@ Ute.Add("DDL", "vEndom Choose8 AltSubmit", ["proliferačné", "sekrečné", "atr
 Ute.SetFont("bold")
 Ute.Add("Text", , "Endometriálny polyp")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vEndomPol Choose1 AltSubmit", ["nie", "jeden", "viacero"])
+Ute.Add("DDL", "vEndomPol Choose3 AltSubmit", ["jeden", "viacero", "nie"])
 ; leiomyómy
 Ute.SetFont("bold")
 Ute.Add("Text", , "Myómy")
@@ -129,18 +129,18 @@ Disabler(*)
 {
   if (CerInfCheck.Value = 3)
   {
-    DistParacerCheck.Opt("-Disabled")
-    DistVaginCheck.Opt("-Disabled")
+    DistParacerCheck.Opt("-Hidden")
+    DistVaginCheck.Opt("-Hidden")
   }
   else if (CerInfCheck.Value = 2)
   {
-    DistVaginCheck.Opt("-Disabled")
-    DistParacerCheck.Opt("+Disabled")
+    DistVaginCheck.Opt("-Hidden")
+    DistParacerCheck.Opt("+Hidden")
   }
   else
   {
-    DistParacerCheck.Opt("+Disabled")
-    DistVaginCheck.Opt("+Disabled")
+    DistParacerCheck.Opt("+Hidden")
+    DistVaginCheck.Opt("+Hidden")
   }
 }
 
@@ -148,15 +148,15 @@ Disabler2(*)
 {
   if (CaInfCheck.Value = 1)
   {
-    MyomDepthCheck.Opt("+Disabled")
-    MyomThickCheck.Opt("+Disabled")
-    DistSerCheck.Opt("+Disabled")
+    MyomDepthCheck.Opt("+Hidden")
+    MyomThickCheck.Opt("+Hidden")
+    ; DistSerCheck.Opt("+Hidden")
   }
   else
   {
-    MyomDepthCheck.Opt("-Disabled")
-    MyomThickCheck.Opt("-Disabled")
-    DistSerCheck.Opt("-Disabled")
+    MyomDepthCheck.Opt("-Hidden")
+    MyomThickCheck.Opt("-Hidden")
+    ; DistSerCheck.Opt("-Hidden")
   }
 }
 
@@ -164,12 +164,12 @@ Disabler3(*)
 {
   if (CaTypeCheck.Value != 1)
   {
-    CaGradeCheck.Opt("+Disabled")
+    CaGradeCheck.Opt("+Hidden")
     CaGradeCheck.Value := 4
   }
   else
   {
-    CaGradeCheck.Opt("-Disabled")
+    CaGradeCheck.Opt("-Hidden")
   }
 }
 
@@ -177,10 +177,14 @@ Disabler3(*)
 UterusFun(*)
 {
   Saved := Ute.Submit(0) ; zero is NOHIDE
-  CheckedValueNames := ["Vzdialenosť od paracervikálneho okraja", "Vzdialenosť od vaginálneho okraja", "Hĺbka invázie", "Hrúbka myometria", "Vzdialenosť od serózy"]
-  ValuesToCheck := [Saved.DistParacer, Saved.DistVagin, Saved.MyomDepth, Saved.MyomThick, Saved.DistSer]
+  CheckedValueNames := ["Vzdialenosť od paracervikálneho okraja", "Vzdialenosť od vaginálneho okraja", "Hĺbka invázie", "Hrúbka myometria"]
+  ValuesToCheck := [Saved.DistParacer, Saved.DistVagin, Saved.MyomDepth, Saved.MyomThick]
 
+  ; percent of myometrial infiltration
   InfPercent := Round((Saved.MyomDepth / Saved.MyomThick) * 100, 0)
+  ; distance from seroza
+  DistSerNum := Saved.MyomThick - Saved.MyomDepth
+
 
   if (Saved.CaType = 1 and Saved.CaGrade = "X")
   {
@@ -197,6 +201,24 @@ UterusFun(*)
   if (InfPercent > 50 and Saved.CaInf != 3)
   {
     MsgBox("Hĺbka invázie by mala byť viac ako 1/2 hrúbky myometria!", "Upozornenie", 48)
+    Return
+  }
+
+  if (InfPercent < 50 and Saved.CaInf = 3)
+  {
+    MsgBox("Hĺbka invázie by mala byť menej ako 1/2 hrúbky myometria!", "Upozornenie", 48)
+    Return
+  }
+
+  if (DistSerNum > 0 and Saved.SerInf = 1)
+  {
+    MsgBox("Nesúlad medzi infiltráciou serózy a `nvzdialenosťou novotvaru od serózy!", "Upozornenie", 48)
+    Return
+  }
+
+  if (DistSerNum = 0 and Saved.SerInf = 2)
+  {
+    MsgBox("Pravdepodobne by mala byť prítomná infiltrácia serózy!`nVzdialenosť novotvaru od serózy je 0 mm!", "Upozornenie", 48)
     Return
   }
 
@@ -230,7 +252,7 @@ UterusFun(*)
     case 1:
       report .= "`n- bez nádorových a iných podstatnejších histologických zmien."
     case 2:
-      report .= "`n- prítomné prejavy povrchovej nádorovej invázie cervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho karcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
+      report .= "`n- prítomné prejavy povrchovej nádorovej invázie endocervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho karcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
     case 3:
       report .= "`n- prítomné prejavy nádorovej invázie cervikálnej strómy štruktúrami nižšie uvedeného endometriálneho karcinómu" . CerDistReport1 . CerDistReport2 . "."
 
@@ -267,20 +289,23 @@ UterusFun(*)
   else
     report .= "[/B]`n- grade " . Saved.CaGrade
 
-  switch Saved.CaInf {
-    case 1:
-      report .= "`n- novotvar je lokalizovaný intramukozálne"
-    case 2:
-      report .= "`n- novotvar infiltruje do menej ako 1/2 hrúbky myometria (do " . InfPercent . "% hrúbky myometria)"
-    case 3:
-      report .= "`n- novotvar infiltruje do viac ako 1/2 hrúbky myometria (do " . InfPercent . "% hrúbky myometria)"
+
+  if (Saved.CaInf = 1)
+  {
+    report .= "`n- novotvar je lokalizovaný intramukozálne"
   }
-
-  report .= "`n- hĺbka myometriálnej invázie je " . Saved.MyomDepth . " mm"
-  report .= "`n- hrúbka myometria je " . Saved.MyomThick . " mm"
-  report .= "`n- vzdialenosť novotvaru od serózy je " . Saved.DistSer . " mm"
-
-  report .= (Saved.SerInf = 2) ? "`n- seróza bez nádorovej infiltrácie" : "`n- fokálne prítomná nádorová infiltrácia serózy"
+  else
+  {
+    switch Saved.CaInf {
+      case 2:
+        report .= "`n- novotvar infiltruje do menej ako 1/2 hrúbky myometria (do " . InfPercent . "% hrúbky myometria)"
+      case 3:
+        report .= "`n- novotvar infiltruje do viac ako 1/2 hrúbky myometria (do " . InfPercent . "% hrúbky myometria)"
+    }
+    report .= "`n- hĺbka myometriálnej invázie je " . Saved.MyomDepth . " mm"
+    report .= "`n- hrúbka myometria je " . Saved.MyomThick . " mm"
+    report .= "`n- vzdialenosť novotvaru od serózy je " . DistSerNum . " mm"
+  }
 
   switch Saved.AngioInv {
     case 1:
@@ -291,11 +316,13 @@ UterusFun(*)
       report .= "`n- prítomná extenzívna lymfovaskulárna invázia (3 a viac ciev)"
   }
 
+  report .= (Saved.SerInf = 2) ? "`n- seróza bez nádorovej infiltrácie" : "`n- fokálne prítomná nádorová infiltrácia serózy"
+
   switch Saved.EndomPol {
     case 1:
-      report .= "`n- taktiež prítomný ENDOMETRIÁLNY POLYP bez atypií"
+      report .= "`n- taktiež prítomný ENDOMETRIÁLNY POLYP"
     case 2:
-      report .= "`n- taktiež prítomné ENDOMETRIÁLNE POLYPY bez atypií"
+      report .= "`n- taktiež prítomné ENDOMETRIÁLNE POLYPY"
   }
 
   if (Saved.Endom = 6)
@@ -334,7 +361,7 @@ UterusFun(*)
 
   if (Saved.Myom = 3 and Saved.Adenom = 1)
   {
-    report .= "`n- v myometriu prítomné známky ADENOMYÓZY, bez iných podstatnejších zmien."
+    report .= "`n- v myometriu prítomné známky ADENOMYÓZY."
   }
 
   switch Saved.Myom {
@@ -362,6 +389,13 @@ UterusFun(*)
       report .= "`nPrítomná obojstranná nádorová infiltrácia parametrií."
 
   }
+
+  report .= "`n `n[I]Imunohistochemická analýza:[/I]"
+  report .= "`nEstrogen receptor: pozitívna expresia v % nádorových buniek"
+  report .= "`nProgesteron receptor: pozitívna expresia v % nádorových buniek"
+  report .= "`np53: bez aberantnej expresie"
+  report .= "`nMismatch repair proteíny (MLH1, PMS2, MSH2, MSH6) so zachovanou normálnou expresiou vo všetkých 4 vyšetrených proteínoch."
+
 
   report .= "`n `nStaging hodnotený podľa: Protocol for the Examination of Specimens From Patients With Carcinoma and Carcinosarcoma of the Endometrium, verzia 4.4.0.0, December 2022. (https://www.cap.org/protocols-and-guidelines/cancer-reporting-tools/cancer-protocol-templates)"
 
