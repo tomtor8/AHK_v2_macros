@@ -301,6 +301,15 @@ SetWorkingDir A_ScriptDir
   }
 }
 
+:Oc:ue:: {
+  try {
+    Run("uterus_EmCa.ahk")
+  } catch as Err {
+    MsgBox("The script for uterus endometrial carcinoma report was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :O:pc:: {
   try {
     Run("prostata_ca.ahk")
