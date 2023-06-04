@@ -29,17 +29,18 @@ Ute.Add("Radio", "Checked", "nie")
 Ute.SetFont("bold")
 Ute.Add("Text", , "Infiltrácia cervixu")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vCerInf Choose1 AltSubmit", ["bez infiltrácie", "iba sliznica", "cervikálna stróma"])
+CerInfCheck := Ute.Add("DDL", "vCerInf Choose1 AltSubmit", ["bez infiltrácie", "iba sliznica", "cervikálna stróma"])
+CerInfCheck.OnEvent("Change", Disabler)
 ; cervikálne okraje
 Ute.SetFont("bold")
 Ute.Add("Text", , "Vzd. od paracervik. okraja")
 Ute.SetFont("norm")
-Ute.Add("Edit", "vDistParacer", "10")
+DistParacerCheck := Ute.Add("Edit", "vDistParacer Disabled", "10")
 Ute.Add("Text", "yp", "mm")
 Ute.SetFont("bold")
 Ute.Add("Text", "xm", "Vzd. od vagin. okraja")
 Ute.SetFont("norm")
-Ute.Add("Edit", "vDistVagin", "10")
+DistVaginCheck := Ute.Add("Edit", "vDistVagin Disabled", "10")
 Ute.Add("Text", "yp", "mm")
 ; istmus
 Ute.SetFont("bold")
@@ -60,20 +61,21 @@ Ute.Add("DDL", "vCaGrade Choose1", ["1", "2", "3", "X"])
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Infiltrácia")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vCaInf Choose1", ["sliznice", "<1/2 myometria", ">1/2 myometria"])
+CaInfCheck := Ute.Add("DDL", "vCaInf Choose2", ["endometria", "<1/2 myometria", ">1/2 myometria"])
+CaInfCheck.OnEvent("Change", Disabler2)
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Hĺbka invázie")
 Ute.SetFont("norm")
-Ute.Add("Edit", "Section vMyomDepth w30", "5")
+MyomDepthCheck := Ute.Add("Edit", "Section vMyomDepth w30", "5")
 Ute.Add("Text", "yp", "mm")
 Ute.SetFont("bold")
 Ute.Add("Text", "xs", "Hrúbka myometria")
 Ute.SetFont("norm")
-Ute.Add("Edit", "vMyomThick", "15")
+MyomThickCheck := Ute.Add("Edit", "vMyomThick", "15")
 Ute.Add("Text", "yp", "mm")
 Ute.Add("Text", "xs", "Vzdialenosť od serózy")
 Ute.SetFont("norm")
-Ute.Add("Edit", "vDistSer", "10")
+DistSerCheck := Ute.Add("Edit", "vDistSer", "10")
 Ute.Add("Text", "yp", "mm")
 ; seróza
 Ute.SetFont("bold")
@@ -121,10 +123,51 @@ Ute.OnEvent("Close", Closing)
 Ute.OnEvent("Escape", Closing)
 Ute.Show() ; show window
 
+; disable infiltration fields
+Disabler(*)
+{
+  if (CerInfCheck.Value != 1)
+  {
+    DistParacerCheck.Opt("-Disabled")
+    DistVaginCheck.Opt("-Disabled")
+  }
+  else
+  {
+    DistParacerCheck.Opt("+Disabled")
+    DistVaginCheck.Opt("+Disabled")
+  }
+}
+
+Disabler2(*)
+{
+  if (CaInfCheck.Value = 1)
+  {
+    MyomDepthCheck.Opt("+Disabled")
+    MyomThickCheck.Opt("+Disabled")
+    DistSerCheck.Opt("+Disabled")
+  }
+  else
+  {
+    MyomDepthCheck.Opt("-Disabled")
+    MyomThickCheck.Opt("-Disabled")
+    DistSerCheck.Opt("-Disabled")
+  }
+}
+
 ; main function
 UterusFun(*)
 {
-  Saved := Ute.Submit() ; zero is NOHIDE
+  Saved := Ute.Submit(0) ; zero is NOHIDE
+  CheckedValueNames := ["Vzdialenosť od paracervikálneho okraja", "Vzdialenosť od vaginálneho okraja", "Hĺbka invázie", "Hrúbka myometria", "Vzdialenosť od serózy"]
+  ValuesToCheck := [Saved.DistParacer, Saved.DistVagin, Saved.MyomDepth, Saved.MyomThick, Saved.DistSer]
+
+  ; check fields, if function returns 1, return, else go on
+  CheckPoint := RegexCheckFields(CheckedValueNames, ValuesToCheck)
+  if (CheckPoint = 1)
+    Return
+
+  Ute.Hide()
+
 
   report := "[I]Uterus:[/I]`nPortio vyšetrené cirkumferentne v 4 kvadrantoch`n"
 
