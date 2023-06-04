@@ -51,12 +51,13 @@ Ute.Add("DDL", "vIstInf Choose1 AltSubmit", ["bez infiltrácie", "iba sliznica",
 Ute.SetFont("bold")
 Ute.Add("Text", "ym", "Typ karcinómu")
 Ute.SetFont("norm")
-Ute.Add("ComboBox", "vCaType Choose1 AltSubmit", ["endometrioidný", "serózny", "clear cell", "karcinosarkóm", "nediferencovaný"])
+CaTypeCheck := Ute.Add("ComboBox", "vCaType Choose1 AltSubmit", ["endometrioidný", "serózny", "clear cell", "karcinosarkóm", "nediferencovaný"])
+CaTypeCheck.OnEvent("Change", Disabler3)
 ; grade
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Grade")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vCaGrade Choose1", ["1", "2", "3", "X"])
+CaGradeCheck := Ute.Add("DDL", "vCaGrade Choose1", ["1", "2", "3", "X"])
 ; depth of invasion
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Infiltrácia")
@@ -66,12 +67,12 @@ CaInfCheck.OnEvent("Change", Disabler2)
 Ute.SetFont("bold")
 Ute.Add("Text", "xp", "Hĺbka invázie")
 Ute.SetFont("norm")
-MyomDepthCheck := Ute.Add("Edit", "Section vMyomDepth w30", "5")
+MyomDepthCheck := Ute.Add("Edit", "Section vMyomDepth Number w30", "5")
 Ute.Add("Text", "yp", "mm")
 Ute.SetFont("bold")
 Ute.Add("Text", "xs", "Hrúbka myometria")
 Ute.SetFont("norm")
-MyomThickCheck := Ute.Add("Edit", "vMyomThick", "15")
+MyomThickCheck := Ute.Add("Edit", "vMyomThick Number", "15")
 Ute.Add("Text", "yp", "mm")
 Ute.Add("Text", "xs", "Vzdialenosť od serózy")
 Ute.SetFont("norm")
@@ -107,7 +108,7 @@ Ute.Add("DDL", "vEndomPol Choose1 AltSubmit", ["nie", "jeden", "viacero"])
 Ute.SetFont("bold")
 Ute.Add("Text", , "Myómy")
 Ute.SetFont("norm")
-Ute.Add("DDL", "vMyom Choose1 AltSubmit", ["nie", "jeden", "viacero"])
+Ute.Add("DDL", "vMyom Choose3 AltSubmit", ["jeden", "viacero", "nie"])
 ; adenomyóza
 Ute.SetFont("bold")
 Ute.Add("Text", , "Adenomyóza")
@@ -126,10 +127,15 @@ Ute.Show() ; show window
 ; disable infiltration fields
 Disabler(*)
 {
-  if (CerInfCheck.Value != 1)
+  if (CerInfCheck.Value = 3)
   {
     DistParacerCheck.Opt("-Disabled")
     DistVaginCheck.Opt("-Disabled")
+  }
+  else if (CerInfCheck.Value = 2)
+  {
+    DistVaginCheck.Opt("-Disabled")
+    DistParacerCheck.Opt("+Disabled")
   }
   else
   {
@@ -154,12 +160,45 @@ Disabler2(*)
   }
 }
 
+Disabler3(*)
+{
+  if (CaTypeCheck.Value != 1)
+  {
+    CaGradeCheck.Opt("+Disabled")
+    CaGradeCheck.Value := 4
+  }
+  else
+  {
+    CaGradeCheck.Opt("-Disabled")
+  }
+}
+
 ; main function
 UterusFun(*)
 {
   Saved := Ute.Submit(0) ; zero is NOHIDE
   CheckedValueNames := ["Vzdialenosť od paracervikálneho okraja", "Vzdialenosť od vaginálneho okraja", "Hĺbka invázie", "Hrúbka myometria", "Vzdialenosť od serózy"]
   ValuesToCheck := [Saved.DistParacer, Saved.DistVagin, Saved.MyomDepth, Saved.MyomThick, Saved.DistSer]
+
+  InfPercent := Round((Saved.MyomDepth / Saved.MyomThick) * 100, 0)
+
+  if (Saved.CaType = 1 and Saved.CaGrade = "X")
+  {
+    MsgBox("Endometrioidný adenokarcinóm musím mať uvedený grade!", "Upozornenie", 48)
+    Return
+  }
+
+  if (Saved.MyomDepth > Saved.MyomThick)
+  {
+    MsgBox("Hĺbka invázie nesmie byť väčšia ako hrúbka myometria!", "Upozornenie", 48)
+    Return
+  }
+
+  if (InfPercent > 50 and Saved.CaInf != 3)
+  {
+    MsgBox("Hĺbka invázie by mala byť viac ako 1/2 hrúbky myometria!", "Upozornenie", 48)
+    Return
+  }
 
   ; check fields, if function returns 1, return, else go on
   CheckPoint := RegexCheckFields(CheckedValueNames, ValuesToCheck)
@@ -191,9 +230,9 @@ UterusFun(*)
     case 1:
       report .= "`n- bez nádorových a iných podstatnejších histologických zmien."
     case 2:
-      report .= "`n- prítomné prejavy povrchovej nádorovej invázie cervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho adenokarcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
+      report .= "`n- prítomné prejavy povrchovej nádorovej invázie cervikálnej sliznice štruktúrami nižšie uvedeného endometriálneho karcinómu, avšak bez nádorovej invázie cervikálnej strómy" . CerDistReport1 . "."
     case 3:
-      report .= "`n- prítomné prejavy nádorovej invázie cervikálnej strómy štruktúrami nižšie uvedeného endometriálneho adenokarcinómu" . CerDistReport1 . CerDistReport2 . "."
+      report .= "`n- prítomné prejavy nádorovej invázie cervikálnej strómy štruktúrami nižšie uvedeného endometriálneho karcinómu" . CerDistReport1 . CerDistReport2 . "."
 
   }
 
@@ -227,8 +266,6 @@ UterusFun(*)
     report .= "[/B]`n- grade neaplikovateľný"
   else
     report .= "[/B]`n- grade " . Saved.CaGrade
-
-  InfPercent := Round((Saved.MyomDepth / Saved.MyomThick) * 100, 0)
 
   switch Saved.CaInf {
     case 1:
