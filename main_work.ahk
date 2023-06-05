@@ -107,3 +107,18 @@ CapsLock:: {
   Send("{Raw}[U][/U]")
   Send("{Left 4}")
 }
+
+; center window and adjust proportions
+; A stands for active window
+#!h:: {
+  MonitorGetWorkArea 1, &WL, &WT, &WR, &WB
+  WinMove (WR * 0.15), (WB * 0.1), (WR * 0.7), (WB * 0.8), "A"
+}
+
+; center window and leave proportions
+#!g:: {
+  ; get original width and height of the active window
+  WinGetPos , , &Width, &Height, "A"
+  MonitorGetWorkArea 1, &WL, &WT, &WR, &WB
+  WinMove (WR / 2) - (Width / 2), (WB / 2) - (Height / 2), , , "A"
+}
