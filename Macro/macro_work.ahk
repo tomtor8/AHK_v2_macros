@@ -117,6 +117,30 @@ SetWorkingDir A_ScriptDir
 
 :cO:tl::Tukovolymfatické tkanivo veľkosti cca  mm.{Left 4}
 
+
+/*
+****************************** GIT **************************************
+*/
+
+:cO:ch:: {
+  Sleep 500
+  Answer1 := InputBox("Veľkosť žlčníka?", "Cholecysta", "w300 h100", "70 × 40")
+  Sleep 500
+  Answer2 := InputBox("Akej farby je sliznica?", "Cholecysta", "w300 h100", "zelenej")
+  Sleep 500
+  Answer3 := InputBox("Jahoda? a / n", "Cholecysta", "w300 h100", "n")
+  Sleep 500
+  Answer4 := InputBox("Stena zhrubnutá? a / n", "Cholecysta", "w300 h100", "n")
+  Sleep 500
+  Report := "Cholecysta veľkosti cca " . Answer1.value . " mm, "
+  Report .= (Answer4.value = "n") ? "stena primeranej hrúbky, " : "stena zhrubnutá, tuhoelastickej konzistencie, "
+  Report .= "sliznica " . Answer2.value . " farby, "
+  Report .= (Answer3.value = "n") ? "bez ložiskových zmien." : "s početnými žltými plošnými bodkovitými ložiskami."
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK")
+    AddToClipboard(Report)
+}
+
+
 /*
 ****************************** OTHER **************************************
 */
