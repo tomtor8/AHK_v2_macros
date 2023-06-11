@@ -153,6 +153,41 @@ SetWorkingDir A_ScriptDir
 :cO:tl::Tukovolymfatické tkanivo veľkosti cca  mm.{Left 4}
 
 
+:cO:pr:: {
+  Sleep 500
+  Answer1 := InputBox("Celková veľkosť mliečnej žľazy v mm?", "Kvadrant", "w300 h100", "70 × 40 × 30")
+  Sleep 500
+  Answer2 := InputBox("Veľkosť tumoru?", "Kvadrant", "w300 h100", "15 × 10")
+  Sleep 500
+  Answer3 := InputBox("Vzdialenosť od najbližšieho okraja?", "Kvadrant", "w300 h100", "5")
+  Sleep 500
+  Answer4 := InputBox("Od ktorého okraja je najbližšie", "Cholecysta", "w300 h100", "dorzálneho")
+  Sleep 500
+  Report := Format("Tkanivo mliečnej žľazy veľkosti cca {1} mm, označené 1 stehom / bez označenia stehom, s priľahlým nenápadným kožným krytom veľkosti cca  mm / bez kožného krytu. Na reznej ploche prítomné jedno neostro dobre ohraničené ložisko sivobelavej farby, tuhej tuhoelastickej konzistencie, veľkosti cca {2} mm. Ložisko je vzdialené od najbližšieho resekčného okraja ({4}) makroskopicky {3} mm.", Answer1.value, Answer2.value, Answer3.value, Answer4.value)
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
+    AddToClipboard(Report)
+}
+
+:cO:pR:: {
+  Sleep 500
+  Answer1 := InputBox("Lateralita?", "Prsník", "w300 h100", "Ľavý")
+  Sleep 500
+  Answer2 := InputBox("Celková veľkosť prsníka v mm?", "Prsník", "w300 h100", "180 × 150 × 30")
+  Sleep 500
+  Answer3 := InputBox("Veľkosť kožného krytu v mm?", "Prsník", "w300 h100", "170 × 140")
+  Sleep 500
+  Answer4 := InputBox("Veľkosť tumoru?", "Prsník", "w300 h100", "25 × 20")
+  Sleep 500
+  Answer5 := InputBox("V ktorej oblasti sa nachádza tumor?", "Prsník", "w300 h100", "horného laterálneho kvadrantu")
+  Sleep 500
+  Answer6 := InputBox("Vzdialenosť od najbližšieho okraja?", "Prsník", "w300 h100", "10")
+  Sleep 500
+
+  Report := Format("{1} prsník veľkosti cca {2} mm, kožný kryt veľkosti cca {3} mm, nenápadný. Na reze v oblasti {5} prítomné neostro ohraničené ložisko sivožltej farby, veľkosti cca {4} mm, vzdialené od najbližšieho okraja (zadnej fascie) cca {6} mm. Zvyšné tkanivo mliečnej žľazy bez iných makroskopicky zreteľných zmien.", Answer1.value, Answer2.value, Answer3.value, Answer4.value, Answer5.value, Answer6.value)
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK" and Answer5.result = "OK" and Answer6.result = "OK")
+    AddToClipboard(Report)
+}
+
 /*
 ****************************** GIT **************************************
 */
