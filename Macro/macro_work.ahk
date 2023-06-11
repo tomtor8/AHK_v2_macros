@@ -29,6 +29,7 @@ SetWorkingDir A_ScriptDir
 :cO:ba:: {
   Sleep 500
   Answer := InputBox("Veľkosť kože?", "Bazalióm", "w300 h100", "15 × 8")
+  Sleep 500
   Report := Format("Excízia kože veľkosti cca {1} mm, povrch belavý, mierne hrboľatý.", Answer.value)
   If (Answer.result = "OK")
     AddToClipboard(Report)
@@ -40,7 +41,9 @@ SetWorkingDir A_ScriptDir
 :cO:cE:: {
   Sleep 500
   Answer1 := InputBox("Veľkosť kože?", "Cysta", "w300 h100", "10 × 5")
+  Sleep 500
   Answer2 := InputBox("Priemer cysty?", "Cysta", "w300 h100", "10")
+  Sleep 500
   Report := Format("Excízia kože veľkosti cca {1} mm, na reze s cystickým útvarom priemeru {2} mm, vyplneným belavým kašovitým obsahom.", Answer1.value, Answer2.value)
   If (Answer1.result = "OK" and Answer2.result = "OK")
     AddToClipboard(Report)
@@ -62,6 +65,7 @@ SetWorkingDir A_ScriptDir
 :cO:sl:: {
   Sleep 500
   Answer := InputBox("Veľkosť žľazy?", "Slinná žľaza", "w300 h100", "70 × 40 × 25")
+  Sleep 500
   Report := Format("Slinná žľaza veľkosti cca {1} mm, svetlohnedej farby. Na reze tkanivo žľazy farby povrchu, primerane lobulizované, bez makroskopicky zreteľných ložísk.", Answer.value)
   If (Answer.result = "OK")
     AddToClipboard(Report)
@@ -70,10 +74,15 @@ SetWorkingDir A_ScriptDir
 :cO:sL:: {
   Sleep 500
   Answer1 := InputBox("Veľkosť slinnej žľazy?", "Slinná žľaza tumor", "w300 h100", "50 × 30 × 20")
+  Sleep 500
   Answer2 := InputBox("Veľkosť tumoru?", "Slinná žľaza tumor", "w300 h100", "20 × 20 × 15")
+  Sleep 500
   Answer3 := InputBox("Akej farby je tumor?", "Slinná žľaza tumor", "w300 h100", "sivobelavej")
+  Sleep 500
   Answer4 := InputBox("Akej konzistencie je tumor?", "Slinná žľaza tumor", "w300 h100", "tuhej")
+  Sleep 500
   Answer5 := InputBox("Solídneho alebo solídno-cystického charakteru?", "Slinná žľaza tumor", "w300 h100", "solídneho")
+  Sleep 500
   Report := Format("Slinná žľaza veľkosti cca {1} mm, svetlohnedej farby. Na reze prítomné jedno dobre ohraničené ložisko {5} charakteru, {3} farby, {4} konzistencie, veľkosti cca {2} mm.", Answer1.value, Answer2.value, Answer3.value, Answer4.value, Answer5.value)
   If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK" and Answer5.result = "OK")
     AddToClipboard(Report)
@@ -82,7 +91,9 @@ SetWorkingDir A_ScriptDir
 :cO:hr:: {
   Sleep 500
   Answer1 := InputBox("Veľkosť hrtana?", "Hrtan s tumorom", "w300 h100", "50 × 30 × 20")
+  Sleep 500
   Answer2 := InputBox("Veľkosť tumoru?", "Hrtan s tumorom", "w300 h100", "30 × 20")
+  Sleep 500
   Report := Format("Hrtan veľkosti cca {1} mm, s pravým lalokom štítnej žľazy veľkosti cca 40 × 25 × 20 mm. Štítna žľaza na reze bez ložiskových zmien. V glotickej a subglotickej oblasti vpravo prítomný sivobelavý tumor veľkosti cca {2} mm, makroskopicky bez zreteľnej infiltrácie kartilaginóznych štruktúr laryngu. Vzdialenosť novotvaru od resekčných okrajov je ... mm distálne, proximálne... Extralaryngeálne mäkké tkanivá makroskopicky bez nádorovej infiltrácie.", Answer1.value, Answer2.value)
   If (Answer1.result = "OK" and Answer2.result = "OK")
     AddToClipboard(Report)
@@ -116,9 +127,13 @@ SetWorkingDir A_ScriptDir
 :cO:ax:: {
   Sleep 500
   Answer1 := InputBox("Pravé alebo ľavé?", "Adnexá", "w300 h100", "Pravé")
+  Sleep 500
   Answer2 := InputBox("Veľkosť ovária?", "Adnexá", "w300 h100", "25 × 20 × 15")
+  Sleep 500
   Answer3 := InputBox("Dĺžka tuby?", "Adnexá", "w300 h100", "50")
+  Sleep 500
   Answer4 := InputBox("Hrúbka tuby?", "Adnexá", "w300 h100", "5")
+  Sleep 500
   Report := Format("{1} adnexá: Ovárium veľkosti cca {2} mm, primeraného tvaru, povrch zbrázdený, žltobelavý, na reze bez ložiskových zmien. Priľahlá tuba dĺžky cca {3} mm, hrúbky cca {4} mm, hnedastej farby, bez ložiskových zmien.", Answer1.value, Answer2.value, Answer3.value, Answer4.value)
   If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
     AddToClipboard(Report)
@@ -127,7 +142,9 @@ SetWorkingDir A_ScriptDir
 :cO:ut:: {
   Sleep 500
   Answer1 := InputBox("Veľkosť maternice?", "Uterus", "w300 h100", "90 × 60 × 40")
+  Sleep 500
   Answer2 := InputBox("Farba endometria?", "Uterus", "w300 h100", "ružovobelavé")
+  Sleep 500
   Report := Format("Uterus veľkosti cca {1} mm, primeraného tvaru, seróza hnedá, hladká, portio belavé, hladké, endocervikálny kanál voľný. Endometrium {2}, bez ložiskových zmien, myometrium bez ložiskových zmien.", Answer1.value, Answer2.value)
   If (Answer1.result = "OK" and Answer2.result = "OK")
     AddToClipboard(Report)
@@ -191,6 +208,31 @@ SetWorkingDir A_ScriptDir
   Report .= "seróza  " . Answer3.value . " farby, zdrsnená, stena na reze farby povrchu, "
   Report .= (Answer4.value = "n") ? "lúmen neostro konturovaný, bez ložiskových zmien." : "lúmen neostro konturovaný, segmentálne obliterovaný, bez iných ložiskových zmien."
   If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
+    AddToClipboard(Report)
+}
+
+
+:cO:hc:: {
+  Sleep 500
+  Answer1 := InputBox("Dĺžka čreva v mm?", "Hrubé črevo tumor", "w300 h100", "200")
+  Sleep 500
+
+  Report := Format("Resekát segmentu hrubého čreva dĺžky cca {1} mm, seróza hladká, nenarušená, hnedastá. Po narezaní čreva intraluminálne vo vzdialenosti cca  mm od proximálneho resekčného okraja, cca  mm od distálneho resekčného okraja a cca  mm od radiálneho resekčného okraja prítomné tumorózne ložisko sivobelavej farby, miskovitého / polypoidného tvaru, veľkosti cca  mm, cirkulárne rastúce, postihujúce segment črevnej steny dĺžky cca  mm. Ložisko na reze infiltruje transmurálne do perikolického tukového tkaniva. Perikolické tukové tkanivo oddelené do Carnoyovho roztoku.", Answer1.value)
+  If (Answer1.result = "OK")
+    AddToClipboard(Report)
+}
+
+
+:cO:hC:: {
+  Sleep 500
+  Answer1 := InputBox("Dĺžka hrubého čreva v mm?", "Pravostranné hrubé črevo tumor", "w300 h100", "500")
+  Sleep 500
+  Answer2 := InputBox("Dĺžka terminálneho ilea v mm?", "Pravostranné hrubé črevo tumor", "w300 h100", "50")
+  Sleep 500
+  Answer3 := InputBox("Dĺžka apendixu v mm?", "Pravostranné hrubé črevo tumor", "w300 h100", "70")
+  Sleep 500
+  Report := Format("Resekát segmentu hrubého čreva dĺžky cca {1} mm a priľahlého terminálneho ilea dĺžky cca {2} mm. Appendix vermiformis dĺžky cca {3} mm, makroskopicky nenápadný. Seróza čreva hladká, nenarušená, hnedastá. Po narezaní intraluminálne v hrubom čreve vo vzdialenosti cca  mm od proximálneho resekčného okraja, cca  mm od distálneho resekčného okraja a cca  mm od radiálneho resekčného okraja prítomné tumorózne ložisko sivobelavej farby, miskovitého / polypoidného tvaru, veľkosti cca  mm, cirkulárne rastúce, postihujúce segment črevnej steny dĺžky cca  mm. Ložisko na reze infiltruje transmurálne do perikolického tukového tkaniva. Perikolické tukové tkanivo oddelené do Carnoyovho roztoku.", Answer1.value, Answer2.value, Answer3.value)
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK")
     AddToClipboard(Report)
 }
 
