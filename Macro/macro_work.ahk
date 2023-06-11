@@ -28,7 +28,7 @@ SetWorkingDir A_ScriptDir
 
 :cO:ba:: {
   Sleep 500
-  Answer := InputBox("Veľkosť kože?", "Bazalióm", "w300 h100", "15x8")
+  Answer := InputBox("Veľkosť kože?", "Bazalióm", "w300 h100", "15 × 8")
   Report := Format("Excízia kože veľkosti cca {1} mm, povrch belavý, mierne hrboľatý.", Answer.value)
   If (Answer.result = "OK")
     AddToClipboard(Report)
@@ -39,7 +39,7 @@ SetWorkingDir A_ScriptDir
 
 :cO:cE:: {
   Sleep 500
-  Answer1 := InputBox("Veľkosť kože?", "Cysta", "w300 h100", "10x5")
+  Answer1 := InputBox("Veľkosť kože?", "Cysta", "w300 h100", "10 × 5")
   Answer2 := InputBox("Priemer cysty?", "Cysta", "w300 h100", "10")
   Report := Format("Excízia kože veľkosti cca {1} mm, na reze s cystickým útvarom priemeru {2} mm, vyplneným belavým kašovitým obsahom.", Answer1.value, Answer2.value)
   If (Answer1.result = "OK" and Answer2.result = "OK")
@@ -69,8 +69,8 @@ SetWorkingDir A_ScriptDir
 
 :cO:sL:: {
   Sleep 500
-  Answer1 := InputBox("Veľkosť slinnej žľazy?", "Slinná žľaza tumor", "w300 h100", "50x30x20")
-  Answer2 := InputBox("Veľkosť tumoru?", "Slinná žľaza tumor", "w300 h100", "20x20x15")
+  Answer1 := InputBox("Veľkosť slinnej žľazy?", "Slinná žľaza tumor", "w300 h100", "50 × 30 × 20")
+  Answer2 := InputBox("Veľkosť tumoru?", "Slinná žľaza tumor", "w300 h100", "20 × 20 × 15")
   Answer3 := InputBox("Akej farby je tumor?", "Slinná žľaza tumor", "w300 h100", "sivobelavej")
   Answer4 := InputBox("Akej konzistencie je tumor?", "Slinná žľaza tumor", "w300 h100", "tuhej")
   Answer5 := InputBox("Solídneho alebo solídno-cystického charakteru?", "Slinná žľaza tumor", "w300 h100", "solídneho")
@@ -81,9 +81,9 @@ SetWorkingDir A_ScriptDir
 
 :cO:hr:: {
   Sleep 500
-  Answer1 := InputBox("Veľkosť hrtana?", "Hrtan s tumorom", "w300 h100", "50x30x20")
-  Answer2 := InputBox("Veľkosť tumoru?", "Hrtan s tumorom", "w300 h100", "30x20")
-  Report := Format("Hrtan veľkosti cca {1} mm, s pravým lalokom štítnej žľazy veľkosti cca 40x25x20 mm. Štítna žľaza na reze bez ložiskových zmien. V glotickej a subglotickej oblasti vpravo prítomný sivobelavý tumor veľkosti cca {2} mm, makroskopicky bez zreteľnej infiltrácie kartilaginóznych štruktúr laryngu. Vzdialenosť novotvaru od resekčných okrajov je ... mm distálne, proximálne... Extralaryngeálne mäkké tkanivá makroskopicky bez nádorovej infiltrácie.", Answer1.value, Answer2.value)
+  Answer1 := InputBox("Veľkosť hrtana?", "Hrtan s tumorom", "w300 h100", "50 × 30 × 20")
+  Answer2 := InputBox("Veľkosť tumoru?", "Hrtan s tumorom", "w300 h100", "30 × 20")
+  Report := Format("Hrtan veľkosti cca {1} mm, s pravým lalokom štítnej žľazy veľkosti cca 40 × 25 × 20 mm. Štítna žľaza na reze bez ložiskových zmien. V glotickej a subglotickej oblasti vpravo prítomný sivobelavý tumor veľkosti cca {2} mm, makroskopicky bez zreteľnej infiltrácie kartilaginóznych štruktúr laryngu. Vzdialenosť novotvaru od resekčných okrajov je ... mm distálne, proximálne... Extralaryngeálne mäkké tkanivá makroskopicky bez nádorovej infiltrácie.", Answer1.value, Answer2.value)
   If (Answer1.result = "OK" and Answer2.result = "OK")
     AddToClipboard(Report)
 }
@@ -98,7 +98,7 @@ SetWorkingDir A_ScriptDir
 :cO:ax:: {
   Sleep 500
   Answer1 := InputBox("Pravé alebo ľavé?", "Adnexá", "w300 h100", "Pravé")
-  Answer2 := InputBox("Veľkosť ovária?", "Adnexá", "w300 h100", "25x20x15")
+  Answer2 := InputBox("Veľkosť ovária?", "Adnexá", "w300 h100", "25 × 20 × 15")
   Answer3 := InputBox("Dĺžka tuby?", "Adnexá", "w300 h100", "50")
   Answer4 := InputBox("Hrúbka tuby?", "Adnexá", "w300 h100", "5")
   Report := Format("{1} adnexá: Ovárium veľkosti cca {2} mm, primeraného tvaru, povrch zbrázdený, žltobelavý, na reze bez ložiskových zmien. Priľahlá tuba dĺžky cca {3} mm, hrúbky cca {4} mm, hnedastej farby, bez ložiskových zmien.", Answer1.value, Answer2.value, Answer3.value, Answer4.value)
@@ -108,7 +108,7 @@ SetWorkingDir A_ScriptDir
 
 :cO:ut:: {
   Sleep 500
-  Answer1 := InputBox("Veľkosť maternice?", "Uterus", "w300 h100", "90x60x40")
+  Answer1 := InputBox("Veľkosť maternice?", "Uterus", "w300 h100", "90 × 60 × 40")
   Answer2 := InputBox("Farba endometria?", "Uterus", "w300 h100", "ružovobelavé")
   Report := Format("Uterus veľkosti cca {1} mm, primeraného tvaru, seróza hnedá, hladká, portio belavé, hladké, endocervikálny kanál voľný. Endometrium {2}, bez ložiskových zmien, myometrium bez ložiskových zmien.", Answer1.value, Answer2.value)
   If (Answer1.result = "OK" and Answer2.result = "OK")
@@ -136,10 +136,45 @@ SetWorkingDir A_ScriptDir
   Report .= (Answer4.value = "n") ? "stena primeranej hrúbky, " : "stena zhrubnutá, tuhoelastickej konzistencie, "
   Report .= "sliznica " . Answer2.value . " farby, "
   Report .= (Answer3.value = "n") ? "bez ložiskových zmien." : "s početnými žltými plošnými bodkovitými ložiskami."
-  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK")
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
     AddToClipboard(Report)
 }
 
+:cO:ap:: {
+  Sleep 500
+  Answer1 := InputBox("Dĺžka apendixu v mm?", "Apendix", "w300 h100", "80")
+  Sleep 500
+  Answer2 := InputBox("Hrúbka apendixu v mm?", "Apendix", "w300 h100", "7")
+  Sleep 500
+  Answer3 := InputBox("Seróza je akej farby?", "Apendix", "w300 h100", "svetlohnedej")
+  Sleep 500
+  Answer4 := InputBox("Lúmen obliterovaný? a / n", "Apendix", "w300 h100", "n")
+  Sleep 500
+
+  Report := "Appendix vermiformis dĺžky cca " . Answer1.value . " mm, hrúbky cca " . Answer2.value . " mm, "
+  Report .= "seróza  " . Answer3.value . " farby, hladká, stena na reze farby povrchu, "
+  Report .= (Answer4.value = "n") ? "lúmen ostro konturovaný, bez ložiskových zmien." : "lúmen segmentálne obliterovaný, bez iných ložiskových zmien."
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
+    AddToClipboard(Report)
+}
+; apendix zápal
+:cO:aP:: {
+  Sleep 500
+  Answer1 := InputBox("Dĺžka apendixu v mm?", "Apendix", "w300 h100", "80")
+  Sleep 500
+  Answer2 := InputBox("Hrúbka apendixu v mm?", "Apendix", "w300 h100", "7")
+  Sleep 500
+  Answer3 := InputBox("Seróza je akej farby?", "Apendix", "w300 h100", "žltohnedej")
+  Sleep 500
+  Answer4 := InputBox("Lúmen obliterovaný? a / n", "Apendix", "w300 h100", "n")
+  Sleep 500
+
+  Report := "Appendix vermiformis dĺžky cca " . Answer1.value . " mm, hrúbky cca " . Answer2.value . " mm, "
+  Report .= "seróza  " . Answer3.value . " farby, zdrsnená, stena na reze farby povrchu, "
+  Report .= (Answer4.value = "n") ? "lúmen neostro konturovaný, bez ložiskových zmien." : "lúmen neostro konturovaný, segmentálne obliterovaný, bez iných ložiskových zmien."
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
+    AddToClipboard(Report)
+}
 
 /*
 ****************************** OTHER **************************************
