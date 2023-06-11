@@ -61,7 +61,7 @@ SetWorkingDir A_ScriptDir
 
 :cO:sl:: {
   Sleep 500
-  Answer := InputBox("Veľkosť žľazy?", "Slinná žľaza", "w300 h100",)
+  Answer := InputBox("Veľkosť žľazy?", "Slinná žľaza", "w300 h100", "70 × 40 × 25")
   Report := Format("Slinná žľaza veľkosti cca {1} mm, svetlohnedej farby. Na reze tkanivo žľazy farby povrchu, primerane lobulizované, bez makroskopicky zreteľných ložísk.", Answer.value)
   If (Answer.result = "OK")
     AddToClipboard(Report)
@@ -91,6 +91,24 @@ SetWorkingDir A_ScriptDir
 /*
 ****************************** GYNDA **************************************
 */
+
+:cO:kn:: {
+  Sleep 500
+  Answer1 := InputBox("Veľkosť konizátu?", "Konizát", "w300 h100", "20 × 20 × 10")
+  Sleep 500
+  Answer2 := InputBox("Akej farby je sliznica?", "Konizát", "w300 h100", "belavej")
+  Sleep 500
+  Answer3 := InputBox("Textúra sliznice? hladká / zrnitá ?", "Konizát", "w300 h100", "hladká")
+  Sleep 500
+  Answer4 := InputBox("Označený stehom? a / n", "Konizát", "w300 h100", "a")
+  Sleep 500
+  Report := "Konizát veľkosti cca " . Answer1.value . " mm, "
+  Report .= (Answer4.value = "a") ? "označený stehom, " : ""
+  Report .= "sliznica " . Answer2.value . " farby, " . Answer3.value . ", bez ložiskových zmien."
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
+    AddToClipboard(Report)
+}
+
 
 :cO:ke::Hlienistý žltobelavý fragmentovaný materiál veľkosti cca  mm.{Left 4}
 :cO:kE::Hnedočervený fragmentovaný materiál veľkosti cca  mm.{Left 4}
@@ -184,6 +202,22 @@ SetWorkingDir A_ScriptDir
 
 :cO:pb::Belavý polypoidný útvar priemeru cca  mm.{Left 4}
 :cO:ph::Hnedastý polypoidný útvar priemeru cca  mm.{Left 4}
+
+; fragmentovaný materiál
+:cO:fr:: {
+  Sleep 500
+  Answer1 := InputBox("Veľkosť materiálu?", "Fragmenty", "w300 h100", "20 × 10")
+  Sleep 500
+  Answer2 := InputBox("Akej farby je materiál?", "Fragmenty", "w300 h100", "hnedastej")
+  Sleep 500
+  Answer3 := InputBox("Akej konzistencie je materiál?", "Fragmenty", "w300 h100", "tuhoelastickej")
+  Sleep 500
+
+  Report := Format("Fragmentovaný materiál nepravidelného tvaru, veľkosti cca {1} mm, {2} farby, {3} konzistencie.", Answer1.value, Answer2.value, Answer3.value)
+  If (Answer1.result = "OK" and Answer2.result = "OK")
+    AddToClipboard(Report)
+}
+
 
 AddToClipboard(MyText)
 {
