@@ -171,3 +171,79 @@ CapsLock:: {
   ; restore the old clipboard
   A_Clipboard := oldClipboard
 }
+
+; turn blocks of sentences to unordered lists
+^+l::
+{
+  oldClipboard := ClipboardAll()
+  ; ; empty the current clipboard
+  A_Clipboard := ""
+  Send "^c"
+  ; if wait is longer than 2 seconds, false
+  If !ClipWait(2) {
+    MsgBox("The attempt to copy text onto the clipboard failed.")
+    Return
+  }
+
+  finalversion := ""
+  ; get the sentences from a block
+  loop parse, A_Clipboard, "`n", "`r"
+  {
+    ;remove spaces in front of the sentence
+    sentence := RegExReplace(A_LoopField, "^\s+", "")
+    ; make lowercase the first letter, $L1 means lowercase the captured text
+    sentence := RegExReplace(sentence, "^(\w)", "$L1")
+    ;remove dot at the end
+    sentence := RegExReplace(sentence, "\.$", "")
+    finalversion .= "`n- " . sentence
+  }
+
+  ; remove the first newline character, the last 1 is the limit (only the first occurence is deleted)
+  finalversion := StrReplace(finalversion, "`n", "", , , 1)
+
+  A_Clipboard := finalversion
+  Sleep 500
+  Send "^v"
+  Sleep 500
+  ; restore the old clipboard
+  A_Clipboard := oldClipboard
+}
+
+; turn lists to block of sentences
+^+k::
+{
+  oldClipboard := ClipboardAll()
+  ; ; empty the current clipboard
+  A_Clipboard := ""
+  Send "^c"
+  ; if wait is longer than 2 seconds, false
+  If !ClipWait(2) {
+    MsgBox("The attempt to copy text onto the clipboard failed.")
+    Return
+  }
+
+  finalversion := ""
+  ; get the sentences from a block
+  loop parse, A_Clipboard, "`n", "`r"
+  {
+    ;remove nonword characters in front of the sentence
+    sentence := RegExReplace(A_LoopField, "^\W+", "")
+    ; make uppercase the first letter, $U1 means uppercase the captured text
+    sentence := RegExReplace(sentence, "^(\w)", "$U1")
+    ; add dot only if not present
+    if (SubStr(sentence, -1) = ".")
+      finalversion .= "`n" . sentence
+    else
+      finalversion .= "`n" . sentence . "."
+  }
+
+  ; remove the first newline character, the last 1 is the limit (only the first occurence is deleted)
+  finalversion := StrReplace(finalversion, "`n", "", , , 1)
+
+  A_Clipboard := finalversion
+  Sleep 500
+  Send "^v"
+  Sleep 500
+  ; restore the old clipboard
+  A_Clipboard := oldClipboard
+}
