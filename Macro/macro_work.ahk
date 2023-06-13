@@ -35,6 +35,20 @@ SetWorkingDir A_ScriptDir
     AddToClipboard(Report)
 }
 
+:cO:bA:: {
+  Sleep 500
+  Answer1 := InputBox("Veľkosť kože?", "Bazalióm 2", "w300 h100", "30 × 20")
+  Sleep 500
+  Answer2 := InputBox("Priemer tumoru?", "Bazalióm 2", "w300 h100", "15")
+  Sleep 500
+  Answer3 := InputBox("Farba tumoru?", "Bazalióm 2", "w300 h100", "belavým")
+  Sleep 500
+  Report := Format("Excízia kože veľkosti cca {1} mm, centrálne s prítomným {3} prominujúcim tumorom priemeru cca {2} mm.", Answer1.value, Answer2.value, Answer3.value)
+  If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK")
+    AddToClipboard(Report)
+}
+
+
 :cO:ce::Belavý cystický útvar priemeru cca  mm.{Left 4}
 :cO:ct::Žltobelavý cystický útvar vyplnený tuhým obsahom, priemeru cca  mm.{Left 4}
 
@@ -222,7 +236,7 @@ SetWorkingDir A_ScriptDir
   Sleep 500
 
   Report := "Appendix vermiformis dĺžky cca " . Answer1.value . " mm, hrúbky cca " . Answer2.value . " mm, "
-  Report .= "seróza  " . Answer3.value . " farby, hladká, stena na reze farby povrchu, "
+  Report .= "seróza " . Answer3.value . " farby, hladká, stena na reze farby povrchu, "
   Report .= (Answer4.value = "n") ? "lúmen ostro konturovaný, bez ložiskových zmien." : "lúmen segmentálne obliterovaný, bez iných ložiskových zmien."
   If (Answer1.result = "OK" and Answer2.result = "OK" and Answer3.result = "OK" and Answer4.result = "OK")
     AddToClipboard(Report)
