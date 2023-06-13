@@ -122,3 +122,52 @@ CapsLock:: {
   MonitorGetWorkArea 1, &WL, &WT, &WR, &WB
   WinMove (WR / 2) - (Width / 2), (WB / 2) - (Height / 2), , , "A"
 }
+
+; cleanup script
+^+c::
+{
+  oldClipboard := ClipboardAll()
+  ; ; empty the current clipboard
+  A_Clipboard := ""
+  Send "^c"
+  ; if wait is longer than 2 seconds, false
+  If !ClipWait(2) {
+    MsgBox("The attempt to copy text onto the clipboard failed.")
+    Return
+  }
+
+  replacement := A_Clipboard
+  ; change 4x5 or 4 x 5... to 4 × 5
+  Loop
+  {
+    replacement := RegExReplace(replacement, "(\d)\s*x\s*(\d)", "$1 × $2", &Count)
+    ; count the number of current matches in this loop, if zero, break out
+    if (Count = 0)
+      break
+  }
+
+  ; check double spaces
+  Loop
+  {
+    replacement := StrReplace(replacement, "  ", " ", , &Countofspaces)
+    ; Count the number of current matches in this loop, if zero, break out
+    if (Countofspaces = 0)
+      break
+  }
+
+  ; remove spaces before commas and dots
+  Loop
+  {
+    replacement := RegExReplace(replacement, "\s+(\.|,)", "$1", &Count)
+    ; count the number of current matches in this loop, if zero, break out
+    if (Count = 0)
+      break
+  }
+
+  A_Clipboard := replacement
+  Sleep 500
+  Send "^v"
+  Sleep 500
+  ; restore the old clipboard
+  A_Clipboard := oldClipboard
+}
