@@ -82,6 +82,15 @@ CapsLock:: {
   }
 }
 
+:Oc:hu:: {
+  try {
+    Run("General\fish_unlp_her2.ahk")
+  } catch as Err {
+    MsgBox("The script for FISH HER2 UNLP was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 ; find shortcut
 :O:fs:: {
   try {
