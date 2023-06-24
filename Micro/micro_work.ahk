@@ -35,7 +35,7 @@ SetWorkingDir A_ScriptDir
 :Oc:Bk::Bakterioskopicky
 
 :O:h2:: {
-  Report := "Materiál zasielame na ďalšie vyšetrenie metódou in situ hybridizácie do Martinského bioptického centra, s.r.o. Nález Vám obratom zašleme v dodatku.`n "
+  Report := "Materiál zasielame na ďalšie vyšetrenie metódou in situ hybridizácie na Oddelenie patológie UNLP v Košiciach. Nález Vám obratom zašleme v dodatku.`n "
   AddToClipboard(Report)
 }
 
