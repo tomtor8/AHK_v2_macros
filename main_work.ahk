@@ -82,7 +82,7 @@ CapsLock:: {
   }
 }
 
-:Oc:hu:: {
+:Oc:H2:: {
   try {
     Run("General\fish_unlp_her2.ahk")
   } catch as Err {
