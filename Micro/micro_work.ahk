@@ -79,6 +79,21 @@ SetWorkingDir A_ScriptDir
     AddToClipboard(Report)
 }
 
+:O:rb:: {
+  Sleep 500
+  Answer1 := InputBox("Doručená o ktorej?", "RPOB", "w300 h100", "09:15")
+  Sleep 300
+  Answer2 := InputBox("Hlásená o ktorej?", "RPOB", "w300 h100", "09:30")
+  Sleep 300
+  Report := "[I]Rýchla peroperačná biopsia:[/I]`n"
+  Report .= "Materiál doručený o " . Answer1.value
+  Report .= " hod., nález telefonicky hlásený o " . Answer2.value . " hod.`n`n"
+  Report .= "[I]Predbežný záver peroperačnej biopsie:[/I] "
+  If (Answer1.result = "OK" and Answer2.result = "OK")
+    AddToClipboard(Report)
+}
+
+
 ; SKIN
 
 :Oc:nv:: {
