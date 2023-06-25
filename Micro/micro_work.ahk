@@ -169,6 +169,18 @@ SetWorkingDir A_ScriptDir
 
 ; GIT
 
+:Oc:zr:: {
+  Report := "Sliznica typu antra žalúdka s obrazom foveolárnej hyperplázie.`n"
+  Report .= "Prítomné reaktívne zmeny povrchového i foveolárneho epitelu.`n"
+  Report .= "Bez zápalových zmien v lamina propria.`n"
+  Report .= "Bez intestinálnej metaplázie.`n"
+  Report .= "Bez dysplázie.`n"
+  Report .= "Imunohistochemicky [I]nedokazujeme[/I] prítomnosť Helicobacter pylori.`n"
+  Report .= "Uvedené histologické zmeny sa môžu vyskytovať v rámci REAKTÍVNEJ / CHEMICKEJ GASTROPATIE.`n "
+  AddToClipboard(Report)
+}
+
+
 :Oc:zz:: {
   try {
     Run("Gastritis.exe")
