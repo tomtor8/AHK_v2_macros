@@ -56,6 +56,29 @@ SetWorkingDir A_ScriptDir
     AddToClipboard(Report)
 }
 
+:cO:ml:: {
+  Sleep 300
+  Answer1 := InputBox("Číslo parafínového bločku?", "Martin list", "w300 h100", "230")
+  Sleep 300
+
+  Report := Format(
+    "
+    (
+      prof. MUDr. Lukáš Plank, CSc., prim. MUDr. Peter Szépe, CSc.
+      ------------------------------------------------------------------
+      Vážený pán profesor, vážený pán primár,
+      prosím láskavo o konzultačné vyšetrenie biopsie kostnej drene s priloženým klinickým nálezom.
+      Zasielame 1 HE preparát a 1 parafínový bloček s číslom {1}.
+      Ďakujeme
+      {2}
+      MUDr. Tomáš Torday 
+      Medicyt s.r.o. Košice
+    )",
+  Answer1.value, " ")
+  If (Answer1.result = "OK")
+    AddToClipboard(Report)
+}
+
 ; SKIN
 
 :Oc:nv:: {
