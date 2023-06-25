@@ -46,6 +46,16 @@ SetWorkingDir A_ScriptDir
 
 :O:km::Kompletná extirpácia lézie.{Enter}{Space}
 
+:cO:mo:: {
+  Sleep 300
+  Answer1 := InputBox("Číslo parafínového bločku?", "Martin oznámkenka", "w300 h100", "230")
+  Sleep 300
+
+  Report := Format("Materiál (1 parafínový bloček a 1 HE preparát číslo {1}) zasielame na vyšetrenie  do Konzultačného centra bioptickej diagnostiky ochorení krvotvorby na Ústave patologickej anatómie v Martine. Po obdržaní konzultačného nálezu Vám ho zašleme obratom v dodatku. Ďakujeme za pochopenie.", Answer1.value)
+  If (Answer1.result = "OK")
+    AddToClipboard(Report)
+}
+
 ; SKIN
 
 :Oc:nv:: {
