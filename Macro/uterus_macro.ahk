@@ -147,7 +147,7 @@ UtMacFun(*)
       report .= "V myometriu prítomný jeden dobre ohraničený belavý solídny uzol"
     else
       report .= "V myometriu prítomné " . Saved.MyomaNum . " dobre ohraničené belavé solídne uzly"
-    report .= " priemeru " . Saved.MyomaSize . "."
+    report .= " priemeru cca " . Saved.MyomaSize . "."
   }
 
   PrintReport(report)
