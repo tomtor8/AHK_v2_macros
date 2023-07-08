@@ -119,7 +119,7 @@ SetWorkingDir A_ScriptDir
 
 :Oc:pl:: {
   try {
-    Run("Macro\placenta_macro.ahk")
+    Run("placenta_macro.ahk")
   } catch as Err {
     MsgBox("The script for placenta macro was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
@@ -128,7 +128,7 @@ SetWorkingDir A_ScriptDir
 
 :Oc:ut:: {
   try {
-    Run("Macro\uterus_macro.ahk")
+    Run("uterus_macro.ahk")
   } catch as Err {
     MsgBox("The script for uterus macro was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
