@@ -327,7 +327,7 @@ SetWorkingDir A_ScriptDir
 
 :Oc:kN:: {
   Report := "Konizát vyšetrený kompletne:`n- cervikálny viacvrstvový dlaždicový epitel fokálne s prejavmi`n[B]high-grade skvamóznej intraepitelovej lézie (HSIL/CIN3)[/B]"
-  Report .= "`n- imunohistochemicky 16 s pozitívnou expresiou, zvýšená proliferačná aktivita Ki-67 v teréne HSIL`n- resekčné okraje ektocervikálne i endocervikálne bez evidentnej dysplázie`n- bez invazívnych nádorových zmien.`n "
+  Report .= "`n- imunohistochemicky p16 s pozitívnou expresiou, zvýšená proliferačná aktivita Ki-67 v teréne HSIL`n- resekčné okraje ektocervikálne i endocervikálne bez evidentnej dysplázie`n- bez invazívnych nádorových zmien.`n "
   AddToClipboard(Report)
 }
 
