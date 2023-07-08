@@ -117,6 +117,24 @@ SetWorkingDir A_ScriptDir
 ****************************** GYNDA **************************************
 */
 
+:Oc:pl:: {
+  try {
+    Run("Macro\placenta_macro.ahk")
+  } catch as Err {
+    MsgBox("The script for placenta macro was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+:Oc:ut:: {
+  try {
+    Run("Macro\uterus_macro.ahk")
+  } catch as Err {
+    MsgBox("The script for uterus macro was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :cO:kn:: {
   Sleep 500
   Answer1 := InputBox("Veľkosť konizátu?", "Konizát", "w300 h100", "20 × 20 × 10")
@@ -153,16 +171,16 @@ SetWorkingDir A_ScriptDir
     AddToClipboard(Report)
 }
 
-:cO:ut:: {
-  Sleep 500
-  Answer1 := InputBox("Veľkosť maternice?", "Uterus", "w300 h100", "90 × 60 × 40")
-  Sleep 500
-  Answer2 := InputBox("Farba endometria?", "Uterus", "w300 h100", "ružovobelavé")
-  Sleep 500
-  Report := Format("Uterus veľkosti cca {1} mm, primeraného tvaru, seróza hnedá, hladká, portio belavé, hladké, endocervikálny kanál voľný. Endometrium {2}, bez ložiskových zmien, myometrium bez ložiskových zmien.", Answer1.value, Answer2.value)
-  If (Answer1.result = "OK" and Answer2.result = "OK")
-    AddToClipboard(Report)
-}
+; :cO:ut:: {
+;   Sleep 500
+;   Answer1 := InputBox("Veľkosť maternice?", "Uterus", "w300 h100", "90 × 60 × 40")
+;   Sleep 500
+;   Answer2 := InputBox("Farba endometria?", "Uterus", "w300 h100", "ružovobelavé")
+;   Sleep 500
+;   Report := Format("Uterus veľkosti cca {1} mm, primeraného tvaru, seróza hnedá, hladká, portio belavé, hladké, endocervikálny kanál voľný. Endometrium {2}, bez ložiskových zmien, myometrium bez ložiskových zmien.", Answer1.value, Answer2.value)
+;   If (Answer1.result = "OK" and Answer2.result = "OK")
+;     AddToClipboard(Report)
+; }
 
 :cO:tl::Tukovolymfatické tkanivo veľkosti cca  mm.{Left 4}
 
