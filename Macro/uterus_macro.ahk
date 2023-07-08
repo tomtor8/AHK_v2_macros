@@ -25,8 +25,8 @@ MyGui.Add("ComboBox", "vPortCol Choose1", ["belavé", "ružovobelavé", "červen
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Polyp endocervikálny:")
 MyGui.SetFont("norm")
-MyGui.Add("Radio", "vEndocPol Checked", "prítomný")
-MyGui.Add("Radio", , "neprítomný")
+MyGui.Add("Radio", "vEndocPol Checked", "neprítomný")
+MyGui.Add("Radio", , "prítomný")
 ; veľkosť polypu endocervixu
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Veľkosť polypu:")
@@ -37,7 +37,7 @@ MyGui.Add("Text", "yp", "mm")
 MyGui.SetFont("bold")
 MyGui.Add("Text", "ym", "Endometrium výška:")
 MyGui.SetFont("norm")
-MyGui.Add("ComboBox", "vEndomHeig Choose1", ["primeranej výšky", "nízke", "kypré", "zrnité"])
+MyGui.Add("ComboBox", "vEndomHeight Choose1", ["primeranej výšky", "nízke", "kypré", "zrnité"])
 ; farba endometria
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Endometrium farby:")
@@ -47,8 +47,8 @@ MyGui.Add("ComboBox", "vEndomCol Choose1", ["žltobelavej", "ružovobelavej", "h
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Tumor endometria:")
 MyGui.SetFont("norm")
-MyGui.Add("Radio", "vEndomCa Checked", "prítomný")
-MyGui.Add("Radio", , "neprítomný")
+MyGui.Add("Radio", "vEndomCa Checked", "neprítomný")
+MyGui.Add("Radio", , "prítomný")
 ; veľkosť tumoru
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Veľkosť tumoru:")
@@ -66,13 +66,13 @@ MyGui.Add("Radio", , "> 1/2 myometria")
 MyGui.SetFont("bold")
 MyGui.Add("Text", "ym", "Polyp endometria:")
 MyGui.SetFont("norm")
-MyGui.Add("Radio", "vEndomPol Checked", "prítomný")
-MyGui.Add("Radio", , "neprítomný")
+MyGui.Add("Radio", "vEndomPol Checked", "neprítomný")
+MyGui.Add("Radio", , "prítomný")
 ; veľkosť polypu endometria
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Veľkosť polypu:")
 MyGui.SetFont("norm")
-MyGui.Add("Edit", "vEndomPolSiz Section", "15 × 10")
+MyGui.Add("Edit", "vEndomPolSize Section", "15 × 10")
 MyGui.Add("Text", "yp", "mm")
 ; myómy
 MyGui.SetFont("bold")
@@ -118,7 +118,37 @@ UtMacFun(*)
   ;   Return
 
   MyGui.Hide()
-  report := ""
+  report := "Uterus veľkosti cca " . Saved.Size . " mm, "
+  report .= (Saved.Shape = 1) ? "primeraného" : "deformovaného"
+  report .= " tvaru, seróza hnedá, hladká. Portio " . Saved.PortCol . ", hladké, "
+  report .= "endocervikálny kanál "
+  report .= (Saved.EndocPol = 1) ? "voľný. " : " s prítomným polypom žltobelavej farby, veľkosti cca " . Saved.EndocPolSiz . " mm. "
+  if (Saved.EndomCa = 1)
+  {
+    report .= "Endometrium " . Saved.EndomHeight . ", " . Saved.EndomCol . " farby, "
+    report .= (Saved.EndomPol = 1) ? "bez ložiskových zmien. " : " s prítomným polypom hnedastej farby, veľkosti cca " . Saved.EndomPolSize . " mm. "
+  }
+  else
+  {
+    report .= "Endometrium v oblasti tela a fundu s prítomným tumorom " . Saved.EndomCol . " farby, mäkkej konzistencie, "
+    if (Saved.InvDepth = 1)
+      report .= "lokalizovaným v sliznici, bez makroskopickej infiltrácie myometria. "
+    else if (Saved.InvDepth = 2)
+      report .= "infiltrujúcim makroskopicky do menej ako 1/2 hrúbky myometria. "
+    else
+      report .= "infiltrujúcim makroskopicky do viac ako 1/2 hrúbky myometria. "
+  }
+
+  if (Saved.Myoma = 1)
+    report .= "Myometrium bez ložiskových zmien."
+  else
+  {
+    if (Saved.MyomaNum = "jeden")
+      report .= "V myometriu prítomný jeden dobre ohraničený belavý solídny uzol"
+    else
+      report .= "V myometriu prítomné " . Saved.MyomaNum . " dobre ohraničené belavé solídne uzly"
+    report .= " priemeru " . Saved.MyomaSize . "."
+  }
 
   PrintReport(report)
 
