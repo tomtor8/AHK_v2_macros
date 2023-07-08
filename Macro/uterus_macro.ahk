@@ -78,7 +78,7 @@ MyGui.Add("Text", "yp", "mm")
 MyGui.SetFont("bold")
 MyGui.Add("Text", "xs", "Myómy:")
 MyGui.SetFont("norm")
-MyGui.Add("DDL", "vMyoma Choose1", ["neprítomné", "prítomné"])
+MyGui.Add("DDL", "vMyoma Choose1 AltSubmit", ["neprítomné", "prítomné"])
 ; počet myómov
 MyGui.SetFont("bold")
 MyGui.Add("Text", , "Počet myómov:")
