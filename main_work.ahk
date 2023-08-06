@@ -3,30 +3,65 @@
 SetWorkingDir A_ScriptDir
 
 ; keyremaps
-+CapsLock::Capslock
-; remap capslock to ctrl
-CapsLock:: {
-  Send("#{Space}")
+SetCapsLockState "AlwaysOff"
+; basic arrow navigation
+CapsLock & l:: {
+  Send("{Right}")
 }
-; circumflex, carot
-^+6:: {
-  SendText("^")
+CapsLock & h:: {
+  Send("{Left}")
 }
-
-^+4:: {
-  SendText("$")
+CapsLock & k:: {
+  Send("{Up}")
 }
-
-^+3:: {
-  SendText("#")
+CapsLock & j:: {
+  Send("{Down}")
 }
-
-^+/:: {
-  SendText("[")
+; jump to beginning of end of a line
+CapsLock & e:: {
+  Send("{End}")
 }
-
-^+(:: {
-  SendText("]")
+CapsLock & a:: {
+  Send("{Home}")
+}
+; jump to the beginning or end of a document
+CapsLock & i:: {
+  Send("^{Home}")
+}
+CapsLock & m:: {
+  Send("^{End}")
+}
+; jump to next or previous word
+CapsLock & w:: {
+  Send("^{Right}")
+}
+CapsLock & b:: {
+  Send("^{Left}")
+}
+; select text forward and backward word by word
+CapsLock & q:: {
+  Send("^+{Right}")
+}
+CapsLock & v:: {
+  Send("^+{Left}")
+}
+; forward delete and backspace
+CapsLock & d:: {
+  Send("{Delete}")
+}
+CapsLock & s:: {
+  Send("{BackSpace}")
+}
+; delete a line
+CapsLock & x:: {
+  Send("{Home}")
+  Send("+{End}")
+  Send("^x")
+}
+; select a line
+CapsLock & c:: {
+  Send("{Home}")
+  Send("+{End}")
 }
 
 ; toggle always on top active window
