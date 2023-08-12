@@ -111,27 +111,28 @@ Sender(*)
 {
   Saved := MyList.Submit()
   Line := Saved.Items
-  if Line = ""
-  {
-    MsgBox("Thank You!`nExiting app!", "GoodBye", "T2 64")
-    ExitApp
-  }
+  ; micro shortcuts expansion after a Tab
   if RegExMatch(Line, "<(\w+)>", &Shortcut)
   {
     ShortCutToSend := Shortcut[1]
-    loop parse ShortCutToSend
-    {
-      Send(A_LoopField)
-      Sleep 500
-      Counter := A_Index ; remember number of characters
-    }
-  }
-  Sleep 1000
-  loop Counter
-  {
-    Send("{Backspace}")
     Sleep 500
+    ; sendlevel 1 enables hotstring execution from another script
+    SendLevel 1
+    Send ShortCutToSend "{Tab}"
   }
+  ; macro shortcuts expansion after a comma
+  else if RegExMatch(Line, "<(\w+),>", &Shortcut)
+  {
+    ShortCutToSend := Shortcut[1]
+    Sleep 500
+    SendLevel 1
+    Send ShortCutToSend ","
+  }
+  else
+  {
+    Send("The shortcut is unavailable!")
+  }
+  Sleep 500
 }
 
 Closing(*)
