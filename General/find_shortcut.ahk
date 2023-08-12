@@ -130,7 +130,7 @@ Sender(*)
   }
   else
   {
-    Send("The shortcut is unavailable!")
+    ExitApp
   }
   Sleep 500
 }

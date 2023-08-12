@@ -31,6 +31,16 @@ SetWorkingDir A_ScriptDir
 
 ; OTHER
 
+:O:zk:: {
+  try {
+    Report := FileRead("inflammatory_skin.txt")
+    AddToClipboard(Report)
+  } catch as Err {
+    MsgBox("The file inflammatory_skin.txt was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :Oc:bk::bakterioskopicky
 :Oc:Bk::Bakterioskopicky
 
@@ -95,6 +105,25 @@ SetWorkingDir A_ScriptDir
 
 
 ; SKIN
+
+:Oc:me:: {
+  try {
+    Run("melanoma.exe")
+  } catch as Err {
+    MsgBox("The script melanoma.exe was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+:O:zk:: {
+  try {
+    Report := FileRead("inflammatory_skin.txt")
+    AddToClipboard(Report)
+  } catch as Err {
+    MsgBox("The file inflammatory_skin.txt was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
 
 :Oc:nv:: {
   try {
@@ -169,6 +198,34 @@ SetWorkingDir A_ScriptDir
 
 ; GIT
 
+:Oc:hc:: {
+  try {
+    Report := FileRead("colorectal_ca_resekat.txt")
+    AddToClipboard(Report)
+  } catch as Err {
+    MsgBox("The file colorectal_ca_resekat.txt was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+:Oc:ib:: {
+  try {
+    Run("ibd.exe")
+  } catch as Err {
+    MsgBox("The script ibd.exe was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+:Oc:cl:: {
+  try {
+    Run("celiakia.exe")
+  } catch as Err {
+    MsgBox("The script celiakia.exe was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
 :Oc:zr:: {
   Report := "Sliznica typu antra žalúdka s obrazom foveolárnej hyperplázie.`n"
   Report .= "Prítomné reaktívne zmeny povrchového i foveolárneho epitelu.`n"
@@ -185,7 +242,7 @@ SetWorkingDir A_ScriptDir
   try {
     Run("Gastritis.exe")
   } catch as Err {
-    MsgBox("The script for gastritis micro report was not found!"
+    MsgBox("The script gastritis.exe was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
   }
 }
@@ -279,6 +336,35 @@ SetWorkingDir A_ScriptDir
 
 
 ; GYN
+
+:Oc:pr:: {
+  try {
+    Report := FileRead("prsnik_resekat.txt")
+    AddToClipboard(Report)
+  } catch as Err {
+    MsgBox("The file prsnik_resekat.txt was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+:Oc:pR:: {
+  try {
+    Report := FileRead("prsnik_nat.txt")
+    AddToClipboard(Report)
+  } catch as Err {
+    MsgBox("The file prsnik_nat.txt was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
+
+:Oc:cb:: {
+  try {
+    Run("ccb.exe")
+  } catch as Err {
+    MsgBox("The script ccb.exe was not found!"
+      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
+  }
+}
 
 :Oc:pe::ENDOCERVIKÁLNY POLYP bez atypií
 :Oc:pE::ENDOMETRIÁLNY POLYP bez atypií

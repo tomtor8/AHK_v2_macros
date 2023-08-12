@@ -65,7 +65,7 @@ CapsLock & c:: {
 }
 
 ; toggle always on top active window
-^+t:: {
+F8:: {
   WinSetAlwaysOnTop(-1, "A")
 }
 
@@ -77,7 +77,7 @@ CapsLock & c:: {
 :*?:(::(){Left}
 
 ; close and save windows in excidovna
-^+q:: {
+F2:: {
   Sleep 500
   Send("{Tab}")
   Sleep 500
@@ -88,7 +88,7 @@ CapsLock & c:: {
 }
 
 ; Uppercase, lowercase, and tags manipulation
-^+u:: {
+F3:: {
   try {
     Run("General\change_case_tags.ahk")
   } catch as Err {
@@ -98,21 +98,11 @@ CapsLock & c:: {
 }
 
 ; accented characters picker
-^+z:: {
+F4:: {
   try {
     Run("General\Spec_Chars.exe")
   } catch as Err {
     MsgBox("The script for special characters was not found!"
-      . "`n" Type(Err) . ":`n" . Err.Message, , 16)
-  }
-}
-
-; tags picker
-^+b:: {
-  try {
-    Run("General\Tags.exe")
-  } catch as Err {
-    MsgBox("The script for tag picker was not found!"
       . "`n" Type(Err) . ":`n" . Err.Message, , 16)
   }
 }
@@ -154,13 +144,13 @@ CapsLock & c:: {
 
 ; center window and adjust proportions
 ; A stands for active window
-#!h:: {
+F9:: {
   MonitorGetWorkArea 1, &WL, &WT, &WR, &WB
   WinMove (WR * 0.15), (WB * 0.1), (WR * 0.7), (WB * 0.8), "A"
 }
 
 ; center window and leave proportions
-#!g:: {
+F10:: {
   ; get original width and height of the active window
   WinGetPos , , &Width, &Height, "A"
   MonitorGetWorkArea 1, &WL, &WT, &WR, &WB
@@ -168,7 +158,7 @@ CapsLock & c:: {
 }
 
 ; cleanup script
-^+c::
+F7::
 {
   oldClipboard := ClipboardAll()
   ; ; empty the current clipboard
@@ -217,7 +207,7 @@ CapsLock & c:: {
 }
 
 ; turn blocks of sentences to unordered lists
-^+l::
+F5::
 {
   oldClipboard := ClipboardAll()
   ; ; empty the current clipboard
@@ -254,7 +244,7 @@ CapsLock & c:: {
 }
 
 ; turn lists to block of sentences
-^+k::
+F6::
 {
   oldClipboard := ClipboardAll()
   ; ; empty the current clipboard
