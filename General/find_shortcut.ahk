@@ -24,31 +24,42 @@ loop read ConfigFile
 MyGui := Gui(, "Search Shortcuts")
 MyGui.SetFont("s14")
 MyGui.Add("Text", "vInfo w300", "Hľadaný výraz:")
-MyGui.Add("Edit", "vSearVar w300")
-MyGui.Add("Button", "w100 h40 Default", "OK").OnEvent("Click", QueryFun)
+SearchBar := MyGui.Add("Edit", "vSearVar w300")
+SearchBar.OnEvent("Change", QueryFun)
+; MyGui.Add("Button", "w100 h40 Default", "OK").OnEvent("Click", QueryFun)
+; listbox
+MyGui.SetFont("s13 bold")
+InfoText := MyGui.Add("Text", ,)
+MyGui.SetFont("s14 norm")
+LB := MyGui.Add("ListBox", "r5 Sort vItems w700 HScroll500",)
+; insert text on double click or press enter
+LB.OnEvent("DoubleClick", Sender)
+
+MyGui.Add("Button", "Default w100 h40", "OK").OnEvent("Click", Sender)
+;;;
 MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
 MyGui.Show()
 
 ; list box
-MyList := Gui("+Resize", "Found Shortcuts")
-MyList.SetFont("s13 bold")
-InfoText := MyList.Add("Text", ,)
-MyList.SetFont("s14 norm")
-LB := MyList.Add("ListBox", "r5 Sort vItems w700 HScroll500",)
-; insert text on double click or press enter
-LB.OnEvent("DoubleClick", Sender)
+; MyList := Gui("+Resize", "Found Shortcuts")
+; MyList.SetFont("s13 bold")
+; InfoText := MyList.Add("Text", ,)
+; MyList.SetFont("s14 norm")
+; LB := MyList.Add("ListBox", "r5 Sort vItems w700 HScroll500",)
+; ; insert text on double click or press enter
+; LB.OnEvent("DoubleClick", Sender)
 
-MyList.Add("Button", "Default w100 h40", "OK").OnEvent("Click", Sender)
-MyList.OnEvent("Close", Closing)
-MyList.OnEvent("Escape", Closing)
+; MyList.Add("Button", "Default w100 h40", "OK").OnEvent("Click", Sender)
+; MyList.OnEvent("Close", Closing)
+; MyList.OnEvent("Escape", Closing)
 
 
 QueryFun(*)
 {
   ArrayOfLines := Array()
   ArrayOfWords := Array()
-  Saved := MyGui.Submit()
+  Saved := MyGui.Submit(0)
   MyPhrase := Saved.SearVar
   HorizBar := false
   OuterCounter := 1
@@ -102,14 +113,14 @@ QueryFun(*)
     {
       LB.Opt("+HScroll2200")
     }
-    MyList.Show()
+    ; MyList.Show()
   }
 }
 
 ; this works when Multi option is NOT enabled in the listbox
 Sender(*)
 {
-  Saved := MyList.Submit()
+  Saved := MyGui.Submit()
   Line := Saved.Items
   ; micro shortcuts expansion after a Tab
   if RegExMatch(Line, "<(\w+)>", &Shortcut)
