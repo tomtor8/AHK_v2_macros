@@ -57,64 +57,87 @@ MyGui.Show()
 
 QueryFun(*)
 {
-  ArrayOfLines := Array()
-  ArrayOfWords := Array()
+  ArrayOfLines := []
+  LB.Delete()
+  ; ArrayOfWords := Array()
   Saved := MyGui.Submit(0)
   MyPhrase := Saved.SearVar
+
   HorizBar := false
-  OuterCounter := 1
+  Counter := 1
 
-  loop parse MyPhrase, A_Space
+  loop WholeLineArr.Length
   {
-    ArrayOfWords.Push(A_LoopField)
-  }
-
-  loop ArrayOfWords.Length
-  {
-    InnerCounter := 1
-    loop WholeLineArr.Length
+    if InStr(WholeLineArr[Counter], MyPhrase)
     {
-      if InStr(WholeLineArr[InnerCounter], ArrayOfWords[OuterCounter])
+      ArrayOfLines.Push(WholeLineArr[Counter])
+
+      if (HorizBar)
       {
-        CheckIfInArrayOfLines(WholeLineArr[InnerCounter])
-        ; if line is longer than 50 chars, apply horizontal bar
-        if (StrLen(A_LoopReadLine) > 79)
-        {
-          HorizBar := true
-        }
+        LB.Opt("+HScroll2200")
       }
-      InnerCounter++
+      ; CheckIfInArrayOfLines(WholeLineArr[Counter])
+      ; if line is longer than 50 chars, apply horizontal bar
+      if (StrLen(A_LoopReadLine) > 79)
+      {
+        HorizBar := true
+      }
     }
-    OuterCounter++
+    Counter++
   }
 
-  CheckIfInArrayOfLines(item)
-  {
-    loop ArrayOfLines.Length
-    {
-      if item = ArrayOfLines[A_Index]
-        return
-    }
-    ArrayOfLines.Push(item)
-  }
+  LB.Add(ArrayOfLines)
+  ; loop parse MyPhrase, A_Space
+  ; {
+  ;   ArrayOfWords.Push(A_LoopField)
+  ; }
+
+  ; loop ArrayOfWords.Length
+  ; {
+  ;   InnerCounter := 1
+  ;   loop WholeLineArr.Length
+  ;   {
+  ;     if InStr(WholeLineArr[InnerCounter], ArrayOfWords[OuterCounter])
+  ;     {
+  ;       CheckIfInArrayOfLines(WholeLineArr[InnerCounter])
+  ;       ; if line is longer than 50 chars, apply horizontal bar
+  ;       if (StrLen(A_LoopReadLine) > 79)
+  ;       {
+  ;         HorizBar := true
+  ;       }
+  ;     }
+  ;     InnerCounter++
+  ;   }
+  ;   OuterCounter++
+  ; }
+
+  ; CheckIfInArrayOfLines(item)
+  ; {
+  ;   loop ArrayOfLines.Length
+  ;   {
+  ;     if item = ArrayOfLines[A_Index]
+  ;       return
+  ;   }
+  ;   ArrayOfLines.Push(item)
+  ; }
 
 
-  if (ArrayOfLines.Length = 0)
-  {
-    MsgBox("Tento výraz nie je v databáze!")
-    ExitApp
-  } else
-  {
-    LB.Add(ArrayOfLines)
-    InfoText.Value := "Počet nájdených výrazov: " . ArrayOfLines.Length
-    ;widen the control, width is third value
-    InfoText.Move(, , 250,)
-    if (HorizBar)
-    {
-      LB.Opt("+HScroll2200")
-    }
-    ; MyList.Show()
-  }
+  ; if (ArrayOfLines.Length = 0)
+  ; {
+  ;   MsgBox("Tento výraz nie je v databáze!")
+  ;   ExitApp
+  ; } else
+  ; {
+  ;   LB.Add(ArrayOfLines)
+  ;   InfoText.Value := "Počet nájdených výrazov: " . ArrayOfLines.Length
+  ;   ;widen the control, width is third value
+  ;   InfoText.Move(, , 250,)
+  ;   if (HorizBar)
+  ;   {
+  ;     LB.Opt("+HScroll2200")
+  ;   }
+  ;   ; MyList.Show()
+  ; }
 }
 
 ; this works when Multi option is NOT enabled in the listbox
