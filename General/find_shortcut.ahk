@@ -6,7 +6,7 @@ SetWorkingDir A_ScriptDir
 ConfigFile := "..\Other\list_of_shortcuts.txt"
 ; PhrasesArr := Array()
 ; ShortcutsArr := Array()
-WholeLineArr := Array()
+WholeLineArr := []
 
 ; read in lines that don't start with #, i.e. non-comment lines
 loop read ConfigFile
@@ -57,40 +57,69 @@ MyGui.Show()
 
 QueryFun(*)
 {
-  ArrayOfLines := []
+  ; ArrayOfLines := []
+  ArrayOfWords := []
   LB.Delete()
   ; ArrayOfWords := Array()
   Saved := MyGui.Submit(0)
   MyPhrase := Saved.SearVar
 
   HorizBar := false
-  Counter := 1
 
+  if RegExMatch(MyPhrase, "\w\s\w")
+  {
+    loop parse MyPhrase, A_Space
+    {
+      ArrayOfWords.Push(A_LoopField)
+    }
+  } else {
+    ArrayOfWords.Push(MyPhrase)
+  }
   ; if MyPhrase is not empty, do the following loop
   if MyPhrase
   {
-    loop WholeLineArr.Length
+    loop ArrayOfWords.Length
     {
-      if InStr(WholeLineArr[Counter], MyPhrase)
-      {
-        ArrayOfLines.Push(WholeLineArr[Counter])
-
-        if (HorizBar)
-        {
-          LB.Opt("+HScroll2200")
-        }
-        ; CheckIfInArrayOfLines(WholeLineArr[Counter])
-        ; if line is longer than 50 chars, apply horizontal bar
-        if (StrLen(A_LoopReadLine) > 79)
-        {
-          HorizBar := true
-        }
-      }
-      Counter++
+      if A_Index = 1
+        LinesToPrint := Looper(ArrayOfWords[A_Index], WholeLineArr)
+      else
+        LinesToPrint := Looper(ArrayOfWords[A_Index], LinesToPrint)
     }
 
-    LB.Add(ArrayOfLines)
+    LB.Add(LinesToPrint)
+    ; two words separated by space
+
   }
+
+
+  Looper(phrase, ArrayToLoop) {
+    ArrayOfLines := []
+    Counter := 1
+    if phrase
+    {
+      loop ArrayToLoop.Length
+      {
+        if InStr(ArrayToLoop[Counter], phrase)
+        {
+          ArrayOfLines.Push(ArrayToLoop[Counter])
+
+          if (HorizBar)
+          {
+            LB.Opt("+HScroll2200")
+          }
+          ; CheckIfInArrayOfLines(WholeLineArr[Counter])
+          ; if line is longer than 50 chars, apply horizontal bar
+          if (StrLen(A_LoopReadLine) > 79)
+          {
+            HorizBar := true
+          }
+        }
+        Counter++
+      }
+    }
+    return ArrayOfLines
+  }
+
   ; loop parse MyPhrase, A_Space
   ; {
   ;   ArrayOfWords.Push(A_LoopField)
