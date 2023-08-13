@@ -4,8 +4,6 @@ SetWorkingDir A_ScriptDir
 
 ; create arrays of phrases and their respective shortcuts
 ConfigFile := "..\Other\list_of_shortcuts.txt"
-; PhrasesArr := Array()
-; ShortcutsArr := Array()
 WholeLineArr := []
 
 ; read in lines that don't start with #, i.e. non-comment lines
@@ -13,47 +11,30 @@ loop read ConfigFile
 {
   if RegExMatch(A_LoopReadLine, "^([^#].*)", &WholeLines)
     WholeLineArr.Push(WholeLines[1])
-  ; if RegExMatch(A_LoopReadLine, "^([^#].*)<(\w+)>$", &MatchedDg)
-  ; {
-  ;   PhrasesArr.Push(MatchedDg[1])
-  ;   ShortcutsArr.Push(MatchedDg[2])
-  ; }
 }
 
 ; query box
-MyGui := Gui(, "Search Shortcuts")
-MyGui.SetFont("s14")
-MyGui.Add("Text", "vInfo w300", "Hľadaný výraz:")
-SearchBar := MyGui.Add("Edit", "vSearVar w700")
+MyGui := Gui(, "Vyhľadávač skratiek")
+MyGui.BackColor := "abb2bf"
+; MyGui.Opt("-Caption")
+MyGui.SetFont("s14 bold")
+MyGui.Add("Text", "vInfo w300 c282c34", "Hľadaný výraz:")
+MyGui.SetFont("s15 norm")
+SearchBar := MyGui.Add("Edit", "vSearVar w700 c282c34")
 SearchBar.OnEvent("Change", QueryFun)
-; MyGui.Add("Button", "w100 h40 Default", "OK").OnEvent("Click", QueryFun)
 ; listbox
 MyGui.SetFont("s13 bold")
-InfoText := MyGui.Add("Text", ,)
+InfoText := MyGui.Add("Text", "c5c6370",)
 MyGui.SetFont("s14 norm")
-LB := MyGui.Add("ListBox", "r5 Sort vItems w700 HScroll500",)
+LB := MyGui.Add("ListBox", "Sort vItems w700 HScroll500 c282c34",)
 ; insert text on double click or press enter
 LB.OnEvent("DoubleClick", Sender)
 
-MyGui.Add("Button", "Default w100 h40", "OK").OnEvent("Click", Sender)
+MyGui.Add("Button", "Default w100 h35 Backgroundd19a66", "OK").OnEvent("Click", Sender)
 ;;;
 MyGui.OnEvent("Close", Closing)
 MyGui.OnEvent("Escape", Closing)
 MyGui.Show()
-
-; list box
-; MyList := Gui("+Resize", "Found Shortcuts")
-; MyList.SetFont("s13 bold")
-; InfoText := MyList.Add("Text", ,)
-; MyList.SetFont("s14 norm")
-; LB := MyList.Add("ListBox", "r5 Sort vItems w700 HScroll500",)
-; ; insert text on double click or press enter
-; LB.OnEvent("DoubleClick", Sender)
-
-; MyList.Add("Button", "Default w100 h40", "OK").OnEvent("Click", Sender)
-; MyList.OnEvent("Close", Closing)
-; MyList.OnEvent("Escape", Closing)
-
 
 QueryFun(*)
 {
@@ -92,10 +73,11 @@ QueryFun(*)
     InfoText.Value := "Počet nájdených výrazov: " . LinesToPrint.Length
     ;widen the control, width is third value
     InfoText.Move(, , 250,)
-
   }
 
-
+  ; loop through arrays of lines
+  ; first loop through every line
+  ; next loops through the filtered arrays
   Looper(phrase, ArrayToLoop) {
     ArrayOfLines := []
     Counter := 1
@@ -123,58 +105,6 @@ QueryFun(*)
     }
     return ArrayOfLines
   }
-
-  ; loop parse MyPhrase, A_Space
-  ; {
-  ;   ArrayOfWords.Push(A_LoopField)
-  ; }
-
-  ; loop ArrayOfWords.Length
-  ; {
-  ;   InnerCounter := 1
-  ;   loop WholeLineArr.Length
-  ;   {
-  ;     if InStr(WholeLineArr[InnerCounter], ArrayOfWords[OuterCounter])
-  ;     {
-  ;       CheckIfInArrayOfLines(WholeLineArr[InnerCounter])
-  ;       ; if line is longer than 50 chars, apply horizontal bar
-  ;       if (StrLen(A_LoopReadLine) > 79)
-  ;       {
-  ;         HorizBar := true
-  ;       }
-  ;     }
-  ;     InnerCounter++
-  ;   }
-  ;   OuterCounter++
-  ; }
-
-  ; CheckIfInArrayOfLines(item)
-  ; {
-  ;   loop ArrayOfLines.Length
-  ;   {
-  ;     if item = ArrayOfLines[A_Index]
-  ;       return
-  ;   }
-  ;   ArrayOfLines.Push(item)
-  ; }
-
-
-  ; if (ArrayOfLines.Length = 0)
-  ; {
-  ;   MsgBox("Tento výraz nie je v databáze!")
-  ;   ExitApp
-  ; } else
-  ; {
-  ;   LB.Add(ArrayOfLines)
-  ;   InfoText.Value := "Počet nájdených výrazov: " . ArrayOfLines.Length
-  ;   ;widen the control, width is third value
-  ;   InfoText.Move(, , 250,)
-  ;   if (HorizBar)
-  ;   {
-  ;     LB.Opt("+HScroll2200")
-  ;   }
-  ;   ; MyList.Show()
-  ; }
 }
 
 ; this works when Multi option is NOT enabled in the listbox

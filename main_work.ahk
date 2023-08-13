@@ -65,7 +65,7 @@ CapsLock & c:: {
 }
 
 ; toggle always on top active window
-F8:: {
+CapsLock & t:: {
   WinSetAlwaysOnTop(-1, "A")
 }
 
@@ -88,7 +88,7 @@ F2:: {
 }
 
 ; Uppercase, lowercase, and tags manipulation
-F3:: {
+CapsLock & u:: {
   try {
     Run("General\change_case_tags.ahk")
   } catch as Err {
@@ -117,7 +117,7 @@ F4:: {
 }
 
 ; find shortcut
-:O:fs:: {
+CapsLock & f:: {
   try {
     Run("General\find_shortcut.ahk")
   } catch as Err {
