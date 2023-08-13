@@ -24,7 +24,7 @@ loop read ConfigFile
 MyGui := Gui(, "Search Shortcuts")
 MyGui.SetFont("s14")
 MyGui.Add("Text", "vInfo w300", "Hľadaný výraz:")
-SearchBar := MyGui.Add("Edit", "vSearVar w300")
+SearchBar := MyGui.Add("Edit", "vSearVar w700")
 SearchBar.OnEvent("Change", QueryFun)
 ; MyGui.Add("Button", "w100 h40 Default", "OK").OnEvent("Click", QueryFun)
 ; listbox
@@ -63,6 +63,7 @@ QueryFun(*)
   ; ArrayOfWords := Array()
   Saved := MyGui.Submit(0)
   MyPhrase := Saved.SearVar
+  InfoText.Value := ""
 
   HorizBar := false
 
@@ -87,7 +88,10 @@ QueryFun(*)
     }
 
     LB.Add(LinesToPrint)
-    ; two words separated by space
+
+    InfoText.Value := "Počet nájdených výrazov: " . LinesToPrint.Length
+    ;widen the control, width is third value
+    InfoText.Move(, , 250,)
 
   }
 
