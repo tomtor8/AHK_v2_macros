@@ -66,27 +66,31 @@ QueryFun(*)
   HorizBar := false
   Counter := 1
 
-  loop WholeLineArr.Length
+  ; if MyPhrase is not empty, do the following loop
+  if MyPhrase
   {
-    if InStr(WholeLineArr[Counter], MyPhrase)
+    loop WholeLineArr.Length
     {
-      ArrayOfLines.Push(WholeLineArr[Counter])
+      if InStr(WholeLineArr[Counter], MyPhrase)
+      {
+        ArrayOfLines.Push(WholeLineArr[Counter])
 
-      if (HorizBar)
-      {
-        LB.Opt("+HScroll2200")
+        if (HorizBar)
+        {
+          LB.Opt("+HScroll2200")
+        }
+        ; CheckIfInArrayOfLines(WholeLineArr[Counter])
+        ; if line is longer than 50 chars, apply horizontal bar
+        if (StrLen(A_LoopReadLine) > 79)
+        {
+          HorizBar := true
+        }
       }
-      ; CheckIfInArrayOfLines(WholeLineArr[Counter])
-      ; if line is longer than 50 chars, apply horizontal bar
-      if (StrLen(A_LoopReadLine) > 79)
-      {
-        HorizBar := true
-      }
+      Counter++
     }
-    Counter++
-  }
 
-  LB.Add(ArrayOfLines)
+    LB.Add(ArrayOfLines)
+  }
   ; loop parse MyPhrase, A_Space
   ; {
   ;   ArrayOfWords.Push(A_LoopField)
