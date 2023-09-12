@@ -131,6 +131,7 @@ UtMacFun(*)
   else
   {
     report .= "Endometrium v oblasti tela a fundu s prítomným tumorom " . Saved.EndomCol . " farby, mäkkej konzistencie, "
+    report .= "veľkosti cca " . Saved.TumorSize . " mm, "
     if (Saved.InvDepth = 1)
       report .= "lokalizovaným v sliznici, bez makroskopickej infiltrácie myometria. "
     else if (Saved.InvDepth = 2)

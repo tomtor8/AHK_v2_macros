@@ -465,6 +465,15 @@ SetWorkingDir A_ScriptDir
   }
 }
 
+:Oc:pn:: {
+  Report := "[I]1. Pravý lalok:[/I]`n"
+  Report .= "- tkanivo prostaty bez nádorových zmien a bez high-grade PIN.`n `n"
+  Report .= "[I]2. Ľavý lalok:[/I]`n"
+  Report .= "- tkanivo prostaty bez nádorových zmien a bez high-grade PIN.`n `n"
+  Report .= "Imunohistochemická analýza: AMACR bez expresie, cytokeratin 5/6 a p63 exprimuje pozitívne v bazálnych bunkách.`n "
+  AddToClipboard(Report)
+}
+
 AddToClipboard(MyText)
 {
   A_Clipboard := MyText
